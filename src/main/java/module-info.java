@@ -5,6 +5,6 @@ module edu.ncku {
     requires java.sql;
     requires io.github.cdimascio.dotenv.java;
 
-    opens edu.ncku to javafx.fxml;
-    exports edu.ncku;
+    opens edu.ncku.ui to javafx.graphics,javafx.fxml;
+    exports edu.ncku.ui;
 }

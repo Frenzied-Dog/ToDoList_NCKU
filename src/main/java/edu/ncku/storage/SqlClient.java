@@ -1,4 +1,4 @@
-package edu.ncku.sql;
+package edu.ncku.storage;
 
 import io.github.cdimascio.dotenv.Dotenv;
 // import io.github.cdimascio.dotenv.DotenvException;
@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@SuppressWarnings("unused")
 public class SqlClient {
 	static final Dotenv dotenv = Dotenv.configure().load();
 	static final String DB_URL = dotenv.get("DB_URL");
@@ -29,9 +30,6 @@ public class SqlClient {
 			System.out.println("Connection established successfully");
 			
 			// pstmt = conn.prepareStatement(GATHER);
-
-
-
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver loading failed");
 			e.printStackTrace();
