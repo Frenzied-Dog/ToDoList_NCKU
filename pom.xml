@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>edu.ncku</groupId>
+    <groupId>edu.ncku.todo</groupId>
     <artifactId>todo_list</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
@@ -34,6 +34,12 @@
             <artifactId>dotenv-java</artifactId>
             <version>3.2.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -57,7 +63,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>edu.ncku.Main</mainClass>
+                            <mainClass>edu.ncku.todo.Main</mainClass>
                         </configuration>
                     </execution>
                 </executions>
@@ -73,7 +79,7 @@
                     <manifest>
                         <!-- <addClasspath>true</addClasspath>
                         <classpathPrefix>lib/</classpathPrefix> -->
-                        <mainClass>edu.ncku.Main</mainClass>
+                        <mainClass>edu.ncku.todo.Main</mainClass>
                     </manifest>
                     </archive>
                 </configuration>
@@ -92,7 +98,7 @@
                     <configuration>
                         <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>edu.ncku.Main</mainClass>
+                            <mainClass>edu.ncku.todo.Main</mainClass>
                         </transformer>
                         </transformers>
                     </configuration>

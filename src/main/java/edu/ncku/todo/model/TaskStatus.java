@@ -1,4 +1,4 @@
-package edu.ncku.model;
+package edu.ncku.todo.model;
 
 public enum TaskStatus {
 	TODO, IN_PROGRESS, DONE, ARCHIVED, DELETED;

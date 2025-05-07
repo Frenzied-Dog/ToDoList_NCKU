@@ -1,8 +1,8 @@
-package edu.ncku;
+package edu.ncku.todo;
 
-import edu.ncku.ui.GraphicUI;
-import edu.ncku.storage.SqlClient;
-import edu.ncku.ui.ConsoleUI;
+import edu.ncku.todo.ui.GraphicUI;
+import edu.ncku.todo.storage.SqlClient;
+import edu.ncku.todo.ui.ConsoleUI;
 
 public class Main {
 	public static SqlClient client;

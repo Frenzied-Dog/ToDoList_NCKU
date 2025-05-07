@@ -1,4 +1,4 @@
-package edu.ncku.ui;
+package edu.ncku.todo.ui;
 
 import java.io.IOException;
 import javafx.fxml.FXML;

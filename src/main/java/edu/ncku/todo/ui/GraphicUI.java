@@ -1,4 +1,4 @@
-package edu.ncku.ui;
+package edu.ncku.todo.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

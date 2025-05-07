@@ -46,3 +46,6 @@ lib/
 # Environment files
 .env
 *.env.local
+
+# Personal files
+dependency-reduced-pom.xml
