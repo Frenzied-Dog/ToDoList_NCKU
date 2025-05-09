@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@SuppressWarnings("unused")
 public abstract class SqlClient {
 	private static final Dotenv dotenv = Dotenv.configure().load();
 	private static final String DB_URL = dotenv.get("DB_URL");

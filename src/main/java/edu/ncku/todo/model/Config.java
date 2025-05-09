@@ -9,7 +9,7 @@ public abstract class Config {
     public static Hashtable<String, String> getCFG() { return cfg; } 
     public static void initialize(Hashtable<String, String> cfg) { Config.cfg = cfg; }
 
-    public static String get(String key) { return cfg.get(key); }
     public static Locale getLocale() { return Locale.forLanguageTag(get("lang")); }
+    public static String get(String key) { return cfg.get(key); }
     public static void set(String key, String value) { cfg.put(key, value); }
 }

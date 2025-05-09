@@ -52,7 +52,7 @@ public abstract class FileManager {
                 reader.close();
                 
                 // check validation of the config file 
-                // TODO: optimize this part
+                // TODO: optimize this part (future work)
                 if (tmp == null || !AllowedValues.SUPPORTED_LANGUAGES.contains(tmp.get("lang"))) {
                     System.err.println("Config file is corrupted, set to default value.");
                     Config.set("lang", "en");
