@@ -1,7 +1,7 @@
 package edu.ncku.todo.model;
 
 public enum TaskStatus {
-	TODO, IN_PROGRESS, DONE, ARCHIVED, DELETED;
+	TODO, IN_PROGRESS, DONE, DELETED;
 
 	public static TaskStatus fromString(String status) {
 		switch (status.toUpperCase()) {
@@ -11,8 +11,6 @@ public enum TaskStatus {
 				return IN_PROGRESS;
 			case "DONE":
 				return DONE;
-			case "ARCHIVED":
-				return ARCHIVED;
 			case "DELETED":
 				return DELETED;
 			default:

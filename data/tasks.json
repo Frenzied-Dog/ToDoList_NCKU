@@ -1,0 +1,34 @@
+[
+	{
+		"name": "exercise",
+		"dueDate": "2023-10-25",
+		"createdAt": "2023-09-30",
+		"updatedAt": "2023-10-01",
+		"status": "IN_PROGRESS",
+		"category": "personal"
+	},
+	{
+		"name": "read",
+		"dueDate": "2023-10-26",
+		"createdAt": "2023-09-28",
+		"updatedAt": "2023-10-03",
+		"status": "TODO",
+		"category": "personal"
+	},
+	{
+		"name": "meeting",
+		"dueDate": "2023-10-27",
+		"createdAt": "2023-09-18",
+		"updatedAt": "2023-10-23",
+		"status": "DONE",
+		"category": "work"
+	},
+	{
+		"name": "report",
+		"dueDate": "2023-10-28",
+		"createdAt": "2023-09-04",
+		"updatedAt": "2023-10-11",
+		"status": "TODO",
+		"category": "work"
+	}
+]

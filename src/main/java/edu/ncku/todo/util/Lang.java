@@ -3,7 +3,7 @@ package edu.ncku.todo.util;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class Lang {
+public abstract class Lang {
     private static ResourceBundle bundle;
 
     public static void setLocale(Locale locale) {

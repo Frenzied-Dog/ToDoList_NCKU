@@ -2,9 +2,10 @@ package edu.ncku.todo.model;
 
 import java.util.Locale;
 
+
 public class Config {
     private String lang = "en"; // default language is English
-    
+
     public String getLang() {
         return this.lang;
     }

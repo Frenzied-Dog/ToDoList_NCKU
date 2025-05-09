@@ -10,7 +10,6 @@ import java.io.IOException;
 
 
 public class GraphicUI extends Application {
-
     private static Scene scene;
 
     @Override

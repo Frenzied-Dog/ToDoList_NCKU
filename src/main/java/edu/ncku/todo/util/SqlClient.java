@@ -1,7 +1,6 @@
-package edu.ncku.todo.storage;
+package edu.ncku.todo.util;
 
 import io.github.cdimascio.dotenv.Dotenv;
-// import io.github.cdimascio.dotenv.DotenvException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,12 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@SuppressWarnings("unused")
-public class SqlClient {
-	static final Dotenv dotenv = Dotenv.configure().load();
-	static final String DB_URL = dotenv.get("DB_URL");
-	static final String USER = dotenv.get("USER");
-	static final String PASS = dotenv.get("PASS");
+public abstract class SqlClient {
+	private static final Dotenv dotenv = Dotenv.configure().load();
+	private static final String DB_URL = dotenv.get("DB_URL");
+	private static final String USER = dotenv.get("USER");
+	private static final String PASS = dotenv.get("PASS");
 
 	private static final String GATHER = "SELECT * FROM Test";
 	private Connection conn;
