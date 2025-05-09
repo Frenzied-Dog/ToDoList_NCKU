@@ -5,12 +5,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-
-public class CategoryMap {
+public abstract class CategoryMap {
     private static HashMap<String, List<Task>> maps = new HashMap<>();
 
-    public static void addCategory(String name) {
+    public static boolean addCategory(String name) {
+        if (maps.containsKey(name)) {
+            return false; // Category already exists, do nothing
+        }
+
         maps.put(name, new ArrayList<>());
+        return true; // Category added successfully
     }
 
     public static void removeCategory(String name) {
@@ -22,16 +26,34 @@ public class CategoryMap {
         maps.remove(oldName);
     }
 
-    public static List<Task> getCategory(String categoryName) {
-        if (maps.containsKey(categoryName)) {
-            return maps.get(categoryName);
-        } else {
-            return null;
-        }
-    }
+    // 發現好像用不到
+    // public static List<Task> getCategory(String categoryName) {
+    //     if (maps.containsKey(categoryName)) {
+    //         return maps.get(categoryName);
+    //     } else {
+    //         return null;
+    //     }
+    // }
 
-    public static void addTask(String categoryName, Task task) {
+    public static boolean addTask(String categoryName, Task task) {
+        // Category does not exist, do nothing
+        if (!maps.containsKey(categoryName)) {
+            return false;
+        }
+        
+        // Check if the task already exists in the category
+        // just in case, should not happen
+        if (task.getCategoryName() != categoryName) {
+            removeTask(task.getCategoryName(), maps.get(task.getCategoryName()).indexOf(task));
+        }
+
+        // Task already exists in the category, do nothing
+        if (maps.get(categoryName).contains(task)) {
+            return false; 
+        }
+
         maps.get(categoryName).add(task);
+        return true;
     }
 
     public static void removeTask(String categoryName, int index) {
@@ -43,9 +65,10 @@ public class CategoryMap {
         task.setName(newTaskName);
         task.setDueDate(newDueDate);
         task.setStatus(newStatus);
-        task.setUpdatedAt(new Date()); // Update the updatedAt field
+        task.setUpdatedAt(new Date());
 
-        if (newCategory != null) { // If the category is changed
+        // If the category is changed
+        if (newCategory != null) { 
             task.setCategory(newCategory);
             addTask(newCategory, task);
             removeTask(categoryName, index);

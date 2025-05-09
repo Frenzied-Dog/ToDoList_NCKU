@@ -2,6 +2,7 @@ package edu.ncku.todo.util;
 
 import java.lang.reflect.Type;
 import java.lang.IllegalStateException;
+import java.util.Hashtable;
 import java.util.List;
 import java.io.File;
 import java.io.FileReader;
@@ -24,7 +25,7 @@ public abstract class FileManager {
     private static final String CATEGORY_PATH = "./data/categories.json";
     private static Gson gson = new GsonBuilder().create();
 
-    public static boolean loadConfig(Config config) {
+    public static boolean loadConfig() {
         File file = new File(CFG_PATH);
 
         if (!file.getParentFile().exists()) {
@@ -35,10 +36,10 @@ public abstract class FileManager {
         try {
             if (file.createNewFile()) {
                 System.err.println("Config file not found, creating a new one.");
-                config.setLang("en");
+                Config.set("lang","en");
 
                 Writer writer = new FileWriter(file);
-                gson.toJson(config, Config.class, writer);
+                gson.toJson(Config.getCFG(), writer);
                 writer.close();
                 return false;
             }
@@ -46,25 +47,29 @@ public abstract class FileManager {
             try {
                 // convert the JSON data to a Java object
                 Reader reader = new FileReader(file);
-                Config tmp = gson.fromJson(reader, Config.class);
+                Type listType = new TypeToken<Hashtable<String, String>>() {}.getType();
+                Hashtable<String, String> tmp = gson.fromJson(reader, listType);
                 reader.close();
-                if (tmp == null || !AllowedValues.SUPPORTED_LANGUAGES.contains(tmp.getLang())) {
+                
+                // check validation of the config file 
+                // TODO: optimize this part
+                if (tmp == null || !AllowedValues.SUPPORTED_LANGUAGES.contains(tmp.get("lang"))) {
                     System.err.println("Config file is corrupted, set to default value.");
-                    config.setLang("en");
+                    Config.set("lang", "en");
                     Writer writer = new FileWriter(file);
-                    gson.toJson(config, Config.class, writer);
+                    gson.toJson(Config.getCFG(), writer);
                     writer.close();
                     return false;
                 }
 
-                config.setLang(tmp.getLang());
+                Config.initialize(tmp);
                 return true;
 
             } catch (IllegalStateException e) {
                 System.err.println("Config file is corrupted, set to default value.");
-                config.setLang("en");
+                Config.set("lang", "en");
                 Writer writer = new FileWriter(file);
-                gson.toJson(config, Config.class, writer);
+                gson.toJson(Config.getCFG(), writer);
                 writer.close();
                 return false;
 
@@ -95,10 +100,10 @@ public abstract class FileManager {
 
             for (Task item : tasksList) {
                 String categoryName = item.getCategoryName();
-                if (!CategoryMap.getCategory(categoryName).contains(item)) {
-                    CategoryMap.addTask(categoryName, item);
-                } else {
-                    System.err.println("Duplicate task found: " + item.getName() + " in category: " + categoryName);
+                if (!CategoryMap.addTask(categoryName, item)) {
+                    // Duplicate task or category not found
+                    // just in case, should not happen 
+                    System.err.println(Lang.get("notify.duplicateTaskOrCategory"));
                 }
             }
 
