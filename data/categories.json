@@ -1,4 +1,10 @@
 [
-	"personal",
-	"work"
+	{
+		"name": "personal",
+		"color": "#000000FF"
+	},
+	{
+		"name": "work",
+		"color": "#FF000080"
+	}
 ]

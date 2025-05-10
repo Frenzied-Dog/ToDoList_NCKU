@@ -4,11 +4,12 @@ import java.util.Scanner;
 import java.util.Date;
 import java.util.List;
 
-import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.Config;
-import edu.ncku.todo.util.Lang;
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.TaskStatus;
+import edu.ncku.todo.model.Category;
+import edu.ncku.todo.util.Lang;
+import edu.ncku.todo.util.DataManager;
 
 public class ConsoleUI {
     private static Scanner scanner = new Scanner(System.in);
@@ -153,6 +154,9 @@ public class ConsoleUI {
     }
 
     private static void addCategory() {
+        System.out.print("\033[H\033[2J");
+        System.out.println(Lang.get("ui.addCategory"));
+        System.out.println("=========================================");
         System.out.print(Lang.get("ui.inputCategoryName"));
         String name = scanner.nextLine();
 
@@ -163,17 +167,20 @@ public class ConsoleUI {
         }
 
         // Check if the name is already in use
-        boolean result = Category.addCategory(name);
+        boolean result = DataManager.addCategory(name);
         System.out.printf(Lang.get(result ? "ui.categoryAdded" : "ui.categoryExists"), name);
-        sleep(1200);
+        sleep(1500);
     }
 
     private static void addTask() {
+        System.out.print("\033[H\033[2J");
+        System.out.println(Lang.get("ui.addTask"));
+        System.out.println("=========================================");
         // check if there are any categories
-        List<String> categories = Category.getCategories();
+        List<String> categories = DataManager.getCategoryList();
         if (categories.isEmpty()) {
             System.out.println(Lang.get("ui.noCategory"));
-            sleep(1200);
+            sleep(1500);
             return;
         }
 
@@ -182,7 +189,7 @@ public class ConsoleUI {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
         int choice = getChoice(categories.size() + 1, "ui.pickCategoryToAdd", false) - 1; // -1 to convert to index
-        String category = categories.get(choice);
+        Category category = DataManager.getCategory(choice);
 
         System.out.print(Lang.get("ui.inputTaskName"));
         String name = scanner.nextLine();
@@ -202,21 +209,21 @@ public class ConsoleUI {
             return;
         }
 
-        boolean result = Category.addTask(category, new Task(name, category, dueDate));
-        System.out.printf(Lang.get(result ? "ui.taskAdded" : "ui.duplicateTaskOrCategory"), name, category, dueDateStr);
-        sleep(1200);
+        boolean result = DataManager.addTask(category, new Task(name, category.getName(), dueDate));
+        System.out.printf(Lang.get(result ? "ui.taskAdded" : "ui.duplicateTask"), name, category.getName());
+        sleep(1500);
     }
 
     private static void modifyCategory() {
         System.out.print("\033[H\033[2J");
         System.out.println(Lang.get("ui.modifyCategory"));
         System.out.println("=========================================");
-        List<String> categories = Category.getCategories();
+        List<String> categories = DataManager.getCategoryList();
 
         // Check if there are any categories
         if (categories.isEmpty()) {
             System.out.println(Lang.get("ui.noCategory"));
-            sleep(1200);
+            sleep(1500);
             return;
         }
 
@@ -225,6 +232,7 @@ public class ConsoleUI {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
         int choice = getChoice(categories.size()+1, "ui.pickCategoryToModify", false) - 1; // -1 to convert to index
+        Category category = DataManager.getCategory(choice);
         String oldName = categories.get(choice);
 
         System.out.print(Lang.get("ui.inputNewCategoryName"));
@@ -237,13 +245,13 @@ public class ConsoleUI {
         }
 
         // Check if the new name is already in use
-        boolean result = Category.updateCategory(oldName, newName);
+        boolean result = DataManager.updateCategory(category, newName);
         if (result) {
             System.out.printf(Lang.get("ui.categoryModified"), oldName, newName);
         } else {
             System.out.printf(Lang.get("ui.categoryExists"), newName);
         }
-        sleep(1200);
+        sleep(1500);
     }
 
     private static void modifyTask() {
@@ -252,10 +260,10 @@ public class ConsoleUI {
         System.out.println("=========================================");
 
         // check if there are any categories
-        List<String> categories = Category.getCategories();
+        List<String> categories = DataManager.getCategoryList();
         if (categories.isEmpty()) {
             System.out.println(Lang.get("ui.noCategory"));
-            sleep(1200);
+            sleep(1500);
             return;
         }
         // choose a category
@@ -263,14 +271,14 @@ public class ConsoleUI {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
         int choice = getChoice(categories.size() + 1, "ui.pickCategoryOfTask", false) - 1; // -1 to convert to index
-        String category = categories.get(choice);
+        Category category = DataManager.getCategory(choice);
         
 
         // check if there are any tasks in the category
-        List<Task> tasks = Category.getTasks(category);
+        List<Task> tasks = category.getTasks();
         if (tasks.isEmpty()) {
             System.out.println(Lang.get("ui.noTaskInCategory"));
-            sleep(1200);
+            sleep(1500);
             return;
         }
         // choose a task
@@ -286,10 +294,10 @@ public class ConsoleUI {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
         choice = getChoice(categories.size() + 1, "ui.pickNewCategory", true) - 1; // -1 to convert to index
-        String newCategory = (choice == -1 ? category : categories.get(choice));
+        Category newCategory = (choice == -1 ? category : DataManager.getCategory(choice));
 
         // input new name
-        System.out.print(Lang.get("ui.inputTaskName"));
+        System.out.print(Lang.get("ui.inputNewTaskName"));
         String newName = scanner.nextLine();
         // Check if the name is empty
         if (newName.isEmpty()) {
@@ -319,9 +327,8 @@ public class ConsoleUI {
             newStatus = TaskStatus.values()[choice];
         }
 
-        boolean result = Category.updateTask(task, newCategory, newName, newDueDate, newStatus);
-
-        System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.duplicateTask"));
+        boolean result = DataManager.updateTask(task, newCategory, newName, newDueDate, newStatus);
+        System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.duplicateTask"), task.getName());
         sleep(1200);
     }
 

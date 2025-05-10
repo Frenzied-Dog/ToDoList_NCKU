@@ -14,17 +14,26 @@ import java.io.Writer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.hildan.fxgson.adapters.extras.ColorTypeAdapter;
+import javafx.scene.paint.Color;
+
 import edu.ncku.todo.model.Config;
 import edu.ncku.todo.model.Task;
-import edu.ncku.todo.model.AllowedValues;
 import edu.ncku.todo.model.Category;
+import edu.ncku.todo.model.AllowedValues;
 
 public abstract class FileManager {
     private static final String CFG_PATH = "./data/config.json";
     private static final String TASKS_PATH = "./data/tasks.json";
     private static final String CATEGORY_PATH = "./data/categories.json";
-    private static Gson gson = new GsonBuilder().create();
+    private static Gson gson = buildGson();
 
+    private static Gson buildGson() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Color.class, new ColorTypeAdapter());
+        return builder.create();
+    }
+    
     public static boolean loadConfig() {
         File file = new File(CFG_PATH);
 
@@ -85,13 +94,11 @@ public abstract class FileManager {
     public static void loadData() {
         try {
             FileReader reader = new FileReader(CATEGORY_PATH);
-            Type listType = new TypeToken<List<String>>() {}.getType();
-            List<String> Categories = gson.fromJson(reader, listType);
+            Type listType = new TypeToken<List<Category>>() {}.getType();
+            List<Category> categories = gson.fromJson(reader, listType);
             reader.close();
 
-            for (String str : Categories) {
-                Category.addCategory(str);
-            }
+            DataManager.initialize(categories);
 
             reader = new FileReader(TASKS_PATH);
             listType = new TypeToken<List<Task>>() {}.getType();
@@ -100,10 +107,10 @@ public abstract class FileManager {
 
             for (Task item : tasksList) {
                 String categoryName = item.getCategoryName();
-                if (!Category.addTask(categoryName, item)) {
+                if (!DataManager.addTask(categoryName, item)) {
                     // Duplicate task or category not found
                     // just in case, should not happen 
-                    System.err.println(Lang.get("notify.duplicateTaskOrCategory"));
+                    System.err.println(Lang.get("notify.duplicateTask"));
                 }
             }
 

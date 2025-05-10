@@ -40,6 +40,12 @@
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hildan.fxgson</groupId>
+            <artifactId>fx-gson</artifactId>
+            <version>5.0.0</version>
+         </dependency>
     </dependencies>
 
     <build>
@@ -77,7 +83,7 @@
                 <configuration>
                     <archive>
                     <manifest>
-                        <!-- <addClasspath>true</addClasspath>
+                            <!-- <addClasspath>true</addClasspath>
                         <classpathPrefix>lib/</classpathPrefix> -->
                         <mainClass>edu.ncku.todo.Main</mainClass>
                     </manifest>

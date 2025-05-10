@@ -5,6 +5,7 @@ module edu.ncku.todo {
     requires javafx.fxml;
     requires java.sql;
     requires io.github.cdimascio.dotenv.java;
+    requires org.hildan.fxgson;
 
     opens edu.ncku.todo.ui to javafx.graphics, javafx.fxml;
     opens edu.ncku.todo.model to com.google.gson;
