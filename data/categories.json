@@ -4,14 +4,6 @@
     "color": "#ffffffff",
     "tasks": [
       {
-        "name": "exercise",
-        "category": "personal",
-        "dueDate": "2025-07-08 00:00:00",
-        "status": "TODO",
-        "createdAt": "2025-05-10 22:27:12",
-        "updatedAt": "2025-05-10 23:29:25"
-      },
-      {
         "name": "read",
         "category": "personal",
         "status": "TODO",
@@ -25,6 +17,14 @@
         "status": "TODO",
         "createdAt": "2025-05-10 23:29:25",
         "updatedAt": "2025-05-10 23:29:25"
+      },
+      {
+        "name": "exercise",
+        "category": "personal",
+        "dueDate": "2025-07-08 00:00:00",
+        "status": "DONE",
+        "createdAt": "2025-05-10 22:27:12",
+        "updatedAt": "2025-05-11 01:14:46"
       }
     ]
   },
@@ -33,19 +33,19 @@
     "color": "#ffffffff",
     "tasks": [
       {
-        "name": "meeting",
-        "category": "work",
-        "status": "TODO",
-        "createdAt": "2025-05-10 23:29:25",
-        "updatedAt": "2025-05-10 23:29:25"
-      },
-      {
         "name": "report",
         "category": "work",
         "dueDate": "2025-06-04 00:00:00",
         "status": "TODO",
         "createdAt": "2025-05-08 18:10:27",
         "updatedAt": "2025-05-10 22:29:25"
+      },
+      {
+        "name": "meeting",
+        "category": "work",
+        "status": "IN_PROGRESS",
+        "createdAt": "2025-05-10 23:29:25",
+        "updatedAt": "2025-05-11 01:15:28"
       }
     ]
   },

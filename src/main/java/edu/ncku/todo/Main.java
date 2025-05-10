@@ -11,6 +11,7 @@ public class Main {
 	public static SqlClient client;
 
 	public static void main(String[] args) {
+        // Initialize the SqlClient (in plan)
 		// client = new SqlClient();
 
         System.out.println("Loading configuration...");

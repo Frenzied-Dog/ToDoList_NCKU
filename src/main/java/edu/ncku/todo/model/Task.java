@@ -28,6 +28,11 @@ public class Task {
     public boolean equals(Object obj) {
         if (obj instanceof Task) {
             Task other = (Task) obj;
+            if (this.dueDate == null && other.dueDate == null) {
+                return this.name.equals(other.name) && this.category.equals(other.category);
+            } else if (this.dueDate == null || other.dueDate == null) {
+                return false;
+            }
             return this.name.equals(other.name) && this.category.equals(other.category) && this.dueDate.equals(other.dueDate);
         }
 

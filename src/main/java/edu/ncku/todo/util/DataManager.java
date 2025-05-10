@@ -11,7 +11,6 @@ import edu.ncku.todo.model.TaskStatus;
 public class DataManager {
     private static List<Category> data = new ArrayList<>();
 
-    
     public static int getUnfinishedTaskCount() {
         int count = 0;
         for (Category category : data) {
@@ -25,9 +24,10 @@ public class DataManager {
     }
     
     public static void initialize(List<Category> categories) { data = categories; }
+    
     public static List<Category> getCategoryData() { return data; }
 
-    public static List<String> getCategoryList() { 
+    public static List<String> getCategoryStrList() { 
         List<String> list = new ArrayList<>();
         data.forEach(c -> list.add(c.getName()));
         return list;
@@ -42,6 +42,7 @@ public class DataManager {
 
     public static Category getCategory(String name) {
         for (Category category : data) {
+            // Check if the category name matches the given name
             if (category.getName().equals(name)) {
                 return category;
             }
@@ -104,10 +105,12 @@ public class DataManager {
     }
 
     public static boolean updateTask(Task task, Category newCategory, String newTaskName, Date newDueDate, TaskStatus newStatus) {
-        if (newCategory.getTasks().contains(new Task(newTaskName, newCategory.getName(), newDueDate))) {
+        Task tmp = new Task(newTaskName, newCategory.getName(), newDueDate);
+
+        if (!task.equals(tmp) && newCategory.getTasks().contains(tmp)) {
             return false; // Task already exists in the new category, do nothing
         }
-        
+
         // If the category is changed
         if (newCategory.getName() != task.getCategoryName()) {
             removeTask(getCategory(task.getCategoryName()), task);

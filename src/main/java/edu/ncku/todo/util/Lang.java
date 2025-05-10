@@ -13,18 +13,18 @@ public abstract class Lang {
 
     public static String get(String key) {
         if (bundle == null) {
-            // 預設語言
+            // default to English if bundle is not initialized
             setLocale(Locale.ENGLISH);
         }
         try {
             return bundle.getString(key);
         } catch (MissingResourceException e) {
             try {
-                // 嘗試使用預設語言
+                // try to use default language
                 return ResourceBundle.getBundle("lang.ui", Locale.ENGLISH).getString(key);
             } catch (MissingResourceException ee) {
                 System.err.println("Missing resource: " + key);
-                return key; // 如果找不到對應的鍵，則返回鍵本身
+                return key; // return the key itself if not found
             }
         }
     }

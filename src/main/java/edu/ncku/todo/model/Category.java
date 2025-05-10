@@ -26,10 +26,16 @@ public class Category {
     }
 
     public String getName() { return name; }
+    
     public Color getColor() { return color; }
+    
     public void setColor(Color color) { this.color = color; }
+    
     public void setName(String name) { this.name = name; }
+    
     public List<Task> getTasks() { return tasks; }
+    
     public void addTask(Task task) { tasks.add(task); }
+    
     public void removeTask(Task task) { tasks.remove(task); }
 }
