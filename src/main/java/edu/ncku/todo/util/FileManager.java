@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.lang.IllegalStateException;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.ArrayList;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -24,14 +25,14 @@ import edu.ncku.todo.model.AllowedValues;
 
 public abstract class FileManager {
     private static final String CFG_PATH = "./data/config.json";
-    private static final String TASKS_PATH = "./data/tasks.json";
+    // private static final String TASKS_PATH = "./data/tasks.json";
     private static final String CATEGORY_PATH = "./data/categories.json";
     private static Gson gson = buildGson();
 
     private static Gson buildGson() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Color.class, new ColorTypeAdapter());
-        return builder.create();
+        return builder.setDateFormat("yyyy-MM-dd HH:mm:ss").setPrettyPrinting().create();
     }
     
     public static boolean loadConfig() {
@@ -100,21 +101,54 @@ public abstract class FileManager {
 
             DataManager.initialize(categories);
 
-            reader = new FileReader(TASKS_PATH);
-            listType = new TypeToken<List<Task>>() {}.getType();
-            List<Task> tasksList = gson.fromJson(reader, listType);
-            reader.close();
+            // reader = new FileReader(TASKS_PATH);
+            // listType = new TypeToken<List<Task>>() {}.getType();
+            // List<Task> tasksList = gson.fromJson(reader, listType);
+            // reader.close();
 
-            for (Task item : tasksList) {
-                String categoryName = item.getCategoryName();
-                if (!DataManager.addTask(categoryName, item)) {
-                    // Duplicate task or category not found
-                    // just in case, should not happen 
-                    System.err.println(Lang.get("notify.duplicateTask"));
-                }
-            }
+            // for (Task item : tasksList) {
+            //     String categoryName = item.getCategoryName();
+            //     if (!DataManager.addTask(categoryName, item)) {
+            //         // Duplicate task or category not found
+            //         // just in case, should not happen 
+            //         System.err.println(Lang.get("notify.duplicateTask"));
+            //     }
+            // }
 
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveData() {
+        try {
+            File file = new File(CATEGORY_PATH);
+            if (!file.getParentFile().exists()) {
+                System.out.println("Config directory not found, creating a new one.");
+                file.getParentFile().mkdirs();
+            }
+
+            List<Category> categories = DataManager.getCategoryData();
+            Writer writer = new FileWriter(file);
+            Type listType = new TypeToken<List<Category>>() {}.getType();
+            gson.toJson(categories, listType, writer);
+            writer.close();
+
+            List<Task> tasks = new ArrayList<>();
+            for (Category category : categories) {
+                tasks.addAll(category.getTasks());
+            }
+
+            // writer = new FileWriter(TASKS_PATH);
+            // listType = new TypeToken<List<Task>>() {}.getType();
+            // gson.toJson(tasks, listType, writer);
+            // writer.close();
+
+            writer = new FileWriter(CFG_PATH);
+            gson.toJson(Config.getCFG(), writer);
+            writer.close();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -11,8 +11,6 @@ public enum TaskStatus {
 				return IN_PROGRESS;
 			case "DONE":
 				return DONE;
-			case "DELETED":
-				return DELETED;
 			default:
 				throw new IllegalArgumentException("Unknown status: " + status);
 		}

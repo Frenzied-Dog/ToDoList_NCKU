@@ -23,6 +23,8 @@ public class ConsoleUI {
             System.out.print("\033[H\033[2J");
             System.out.println(Lang.get("ui.welcome"));
             System.out.println("=========================================");
+            System.out.printf(Lang.get("ui.hintTaskCount"), DataManager.getUnfinishedTaskCount());
+            System.out.println("=========================================");
             System.out.println("1." + Lang.get("ui.add"));
             System.out.println("2." + Lang.get("ui.list"));
             System.out.println("3." + Lang.get("ui.modify"));
@@ -59,7 +61,9 @@ public class ConsoleUI {
                 System.out.print("\033[H\033[2J");
                 System.out.println(Lang.get("ui.list"));
                 System.out.println("=========================================");
-                // TODO: list tasks
+                listTasks();
+                System.out.println(Lang.get("ui.pressEnter"));
+                scanner.nextLine(); // wait for user input
                 break;
             case 3:
                 // Modify tasks / category
@@ -114,9 +118,7 @@ public class ConsoleUI {
                 break;
             case 6:
                 // Exit
-                // TODO: save data (write file)
-                System.exit(0);
-                break;
+                return;
             default:
                 System.out.println(Lang.get("ui.invalidChoice"));
                 break;
@@ -153,6 +155,30 @@ public class ConsoleUI {
         }
     }
 
+    private static void listTasks() {
+        // check if there are any categories
+        List<Category> categories = DataManager.getCategoryData();
+        if (categories.isEmpty()) {
+            System.out.println(Lang.get("ui.noCategory"));
+            return;
+        }
+
+        // list all categories
+        for (Category category : categories) {
+            System.out.println(category.getName() + ":");
+            List<Task> tasks = category.getTasks();
+            if (tasks.isEmpty()) {
+                System.out.println("    " + Lang.get("ui.emptyCategory"));
+                continue;
+            }
+
+            // list all tasks in the category
+            for (Task task : tasks) {
+                System.out.printf("    %s\n", task.toString());
+            }
+        }
+    }
+
     private static void addCategory() {
         System.out.print("\033[H\033[2J");
         System.out.println(Lang.get("ui.addCategory"));
@@ -163,6 +189,7 @@ public class ConsoleUI {
         // Check if the name is empty
         if (name == null || name.isEmpty()) {
             System.out.println(Lang.get("ui.invalidCategoryName"));
+            sleep(1500);
             return;
         }
 
@@ -188,7 +215,7 @@ public class ConsoleUI {
         for (int i = 0; i < categories.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
-        int choice = getChoice(categories.size() + 1, "ui.pickCategoryToAdd", false) - 1; // -1 to convert to index
+        int choice = getChoice(categories.size(), "ui.pickCategoryToAdd", false) - 1; // -1 to convert to index
         Category category = DataManager.getCategory(choice);
 
         System.out.print(Lang.get("ui.inputTaskName"));
@@ -196,6 +223,7 @@ public class ConsoleUI {
         // Check if the name is empty
         if (name == null || name.isEmpty()) {
             System.out.println(Lang.get("ui.invalidTaskName"));
+            sleep(1500);
             return;
         }
 
@@ -206,6 +234,7 @@ public class ConsoleUI {
         // -1 / empty means no due date
         if (dueDateStr != "" && dueDateStr != "-1" && dueDate == null) {
             System.out.println(Lang.get("ui.invalidDateFormat"));
+            sleep(1500);
             return;
         }
 
@@ -231,7 +260,7 @@ public class ConsoleUI {
         for (int i = 0; i < categories.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
-        int choice = getChoice(categories.size()+1, "ui.pickCategoryToModify", false) - 1; // -1 to convert to index
+        int choice = getChoice(categories.size(), "ui.pickCategoryToModify", false) - 1; // -1 to convert to index
         Category category = DataManager.getCategory(choice);
         String oldName = categories.get(choice);
 
@@ -241,6 +270,7 @@ public class ConsoleUI {
         // Check if the name is empty
         if (newName == null || newName.isEmpty()) {
             System.out.println(Lang.get("ui.invalidCategoryName"));
+            sleep(1500);
             return;
         }
 
@@ -270,7 +300,7 @@ public class ConsoleUI {
         for (int i = 0; i < categories.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
-        int choice = getChoice(categories.size() + 1, "ui.pickCategoryOfTask", false) - 1; // -1 to convert to index
+        int choice = getChoice(categories.size(), "ui.pickCategoryOfTask", false) - 1; // -1 to convert to index
         Category category = DataManager.getCategory(choice);
         
 
@@ -285,7 +315,7 @@ public class ConsoleUI {
         for (int i = 0; i < tasks.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, tasks.get(i).getName());
         }
-        choice = getChoice(tasks.size() + 1, "ui.pickTaskToModify", false) - 1; // -1 to convert to index
+        choice = getChoice(tasks.size(), "ui.pickTaskToModify", false) - 1; // -1 to convert to index
         Task task = tasks.get(choice);
 
 
@@ -293,7 +323,7 @@ public class ConsoleUI {
         for (int i = 0; i < categories.size(); i++) {
             System.out.printf("%d.%s\n", i + 1, categories.get(i));
         }
-        choice = getChoice(categories.size() + 1, "ui.pickNewCategory", true) - 1; // -1 to convert to index
+        choice = getChoice(categories.size(), "ui.pickNewCategory", true) - 1; // -1 to convert to index
         Category newCategory = (choice == -1 ? category : DataManager.getCategory(choice));
 
         // input new name
@@ -312,6 +342,7 @@ public class ConsoleUI {
             newDueDate = task.getDueDate();
         } else if (dueDateStr != "-1" && newDueDate == null) { // invalid date format
             System.out.println(Lang.get("ui.invalidDateFormat"));
+            sleep(1500);
             return;
         }
 
@@ -319,7 +350,7 @@ public class ConsoleUI {
         for (TaskStatus status : TaskStatus.values()) {
             System.out.printf("%d.%s\n", status.ordinal(), status);
         }
-        choice = getChoice(categories.size() + 1, "ui.pickNewStatus", true) - 1; // -1 to convert to index
+        choice = getChoice(categories.size(), "ui.pickNewStatus", true) - 1; // -1 to convert to index
         TaskStatus newStatus;
         if (choice == -1) {
             newStatus = task.getStatus(); // no change

@@ -25,11 +25,6 @@ public class Category {
         tasks = new ArrayList<>();
     }
 
-    // for loading from file
-    public void initialize() {
-        tasks = new ArrayList<>();
-    }
-
     public String getName() { return name; }
     public Color getColor() { return color; }
     public void setColor(Color color) { this.color = color; }

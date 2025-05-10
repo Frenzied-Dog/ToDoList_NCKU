@@ -35,5 +35,7 @@ public class Main {
 		} else {
 			GraphicUI.main(args);
 		}
+
+        FileManager.saveData();
 	}
 }

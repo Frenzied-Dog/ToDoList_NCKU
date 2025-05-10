@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import edu.ncku.todo.util.Lang;
+
 public class Task {
     private String name;
     private String category;
@@ -65,12 +67,11 @@ public class Task {
     public void setCategory(String category) { this.category = category; }
 
     public String toString() {
-        // TODO: 臨時方案，待更改
+        // TODO: 臨時方案，(可能)待更改
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         if (dueDate == null) {
-            return name + " " + status + " " + category;
+            return name + " (" + status + ")";
         }
-
-        return name + " " + format.format(dueDate) + " " + status + " " + category;        
+        return name + " (" + status + ") " + Lang.get("ui.due") + format.format(dueDate);
     }
 }

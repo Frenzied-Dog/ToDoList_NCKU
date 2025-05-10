@@ -11,10 +11,21 @@ import edu.ncku.todo.model.TaskStatus;
 public class DataManager {
     private static List<Category> data = new ArrayList<>();
 
-    public static void initialize(List<Category> categories) {
-        data = categories;
-        data.forEach(c -> {c.initialize();});
+    
+    public static int getUnfinishedTaskCount() {
+        int count = 0;
+        for (Category category : data) {
+            for (Task task : category.getTasks()) {
+                if (task.getStatus() != TaskStatus.DONE) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
+    
+    public static void initialize(List<Category> categories) { data = categories; }
+    public static List<Category> getCategoryData() { return data; }
 
     public static List<String> getCategoryList() { 
         List<String> list = new ArrayList<>();
