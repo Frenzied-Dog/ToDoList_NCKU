@@ -35,6 +35,7 @@ public class Task {
     public static Date parseDate(String dateString) {
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            format.setLenient(false);
             return format.parse(dateString);
         } catch (ParseException e) {
             return null;

@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import edu.ncku.todo.model.Config;
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.AllowedValues;
-import edu.ncku.todo.model.CategoryMap;
+import edu.ncku.todo.model.Category;
 
 public abstract class FileManager {
     private static final String CFG_PATH = "./data/config.json";
@@ -90,7 +90,7 @@ public abstract class FileManager {
             reader.close();
 
             for (String str : Categories) {
-                CategoryMap.addCategory(str);
+                Category.addCategory(str);
             }
 
             reader = new FileReader(TASKS_PATH);
@@ -100,7 +100,7 @@ public abstract class FileManager {
 
             for (Task item : tasksList) {
                 String categoryName = item.getCategoryName();
-                if (!CategoryMap.addTask(categoryName, item)) {
+                if (!Category.addTask(categoryName, item)) {
                     // Duplicate task or category not found
                     // just in case, should not happen 
                     System.err.println(Lang.get("notify.duplicateTaskOrCategory"));

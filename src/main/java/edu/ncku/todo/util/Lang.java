@@ -1,6 +1,7 @@
 package edu.ncku.todo.util;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public abstract class Lang {
@@ -15,6 +16,16 @@ public abstract class Lang {
             // 預設語言
             setLocale(Locale.ENGLISH);
         }
-        return bundle.getString(key);
+        try {
+            return bundle.getString(key);
+        } catch (MissingResourceException e) {
+            try {
+                // 嘗試使用預設語言
+                return ResourceBundle.getBundle("lang.ui", Locale.ENGLISH).getString(key);
+            } catch (MissingResourceException ee) {
+                System.err.println("Missing resource: " + key);
+                return key; // 如果找不到對應的鍵，則返回鍵本身
+            }
+        }
     }
 }

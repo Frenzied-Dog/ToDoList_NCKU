@@ -2,11 +2,13 @@ package edu.ncku.todo.ui;
 
 import java.util.Scanner;
 import java.util.Date;
+import java.util.List;
 
-import edu.ncku.todo.model.CategoryMap;
+import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.Config;
 import edu.ncku.todo.util.Lang;
 import edu.ncku.todo.model.Task;
+import edu.ncku.todo.model.TaskStatus;
 
 public class ConsoleUI {
     private static Scanner scanner = new Scanner(System.in);
@@ -27,7 +29,7 @@ public class ConsoleUI {
             System.out.println("5." + Lang.get("ui.setting"));
             System.out.println("6." + Lang.get("ui.exit"));
 
-            int choice = getChoice(6);
+            int choice = getChoice(6, "ui.choice", false);
 
             switch (choice) {
             case 1:
@@ -37,7 +39,7 @@ public class ConsoleUI {
                 System.out.println("=========================================");
                 System.out.println("1." + Lang.get("ui.addCategory"));
                 System.out.println("2." + Lang.get("ui.addTask"));
-                choice = getChoice(2);
+                choice = getChoice(2, "ui.choice", false);
 
                 switch (choice) {
                 case 1: // Add category
@@ -66,7 +68,7 @@ public class ConsoleUI {
                 System.out.println("1." + Lang.get("ui.modifyCategory"));
                 System.out.println("2." + Lang.get("ui.modifyTask"));
 
-                choice = getChoice(2);
+                choice = getChoice(2, "ui.choice", false);
 
                 switch (choice) {
                 case 1: // Modify category
@@ -86,7 +88,7 @@ public class ConsoleUI {
                 System.out.print("\033[H\033[2J");
                 System.out.println(Lang.get("ui.help"));
                 System.out.println("=========================================");
-                // TODO: 待補
+                // TODO: 待補helpContent內容
                 System.out.println(Lang.get("ui.helpContent"));
                 System.out.println(Lang.get("ui.helpContent2"));
                 System.out.println(Lang.get("ui.pressEnter"));
@@ -98,7 +100,7 @@ public class ConsoleUI {
                 System.out.println(Lang.get("ui.setting"));
                 System.out.println("=========================================");
                 System.out.println("1." + Lang.get("ui.changeLanguage"));
-                choice = getChoice(1);
+                choice = getChoice(1, "ui.choice", false);
 
                 switch (choice) {
                 case 1: // Change language
@@ -122,12 +124,21 @@ public class ConsoleUI {
 
     }
 
-    private static int getChoice(int max) {
+    // foolproof
+    private static int getChoice(int max, String hint, boolean allowNull) {
         while (true) {
             try {
-                System.out.print(Lang.get("ui.choice"));
-                int choice = scanner.nextInt();
-                scanner.nextLine(); // consume the newline character
+                // print the hint
+                System.out.print(Lang.get(hint));
+
+                // get the input
+                String input = scanner.nextLine(); // consume the newline character
+                if (allowNull && input.isEmpty()) {
+                    return 0; // allow null input
+                }
+                int choice = Integer.parseInt(input);
+                
+                // check if the choice is in the range
                 if (choice < 1 || choice > max) {
                     System.out.println(Lang.get("ui.invalidChoice"));
                     continue;
@@ -136,7 +147,6 @@ public class ConsoleUI {
                 }
             } catch (Exception e) {
                 System.out.println(Lang.get("ui.invalidChoice"));
-                scanner.nextLine(); // consume the invalid input
                 continue;
             }
         }
@@ -146,73 +156,173 @@ public class ConsoleUI {
         System.out.print(Lang.get("ui.inputCategoryName"));
         String name = scanner.nextLine();
 
+        // Check if the name is empty
         if (name == null || name.isEmpty()) {
             System.out.println(Lang.get("ui.invalidCategoryName"));
             return;
         }
 
-        boolean result = CategoryMap.addCategory(name);
-
+        // Check if the name is already in use
+        boolean result = Category.addCategory(name);
         System.out.printf(Lang.get(result ? "ui.categoryAdded" : "ui.categoryExists"), name);
         sleep(1200);
     }
 
     private static void addTask() {
+        // check if there are any categories
+        List<String> categories = Category.getCategories();
+        if (categories.isEmpty()) {
+            System.out.println(Lang.get("ui.noCategory"));
+            sleep(1200);
+            return;
+        }
+
+        // choose a category
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+        }
+        int choice = getChoice(categories.size() + 1, "ui.pickCategoryToAdd", false) - 1; // -1 to convert to index
+        String category = categories.get(choice);
+
         System.out.print(Lang.get("ui.inputTaskName"));
         String name = scanner.nextLine();
-
-        System.out.print(Lang.get("ui.inputTaskCategory"));
-        String category = scanner.nextLine();
+        // Check if the name is empty
+        if (name == null || name.isEmpty()) {
+            System.out.println(Lang.get("ui.invalidTaskName"));
+            return;
+        }
 
         System.out.print(Lang.get("ui.inputTaskDueDate"));
         String dueDateStr = scanner.nextLine();
+        // Check if the due date is valid
         Date dueDate = Task.parseDate(dueDateStr);
-        if (dueDateStr != "" && dueDate == null) {
+        // -1 / empty means no due date
+        if (dueDateStr != "" && dueDateStr != "-1" && dueDate == null) {
             System.out.println(Lang.get("ui.invalidDateFormat"));
             return;
         }
 
-        boolean result = CategoryMap.addTask(category, new Task(name, category, dueDate));
-
+        boolean result = Category.addTask(category, new Task(name, category, dueDate));
         System.out.printf(Lang.get(result ? "ui.taskAdded" : "ui.duplicateTaskOrCategory"), name, category, dueDateStr);
         sleep(1200);
     }
 
     private static void modifyCategory() {
-        // System.out.print(Lang.get("ui.inputOldCategoryName"));
-        // String oldName = scanner.nextLine();
+        System.out.print("\033[H\033[2J");
+        System.out.println(Lang.get("ui.modifyCategory"));
+        System.out.println("=========================================");
+        List<String> categories = Category.getCategories();
 
-        // System.out.print(Lang.get("ui.inputNewCategoryName"));
-        // String newName = scanner.nextLine();
+        // Check if there are any categories
+        if (categories.isEmpty()) {
+            System.out.println(Lang.get("ui.noCategory"));
+            sleep(1200);
+            return;
+        }
 
-        // boolean result = CategoryMap.updateCategory(oldName, newName);
+        // choose a category
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+        }
+        int choice = getChoice(categories.size()+1, "ui.pickCategoryToModify", false) - 1; // -1 to convert to index
+        String oldName = categories.get(choice);
 
-        // System.out.printf(Lang.get(result ? "ui.categoryModified" : "ui.categoryNotFound"), oldName, newName);
-        // sleep(1200);
+        System.out.print(Lang.get("ui.inputNewCategoryName"));
+        String newName = scanner.nextLine();
+
+        // Check if the name is empty
+        if (newName == null || newName.isEmpty()) {
+            System.out.println(Lang.get("ui.invalidCategoryName"));
+            return;
+        }
+
+        // Check if the new name is already in use
+        boolean result = Category.updateCategory(oldName, newName);
+        if (result) {
+            System.out.printf(Lang.get("ui.categoryModified"), oldName, newName);
+        } else {
+            System.out.printf(Lang.get("ui.categoryExists"), newName);
+        }
+        sleep(1200);
     }
 
     private static void modifyTask() {
-        // System.out.print(Lang.get("ui.inputOldTaskName"));
-        // String oldName = scanner.nextLine();
+        System.out.print("\033[H\033[2J");
+        System.out.println(Lang.get("ui.modifyTask"));
+        System.out.println("=========================================");
 
-        // System.out.print(Lang.get("ui.inputNewTaskName"));
-        // String newName = scanner.nextLine();
+        // check if there are any categories
+        List<String> categories = Category.getCategories();
+        if (categories.isEmpty()) {
+            System.out.println(Lang.get("ui.noCategory"));
+            sleep(1200);
+            return;
+        }
+        // choose a category
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+        }
+        int choice = getChoice(categories.size() + 1, "ui.pickCategoryOfTask", false) - 1; // -1 to convert to index
+        String category = categories.get(choice);
+        
 
-        // System.out.print(Lang.get("ui.inputNewTaskCategory"));
-        // String newCategory = scanner.nextLine();
+        // check if there are any tasks in the category
+        List<Task> tasks = Category.getTasks(category);
+        if (tasks.isEmpty()) {
+            System.out.println(Lang.get("ui.noTaskInCategory"));
+            sleep(1200);
+            return;
+        }
+        // choose a task
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, tasks.get(i).getName());
+        }
+        choice = getChoice(tasks.size() + 1, "ui.pickTaskToModify", false) - 1; // -1 to convert to index
+        Task task = tasks.get(choice);
 
-        // System.out.print(Lang.get("ui.inputNewTaskDueDate"));
-        // String dueDateStr = scanner.nextLine();
-        // Date dueDate = Task.parseDate(dueDateStr);
-        // if (dueDateStr != "" && dueDate == null) {
-        //     System.out.println(Lang.get("ui.invalidDateFormat"));
-        //     return;
-        // }
 
-        // boolean result = CategoryMap.updateTask(oldName, newName, newCategory, dueDate);
+        // pick a new category
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+        }
+        choice = getChoice(categories.size() + 1, "ui.pickNewCategory", true) - 1; // -1 to convert to index
+        String newCategory = (choice == -1 ? category : categories.get(choice));
 
-        // System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.taskNotFound"), oldName, newName, newCategory, dueDateStr);
-        // sleep(1200);
+        // input new name
+        System.out.print(Lang.get("ui.inputTaskName"));
+        String newName = scanner.nextLine();
+        // Check if the name is empty
+        if (newName.isEmpty()) {
+            newName = task.getName(); // no change
+        }
+
+        // input new due date
+        System.out.print(Lang.get("ui.inputNewDueDate"));
+        String dueDateStr = scanner.nextLine();
+        Date newDueDate = Task.parseDate(dueDateStr);
+        if (dueDateStr == "") { // empty means no change, -1 means no due date
+            newDueDate = task.getDueDate();
+        } else if (dueDateStr != "-1" && newDueDate == null) { // invalid date format
+            System.out.println(Lang.get("ui.invalidDateFormat"));
+            return;
+        }
+
+        // list all TaskStatus
+        for (TaskStatus status : TaskStatus.values()) {
+            System.out.printf("%d.%s\n", status.ordinal(), status);
+        }
+        choice = getChoice(categories.size() + 1, "ui.pickNewStatus", true) - 1; // -1 to convert to index
+        TaskStatus newStatus;
+        if (choice == -1) {
+            newStatus = task.getStatus(); // no change
+        } else {
+            newStatus = TaskStatus.values()[choice];
+        }
+
+        boolean result = Category.updateTask(task, newCategory, newName, newDueDate, newStatus);
+
+        System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.duplicateTask"));
+        sleep(1200);
     }
 
     private static void changeLanguage() {
@@ -222,7 +332,7 @@ public class ConsoleUI {
         System.out.println("1. English");
         System.out.println("2. 繁體中文");
         System.out.println("3. 簡體中文");
-        int choice = getChoice(3);
+        int choice = getChoice(3, "ui.pickLanguage", false);
 
         switch (choice) {
         case 1:
