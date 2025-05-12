@@ -88,9 +88,10 @@ public class ConsoleUI {
             case 4:
                 // Help text
                 printTitle("ui.help");
-                // TODO: 待補 helpContent內容
                 System.out.println(Lang.get("ui.helpContent"));
                 System.out.println(Lang.get("ui.helpContent2"));
+                System.out.println(Lang.get("ui.helpContent3"));
+                System.out.println(Lang.get("ui.credit"));
                 System.out.println(Lang.get("ui.pressEnter"));
                 scanner.nextLine(); // wait for user input
                 break;

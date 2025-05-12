@@ -72,11 +72,11 @@ public class Task {
     public void setCategory(String category) { this.category = category; }
 
     public String toString() {
-        // TODO: 臨時方案，(可能)待更改
+        // TODO: 臨時方案，可以更改 (?
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         if (dueDate == null) {
-            return name + " (" + status + ")";
+            return name + " (" + Lang.get("status." + status.toString()) + ")";
         }
-        return name + " (" + status + ") " + Lang.get("ui.due") + format.format(dueDate);
+        return name + " (" + Lang.get("status."+status.toString()) + ") " + Lang.get("ui.due") + format.format(dueDate);
     }
 }
