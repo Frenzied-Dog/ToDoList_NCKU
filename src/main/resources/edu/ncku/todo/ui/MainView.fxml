@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,11 +7,9 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -27,7 +24,6 @@
                   <Button mnemonicParsing="false" text="修改類別/任務" />
                 <Button mnemonicParsing="false" text="設定" />
                   <Region prefHeight="29.0" prefWidth="522.0" />
-                  <Button mnemonicParsing="false" text="離開" />
               </items>
             </ToolBar>
          </top>
@@ -46,60 +42,73 @@
             </VBox>
          </left>
          <right>
-            <VBox BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="508.0" prefWidth="483.0" BorderPane.alignment="CENTER">
                <children>
-                  <ToolBar prefHeight="34.0" prefWidth="485.0">
-                    <items>
-                        <Region prefHeight="15.0" prefWidth="205.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Calendar" />
-                    </items>
-                  </ToolBar>
-                  <HBox prefHeight="48.0" prefWidth="485.0">
+                  <FlowPane fx:id="calendarPane" hgap="5.0" layoutX="8.0" layoutY="95.0" prefHeight="407.0" prefWidth="471.0" vgap="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="95.0" />
+                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="483.0" spacing="10">
                      <children>
-                        <Region prefHeight="200.0" prefWidth="200.0" />
-                        <Button ellipsisString="&lt;" mnemonicParsing="false" prefHeight="23.0" prefWidth="37.0" text="Button" />
-                        <Region prefHeight="200.0" prefWidth="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="YYYY-MM">
+                        <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#onPrevMonth" text="&lt;" />
+                        <Text fx:id="yearText" text="YYYY">
                            <font>
-                              <Font size="23.0" />
+                              <Font size="25.0" />
                            </font>
                         </Text>
-                        <Region prefHeight="200.0" prefWidth="200.0" />
-                        <Button ellipsisString="&gt;" mnemonicParsing="false" text="Button" />
-                        <Region prefHeight="200.0" prefWidth="200.0" />
+                        <Text fx:id="monthText" text="MM">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#onNextMonth" text="&gt;" />
                      </children>
                   </HBox>
-                  <GridPane hgap="5.0" prefHeight="435.0" prefWidth="485.0" vgap="5.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
+                  <HBox alignment="CENTER" layoutY="50.0" prefHeight="45.0" prefWidth="483.0" spacing="4">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="3" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="4" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="5" />
+                        <Text layoutX="75.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Su">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Region layoutX="444.0" layoutY="10.0" prefHeight="45.0" prefWidth="38.0" />
+                        <Text layoutX="10.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mo">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Region prefHeight="45.0" prefWidth="35.0" />
+                        <Text layoutX="40.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Region layoutX="219.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
+                        <Text layoutX="70.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Region layoutX="260.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
+                        <Text layoutX="100.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Th">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Region layoutX="308.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
+                        <Text layoutX="130.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fr">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Region layoutX="349.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
+                        <Text layoutX="160.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sa">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Region layoutX="69.0" layoutY="10.0" prefHeight="45.0" prefWidth="10.0" />
                      </children>
-                  </GridPane>
+                  </HBox>
                </children>
-            </VBox>
+            </AnchorPane>
          </right></BorderPane>
    </children>
 </AnchorPane>
