@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -89,5 +91,21 @@ public class MainViewController implements Initializable {
 
             calendarPane.getChildren().add(cell);
         }
+    }
+    
+    //@FXML private Button mainViewAddBotton;
+    //@FXML private Button mainViewModBotton;
+    //@FXML private Button mainViewSetBotton;
+
+    @FXML
+    private void handleHover(MouseEvent e) {
+        Button btn = (Button)e.getSource();    // 取得滑到的那顆按鈕
+        btn.setStyle("-fx-background-color: #8495c4;");
+    }
+
+    @FXML
+    private void handleExit(MouseEvent e) {
+        Button btn = (Button)e.getSource();
+        btn.setStyle("-fx-background-color: #7190de;");
     }
 }
