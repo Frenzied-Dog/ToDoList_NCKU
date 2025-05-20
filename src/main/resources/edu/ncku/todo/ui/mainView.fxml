@@ -16,22 +16,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" opacity="0.7" prefHeight="548.0" prefWidth="819.0" style="-fx-background-color: #a2b9de;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ncku.todo.ui.MainViewController">
+<AnchorPane id="AnchorPane" opacity="0.9" prefHeight="548.0" prefWidth="819.0" style="-fx-background-color: #a2b9de;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ncku.todo.ui.MainViewController">
     <children>
       <BorderPane prefHeight="548.0" prefWidth="819.0">
          <top>
             <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #b8c5db;" BorderPane.alignment="CENTER">
               <items>
-                  <Button fx:id="mainViewAddBotton" mnemonicParsing="false" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" style="-fx-background-color: #7190de;" text="新增類別/任務">
+                  <Button fx:id="mainViewAddBotton" mnemonicParsing="false" onAction="#switchToAdd" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="新增類別/任務">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Button fx:id="mainViewModButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" style="-fx-background-color: #7190de;" text="修改類別/任務">
+                  <Button fx:id="mainViewModButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#switchToModify" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="修改類別/任務">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="mainViewSetButton" layoutX="107.0" layoutY="13.0" mnemonicParsing="false" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" style="-fx-background-color: #7190de;" text="設定">
+                  <Button fx:id="mainViewSetButton" layoutX="107.0" layoutY="13.0" mnemonicParsing="false" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="設定">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -66,21 +66,24 @@
                   <FlowPane fx:id="calendarPane" hgap="5.0" layoutX="8.0" layoutY="95.0" prefHeight="407.0" prefWidth="471.0" vgap="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="95.0" />
                   <HBox alignment="CENTER" prefHeight="49.0" prefWidth="483.0" spacing="10">
                      <children>
-                        <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#onPrevMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" style="-fx-background-color: #7190de;" text="&lt;">
+                        <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#onPrevMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&lt;">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Text fx:id="yearText" text="YYYY">
+                        <Region layoutX="331.0" layoutY="10.0" prefHeight="49.0" prefWidth="45.0" />
+                        <Text fx:id="yearText" fill="#3566d7" text="YYYY">
                            <font>
-                              <Font size="25.0" />
+                              <Font size="30.0" />
                            </font>
                         </Text>
-                        <Text fx:id="monthText" text="MM">
+                        <Region prefHeight="49.0" prefWidth="0.0" />
+                        <Text fx:id="monthText" fill="#3668d6" text="MM">
                            <font>
-                              <Font size="25.0" />
+                              <Font size="30.0" />
                            </font>
                         </Text>
-                        <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#onNextMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" style="-fx-background-color: #7190de;" text="&gt;">
+                        <Region layoutX="259.0" layoutY="10.0" prefHeight="49.0" prefWidth="45.0" />
+                        <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#onNextMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&gt;">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
@@ -88,43 +91,43 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutY="50.0" prefHeight="45.0" prefWidth="483.0" spacing="4">
                      <children>
-                        <Text layoutX="75.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Su">
+                        <Text fill="#3566d7" layoutX="75.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Su">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
                         <Region layoutX="444.0" layoutY="10.0" prefHeight="45.0" prefWidth="38.0" />
-                        <Text layoutX="10.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mo">
+                        <Text fill="#3566d7" layoutX="10.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mo">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
                         <Region prefHeight="45.0" prefWidth="35.0" />
-                        <Text layoutX="40.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu">
+                        <Text fill="#3566d7" layoutX="40.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
                         <Region layoutX="219.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
-                        <Text layoutX="70.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We">
+                        <Text fill="#3566d7" layoutX="70.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="We">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
                         <Region layoutX="260.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
-                        <Text layoutX="100.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Th">
+                        <Text fill="#3566d7" layoutX="100.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Th">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
                         <Region layoutX="308.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
-                        <Text layoutX="130.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fr">
+                        <Text fill="#3566d7" layoutX="130.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fr">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
                         <Region layoutX="349.0" layoutY="10.0" prefHeight="45.0" prefWidth="35.0" />
-                        <Text layoutX="160.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sa">
+                        <Text fill="#3566d7" layoutX="160.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sa">
                            <font>
                               <Font size="18.0" />
                            </font>

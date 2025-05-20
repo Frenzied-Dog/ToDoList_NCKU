@@ -11,6 +11,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import java.io.IOException;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -100,7 +101,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void handleHover(MouseEvent e) {
-        Button btn = (Button)e.getSource();    // 取得滑到的那顆按鈕
+        Button btn = (Button)e.getSource();   
         btn.setStyle("-fx-background-color: #8495c4;");
     }
 
@@ -108,5 +109,21 @@ public class MainViewController implements Initializable {
     private void handleExit(MouseEvent e) {
         Button btn = (Button)e.getSource();
         btn.setStyle("-fx-background-color: #7190de;");
+    }
+    
+    @FXML
+    private void handlePress(MouseEvent e) {
+        Button btn = (Button)e.getSource();   
+        btn.setStyle("-fx-background-color: #3d4f7a;");
+    }
+    
+    @FXML
+    private void switchToModify() throws IOException {
+        GraphicUI.setRoot("modify");
+    }
+
+    @FXML
+    private void switchToAdd() throws IOException {
+        GraphicUI.setRoot("add");
     }
 }
