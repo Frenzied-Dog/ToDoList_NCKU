@@ -17,12 +17,13 @@ import javafx.scene.text.Text;
 
 public class MainViewController implements Initializable {
 
-    // —— FXML 欄位，對應到 MainView.fxml 裡的 fx:id
+    // —— FXML 欄位
+    // 以下參考自https://gist.github.com/Da9el00/f4340927b8ba6941eb7562a3306e93b6
+    
     @FXML private FlowPane calendarPane;
     @FXML private Text yearText;
     @FXML private Text monthText;
 
-    //—— 私有欄位，用來記錄今天和當前聚焦的月份
     private ZonedDateTime today;
     private ZonedDateTime focusDate;
 
@@ -49,7 +50,7 @@ public class MainViewController implements Initializable {
         drawCalendar();
     }
 
-    // —— 真正畫出 6×7 日曆格子的函式
+    // —— 畫出 6×7 日曆格子的函式
     private void drawCalendar() {
         // 更新上方的「年」「月」文字
         yearText .setText(String.valueOf(focusDate.getYear()));
@@ -66,13 +67,13 @@ public class MainViewController implements Initializable {
             StackPane cell = new StackPane();
             cell.setPrefSize(60, 60);
 
-            // a) 純框線的方塊
+            // 方塊
             Rectangle box = new Rectangle(60, 60);
             box.setFill(Color.TRANSPARENT);
             box.setStroke(Color.LIGHTGRAY);
             cell.getChildren().add(box);
 
-            // b) 計算這一格應該顯示的日子
+            // 計算這一格應該顯示的日子
             int day = i - offset + 1;
             if (day >= 1 && day <= daysInMonth) {
                 Text t = new Text(String.valueOf(day));
@@ -81,7 +82,7 @@ public class MainViewController implements Initializable {
                 // TODO: 如果有任務資料，就在這裡把該日任務用 Label/VBox 加到 cell
             }
 
-            // c) 今天高亮
+            // 今天有籃框
             if (focusDate.getYear()  == today.getYear() &&
                 focusDate.getMonth() == today.getMonth() &&
                 day == today.getDayOfMonth()) {
