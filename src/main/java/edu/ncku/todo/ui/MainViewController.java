@@ -4,12 +4,18 @@ import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
+import edu.ncku.todo.util.Lang;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import javafx.scene.paint.Color;
@@ -26,6 +32,7 @@ public class MainViewController implements Initializable {
     @FXML private FlowPane calendarPane;
     @FXML private Text yearText;
     @FXML private Text monthText;
+    @FXML private TabPane categoryPane;
 
     private ZonedDateTime today;
     private ZonedDateTime focusDate;
@@ -35,6 +42,16 @@ public class MainViewController implements Initializable {
         today     = ZonedDateTime.now();
         focusDate = today.withDayOfMonth(1);
         drawCalendar();
+
+        // TODO: 這裡要改成讀取資料庫的任務資料
+        try {
+            // add category tabs
+            Parent root = FXMLLoader.load(getClass().getResource("category.fxml"), Lang.bundle);
+            Tab tab = new Tab("test", root);
+            categoryPane.getTabs().add(tab);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // —— 上一月按鈕的處理

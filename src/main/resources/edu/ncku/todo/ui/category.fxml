@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="479.0" prefWidth="337.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView prefHeight="180.0" prefWidth="325.0" style="-fx-background-color: #b4caed;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columns>
+            <TableColumn editable="false" prefWidth="75.0" sortable="false"
+               style="-fx-background-color: ccd8eb;" text="任務名稱" />
+            <TableColumn editable="false" prefWidth="185.0" sortable="false"
+               style="-fx-background-color: #ccd8eb;" text="任務期限" />
+            <TableColumn editable="false" prefWidth="75.0" sortable="false"
+               style="-fx-background-color: #ccd8eb;" text="任務狀態" />
+         </columns>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TableView>
+   </children>
+</AnchorPane>
