@@ -14,13 +14,21 @@ public class GraphicUI extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        //scene = new Scene(loadFXML("primary"), 640, 480);
+        //scene = new Scene(loadFXML("MainView"), 819, 548);
+        scene = new Scene(loadFXML("MainView"));
         stage.setScene(scene);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+        Parent root = loadFXML(fxml);
+        Stage stage = (Stage) scene.getWindow();
+        
+        Scene newScene = new Scene(root);
+        stage.setScene(newScene);
+        stage.sizeToScene(); 
+        scene = newScene; 
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
