@@ -23,7 +23,7 @@
             <ToolBar style="-fx-background-color: #b8c5db;" BorderPane.alignment="CENTER">
               <items>
                   <Region prefHeight="23.0" prefWidth="508.0" />
-                  <Button fx:id="ModComfirmButton" mnemonicParsing="false" onAction="#switchToMainView" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" prefHeight="23.0" prefWidth="75.0" style="-fx-background-color: #7190de;" text="確定">
+                  <Button fx:id="ModComfirmButton" mnemonicParsing="false" onAction="#switchToMainView" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" prefHeight="23.0" prefWidth="75.0" style="-fx-background-color: #7190de;" text="%confirm">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
@@ -39,7 +39,7 @@
                         <VBox prefHeight="362.0" prefWidth="300.0">
                            <children>
                               <Region prefHeight="17.0" prefWidth="300.0" />
-                              <Text fill="#1b488b" strokeType="OUTSIDE" strokeWidth="0.0" text="修改類別" textAlignment="CENTER" wrappingWidth="300.0">
+                              <Text fill="#1b488b" strokeType="OUTSIDE" strokeWidth="0.0" text="/%ui.modifyCategory" textAlignment="CENTER" wrappingWidth="300.0">
                                  <font>
                                     <Font name="System Bold" size="25.0" />
                                  </font>
@@ -49,7 +49,7 @@
                               <Region prefHeight="22.0" prefWidth="300.0" />
                               <HBox prefHeight="20.0" prefWidth="300.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請選擇要修改的類別：" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickCategoryToModify" />
                                     <Region prefHeight="23.0" prefWidth="23.0" />
                                     <ChoiceBox prefWidth="150.0" style="-fx-background-color: #7190de;" />
                                  </children>
@@ -59,9 +59,9 @@
                               <Region prefHeight="22.0" prefWidth="300.0" />
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請輸入新的類別名稱：" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.inputNewCategoryName" />
                                     <Region prefHeight="100.0" prefWidth="21.0" />
-                                    <TextField prefHeight="23.0" prefWidth="152.0" promptText="請輸入新的類別名稱" style="-fx-background-color: #7190de;" />
+                                    <TextField prefHeight="23.0" prefWidth="152.0" promptText="%CategoryName" style="-fx-background-color: #7190de;" />
                                  </children>
                               </HBox>
                            </children>

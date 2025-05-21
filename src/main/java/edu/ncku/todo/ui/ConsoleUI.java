@@ -231,7 +231,7 @@ public class ConsoleUI {
         }
 
         // input due date
-        System.out.print(Lang.get("ui.inputTaskDueDate"));
+        System.out.print(Lang.get("ui.inputDueDate"));
         String dueDateStr = scanner.nextLine();
         // Check if the due date is valid
         Date dueDate = Task.parseDate(dueDateStr);
