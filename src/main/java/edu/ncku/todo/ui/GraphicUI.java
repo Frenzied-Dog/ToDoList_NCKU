@@ -20,6 +20,8 @@ public class GraphicUI extends Application {
         //scene = new Scene(loadFXML("MainView"), 819, 548);
         scene = new Scene(loadFXML("MainView"));
         stage.setScene(scene);
+        stage.setTitle(Lang.get("app.title"));
+        stage.setResizable(false);
         stage.show();
     }
 

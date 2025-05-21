@@ -38,13 +38,6 @@
                </items>
             </ToolBar>
          </top>
-         <left>
-            <VBox BorderPane.alignment="CENTER">
-               <children>
-                  <TabPane fx:id="categoryPane" prefHeight="59.0" prefWidth="337.0" style="-fx-background-color: #b4caed;" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES" />
-               </children>
-            </VBox>
-         </left>
          <right>
             <AnchorPane prefHeight="508.0" prefWidth="483.0" style="-fx-background-color: #a2b9de;" BorderPane.alignment="CENTER">
                <children>
@@ -165,6 +158,9 @@
                </children>
             </AnchorPane>
          </right>
+         <left>
+            <TabPane fx:id="categoryPane" prefHeight="59.0" prefWidth="337.0" style="-fx-background-color: #b4caed;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" />
+         </left>
       </BorderPane>
    </children>
 </AnchorPane>
