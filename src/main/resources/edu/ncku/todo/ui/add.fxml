@@ -41,6 +41,7 @@
                               <Font name="System Bold" size="25.0" />
                            </font>
                         </Text>
+                        <Line endX="492.0" startX="-100.0" startY="-0.8284525275230408" stroke="#b8c5db" strokeWidth="8.0" />
                         <Region prefHeight="22.0" prefWidth="300.0" />
                         <HBox prefHeight="54.0" prefWidth="300.0">
                            <children>
@@ -70,26 +71,31 @@
                                  </font>
                               </Text>
                               <Region prefHeight="22.0" prefWidth="300.0" />
-                              <HBox prefHeight="53.0" prefWidth="300.0">
+                              <VBox>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請選擇要新增任務到哪個類別：" />
-                                    <ChoiceBox prefHeight="23.0" prefWidth="125.0" style="-fx-background-color: #7190de;" />
+                                    <Region prefHeight="17.0" prefWidth="200.0" />
+                                    <HBox prefHeight="53.0" prefWidth="300.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請選擇要新增任務到哪個類別：" />
+                                          <ChoiceBox prefHeight="23.0" prefWidth="125.0" style="-fx-background-color: #7190de;" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="54.0" prefWidth="300.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請輸入任務名稱：" />
+                                          <Region prefHeight="54.0" prefWidth="69.0" />
+                                          <TextField prefHeight="23.0" prefWidth="128.0" promptText="請輸入任務名稱" style="-fx-background-color: #7190de;" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="21.0" prefWidth="300.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請選擇任務的截止日期 :" />
+                                          <Region prefHeight="23.0" prefWidth="25.0" />
+                                          <DatePicker prefHeight="23.0" prefWidth="143.0" style="-fx-background-color: #7190de;" />
+                                       </children>
+                                    </HBox>
                                  </children>
-                              </HBox>
-                              <HBox layoutX="10.0" layoutY="42.0" prefHeight="54.0" prefWidth="300.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請輸入任務名稱：" />
-                                    <Region prefHeight="54.0" prefWidth="69.0" />
-                                    <TextField prefHeight="23.0" prefWidth="128.0" promptText="請輸入任務名稱" style="-fx-background-color: #7190de;" />
-                                 </children>
-                              </HBox>
-                              <HBox layoutX="10.0" layoutY="65.0" prefHeight="21.0" prefWidth="300.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="請選擇任務的截止日期 :" />
-                                    <Region prefHeight="23.0" prefWidth="25.0" />
-                                    <DatePicker prefHeight="23.0" prefWidth="143.0" style="-fx-background-color: #7190de;" />
-                                 </children>
-                              </HBox>
+                              </VBox>
                            </children>
                         </VBox>
                      </children>
