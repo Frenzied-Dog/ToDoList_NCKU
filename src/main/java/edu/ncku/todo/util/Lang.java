@@ -5,7 +5,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public abstract class Lang {
-    private static ResourceBundle bundle;
+    public static ResourceBundle bundle;
 
     public static void setLocale(Locale locale) {
         bundle = ResourceBundle.getBundle("lang.ui", locale);
