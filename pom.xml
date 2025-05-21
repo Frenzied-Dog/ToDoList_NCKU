@@ -53,9 +53,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.14.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>22</release>
                 </configuration>
             </plugin>
 

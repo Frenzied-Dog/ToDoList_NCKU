@@ -38,6 +38,9 @@ build/
 target/
 lib/
 
+# Maven settings
+.mvn/
+
 # Temporary files
 *.tmp
 *.swp

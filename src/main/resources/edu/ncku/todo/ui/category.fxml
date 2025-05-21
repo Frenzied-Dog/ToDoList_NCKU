@@ -10,11 +10,11 @@
       <TableView prefHeight="180.0" prefWidth="325.0" style="-fx-background-color: #b4caed;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columns>
             <TableColumn editable="false" prefWidth="75.0" sortable="false"
-               style="-fx-background-color: ccd8eb;" text="任務名稱" />
+               style="-fx-background-color: ccd8eb;" text="%ui.taskName" />
             <TableColumn editable="false" prefWidth="185.0" sortable="false"
-               style="-fx-background-color: #ccd8eb;" text="任務期限" />
+               style="-fx-background-color: #ccd8eb;" text="%ui.taskdueDate" />
             <TableColumn editable="false" prefWidth="75.0" sortable="false"
-               style="-fx-background-color: #ccd8eb;" text="任務狀態" />
+               style="-fx-background-color: #ccd8eb;" text="%ui.taskStatus" />
          </columns>
          <opaqueInsets>
             <Insets />

@@ -28,7 +28,7 @@
                   <Button fx:id="ModComfirmButton" mnemonicParsing="false"
                      onAction="#switchToMainView" onMouseEntered="#handleHover"
                      onMouseExited="#handleExit" onMousePressed="#handlePress" prefHeight="23.0"
-                     prefWidth="75.0" style="-fx-background-color: #7190de;" text="%confirm">
+                     prefWidth="75.0" style="-fx-background-color: #7190de;" text="%ui.confirm">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -76,7 +76,7 @@
                                        text="%ui.inputNewCategoryName" />
                                     <Region prefHeight="100.0" prefWidth="21.0" />
                                     <TextField prefHeight="23.0" prefWidth="152.0"
-                                       promptText="%CategoryName"
+                                       promptText="%ui.CategoryName"
                                        style="-fx-background-color: #7190de;" />
                                  </children>
                               </HBox>

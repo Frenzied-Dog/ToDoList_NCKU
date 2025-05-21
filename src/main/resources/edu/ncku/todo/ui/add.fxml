@@ -92,7 +92,7 @@
                                     </HBox>
                                     <HBox prefHeight="21.0" prefWidth="300.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%pickDueDate" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickDueDate" />
                                           <Region prefHeight="23.0" prefWidth="25.0" />
                                           <DatePicker prefHeight="23.0" prefWidth="143.0" style="-fx-background-color: #7190de;" />
                                        </children>
