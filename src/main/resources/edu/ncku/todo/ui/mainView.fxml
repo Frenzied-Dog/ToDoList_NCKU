@@ -64,31 +64,63 @@
             <AnchorPane prefHeight="508.0" prefWidth="483.0" style="-fx-background-color: #a2b9de;" BorderPane.alignment="CENTER">
                <children>
                   <FlowPane fx:id="calendarPane" hgap="5.0" layoutX="8.0" layoutY="95.0" prefHeight="407.0" prefWidth="471.0" vgap="5.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="95.0" />
-                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="483.0" spacing="10">
+                  <HBox>
                      <children>
-                        <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#onPrevMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&lt;">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
-                        <Region layoutX="331.0" layoutY="10.0" prefHeight="49.0" prefWidth="45.0" />
-                        <Text fx:id="yearText" fill="#3566d7" text="YYYY">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
-                        <Region prefHeight="49.0" prefWidth="0.0" />
-                        <Text fx:id="monthText" fill="#3668d6" text="MM">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
-                        <Region layoutX="259.0" layoutY="10.0" prefHeight="49.0" prefWidth="45.0" />
-                        <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#onNextMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&gt;">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                        <Region prefHeight="49.0" prefWidth="155.0" />
+                        <HBox alignment="CENTER" prefHeight="49.0" prefWidth="10.0" spacing="10">
+                           <children>
+                              <Region layoutX="331.0" layoutY="10.0" prefHeight="49.0" prefWidth="45.0" />
+                              <Text fx:id="yearText" fill="#3566d7" text="YYYY">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                              </Text>
+                              <Region prefHeight="49.0" prefWidth="0.0" />
+                              <Text fx:id="monthText" fill="#3668d6" text="MMM">
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                              </Text>
+                              <Region layoutX="259.0" layoutY="10.0" prefHeight="49.0" prefWidth="45.0" />
+                           </children>
+                        </HBox>
+                        <VBox prefHeight="49.0" prefWidth="25.0" />
                      </children>
                   </HBox>
+                  <BorderPane>
+                     <top>
+                        <VBox BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="12.0" prefWidth="435.0" />
+                           </children>
+                        </VBox>
+                     </top>
+                     <left>
+                        <HBox BorderPane.alignment="CENTER">
+                           <children>
+                              <Region prefHeight="23.0" prefWidth="49.0" />
+                              <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#onPrevMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&lt;">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </left>
+                     <right>
+                        <HBox BorderPane.alignment="CENTER">
+                           <children>
+                              <Region layoutX="35.0" layoutY="10.0" prefHeight="20.0" prefWidth="20.0" />
+                              <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#onNextMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&gt;">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Region prefHeight="20.0" prefWidth="20.0" />
+                           </children>
+                        </HBox>
+                     </right>
+                  </BorderPane>
                   <HBox alignment="CENTER" layoutY="50.0" prefHeight="45.0" prefWidth="483.0" spacing="4">
                      <children>
                         <Text fill="#3566d7" layoutX="75.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Su">

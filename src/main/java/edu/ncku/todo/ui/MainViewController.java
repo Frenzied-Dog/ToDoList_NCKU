@@ -15,6 +15,8 @@ import java.io.IOException;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public class MainViewController implements Initializable {
 
@@ -55,7 +57,8 @@ public class MainViewController implements Initializable {
     private void drawCalendar() {
         // 更新上方的「年」「月」文字
         yearText .setText(String.valueOf(focusDate.getYear()));
-        monthText.setText(focusDate.getMonth().toString());
+        // monthText.setText(focusDate.getMonth().toString());
+        monthText.setText(focusDate.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
 
         // 算偏移：Java 的 DayOfWeek.getValue() 回傳 1(Monday)~7(Sunday)
         // 我們要讓它變成 0=Sunday,1=Monday,...6=Saturday
