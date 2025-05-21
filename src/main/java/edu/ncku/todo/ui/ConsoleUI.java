@@ -231,7 +231,7 @@ public class ConsoleUI {
         }
 
         // input due date
-        System.out.print(Lang.get("ui.inputTaskDueDate"));
+        System.out.print(Lang.get("ui.inputDueDate"));
         String dueDateStr = scanner.nextLine();
         // Check if the due date is valid
         Date dueDate = Task.parseDate(dueDateStr);
@@ -243,7 +243,7 @@ public class ConsoleUI {
         }
 
         boolean result = DataManager.addTask(category, new Task(name, category.getName(), dueDate));
-        System.out.printf(Lang.get(result ? "ui.taskAdded" : "ui.duplicateTask"), name, category.getName());
+        System.out.printf(Lang.get(result ? "ui.taskAdded" : "ui.duplicateNewTask"), name, category.getName());
         sleep(1500);
     }
 
@@ -379,7 +379,7 @@ public class ConsoleUI {
         TaskStatus newStatus = (choice == -2 ? task.getStatus() : TaskStatus.values()[choice]);
 
         boolean result = DataManager.updateTask(task, newCategory, newName, newDueDate, newStatus);
-        System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.duplicateTask"), task.getName());
+        System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.duplicateModifyTask"), task.getName());
         sleep(1200);
     }
 

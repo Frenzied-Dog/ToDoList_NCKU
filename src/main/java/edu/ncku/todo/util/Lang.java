@@ -5,17 +5,13 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public abstract class Lang {
-    public static ResourceBundle bundle;
+    public static ResourceBundle bundle = ResourceBundle.getBundle("lang.ui", Locale.ENGLISH);
 
     public static void setLocale(Locale locale) {
         bundle = ResourceBundle.getBundle("lang.ui", locale);
     }
 
     public static String get(String key) {
-        if (bundle == null) {
-            // default to English if bundle is not initialized
-            setLocale(Locale.ENGLISH);
-        }
         try {
             return bundle.getString(key);
         } catch (MissingResourceException e) {

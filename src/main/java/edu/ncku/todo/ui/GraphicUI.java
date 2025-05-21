@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import edu.ncku.todo.util.Lang;
+
 
 public class GraphicUI extends Application {
     private static Scene scene;
@@ -18,6 +20,8 @@ public class GraphicUI extends Application {
         //scene = new Scene(loadFXML("MainView"), 819, 548);
         scene = new Scene(loadFXML("MainView"));
         stage.setScene(scene);
+        stage.setTitle(Lang.get("app.title"));
+        stage.setResizable(false);
         stage.show();
     }
 
@@ -32,7 +36,7 @@ public class GraphicUI extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GraphicUI.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GraphicUI.class.getResource(fxml + ".fxml"), Lang.bundle);
         return fxmlLoader.load();
     }
 
