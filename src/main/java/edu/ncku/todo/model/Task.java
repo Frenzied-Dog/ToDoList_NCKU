@@ -6,22 +6,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.ncku.todo.util.Lang;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class Task {
-    private String name;
-    private String category;
-    private Date dueDate;
-    private TaskStatus status;
-    private Date createdAt;
-    private Date updatedAt;
+    private final StringProperty name = new SimpleStringProperty("");
+    private final StringProperty category = new SimpleStringProperty("");
+    private final ObjectProperty<Date> dueDate = new SimpleObjectProperty<>(null);
+    private final ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>(null);
+    private final ObjectProperty<Date> createdAt = new SimpleObjectProperty<>(null);
+    private final ObjectProperty<Date> updatedAt = new SimpleObjectProperty<>(null);
+
 
     public Task(String name, String category, Date dueDate) {
-        this.name = name;
-        this.category = category;
-        this.dueDate = dueDate;
-        this.status = TaskStatus.TODO;
-        this.createdAt = new Date(); // Set createdAt to current date
-        this.updatedAt = new Date(); // Set updatedAt to current date
+        this.name.set(name);
+        this.category.set(category);
+        this.dueDate.set(dueDate);
+        this.status.set(TaskStatus.TODO);
+        this.createdAt.set(new Date());
+        this.updatedAt.set(new Date());
     }
 
     @Override
@@ -49,33 +54,41 @@ public class Task {
         }
     }
 
-    public String getName() { return name; }
+    // Property getters
+    public StringProperty nameProperty() { return name; }
 
-    public Date getDueDate() { return dueDate; }
+    public StringProperty categoryProperty() { return category; }
 
-    public Date getCreatedAt() { return createdAt; }
+    public ObjectProperty<Date> dueDateProperty() { return dueDate; }
 
-    public Date getUpdatedAt() { return updatedAt; }
+    public ObjectProperty<TaskStatus> statusProperty() { return status; }
 
-    public TaskStatus getStatus() { return status; }
+    public ObjectProperty<Date> createdAtProperty() { return createdAt; }
 
-    public String getCategoryName() { return category; }
+    public ObjectProperty<Date> updatedAtProperty() { return updatedAt; }
 
-    public void setName(String name) { this.name = name; }
+    // Normal getters/setters for convenience
+    public String getName() { return name.get(); }
+    public void setName(String value) { name.set(value); }
 
-    public void setDueDate(Date dueDate) { this.dueDate = dueDate; }
+    public String getCategoryName() { return category.get(); }
+    public void setCategory(String value) { category.set(value); }
 
-    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+    public Date getDueDate() { return dueDate.get(); }
+    public void setDueDate(Date value) { dueDate.set(value); }
 
-    public void setStatus(TaskStatus status) { this.status = status; }
+    public TaskStatus getStatus() { return status.get(); }
+    public void setStatus(TaskStatus value) { status.set(value); }
 
-    public void setCategory(String category) { this.category = category; }
+    public Date getCreatedAt() { return createdAt.get(); }
+    public Date getUpdatedAt() { return updatedAt.get(); }
+    public void setUpdatedAt(Date value) { updatedAt.set(value); }
 
     public String toString() {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        if (dueDate == null) {
-            return name + " (" + Lang.get("status." + status.toString()) + ")";
+        if (dueDate.get() == null) {
+            return name.get() + " (" + status.get().toString() + ")";
         }
-        return name + " (" + Lang.get("status."+status.toString()) + ") " + Lang.get("ui.due") + format.format(dueDate);
+        return name.get() + " (" + status.get().toString() + ") " + Lang.get("ui.due") + format.format(dueDate.get());
     }
 }

@@ -14,6 +14,8 @@ import java.io.Writer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+import org.hildan.fxgson.FxGsonBuilder;
 import org.hildan.fxgson.adapters.extras.ColorTypeAdapter;
 import javafx.scene.paint.Color;
 
@@ -29,7 +31,7 @@ public abstract class FileManager {
 
     // json data parser
     private static Gson buildGson() {
-        GsonBuilder builder = new GsonBuilder();
+        GsonBuilder builder = new FxGsonBuilder().acceptNullPrimitives().builder().serializeNulls();
         builder.registerTypeAdapter(Color.class, new ColorTypeAdapter());
         return builder.setDateFormat("yyyy-MM-dd HH:mm:ss").setPrettyPrinting().create();
     }

@@ -23,7 +23,7 @@ public class DataManager {
         return count;
     }
     
-    public static void initialize(List<Category> categories) { data = categories; }
+    public static void initialize(List<Category> categories) { if (categories != null) data = categories; }
     
     public static List<Category> getCategoryData() { return data; }
 
