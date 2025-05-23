@@ -72,7 +72,6 @@ public class Task {
     public void setCategory(String category) { this.category = category; }
 
     public String toString() {
-        // TODO: 臨時方案，可以更改 (?
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         if (dueDate == null) {
             return name + " (" + Lang.get("status." + status.toString()) + ")";

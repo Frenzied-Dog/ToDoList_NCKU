@@ -70,7 +70,7 @@ public class MainViewController implements Initializable {
         drawCalendar();
     }
 
-    // —— 畫出 5×7 日曆格子的函式
+    // —— 畫出 6×7 日曆格子的函式
     private void drawCalendar() {
         // 更新上方的「年」「月」文字
         yearText .setText(String.valueOf(focusDate.getYear()));
@@ -83,13 +83,13 @@ public class MainViewController implements Initializable {
         int daysInMonth = focusDate.getMonth()
                               .length(focusDate.toLocalDate().isLeapYear());
 
-        // 動態產生 5×7 共 35 格
-        for (int i = 0; i < 35; i++) {
+        // 動態產生 6×7 共 42 格
+        for (int i = 0; i < 42; i++) {
             StackPane cell = new StackPane();
-            cell.setPrefSize(60, 70);
+            cell.setPrefSize(60, 60);
 
             // 方塊
-            Rectangle box = new Rectangle(60, 70);
+            Rectangle box = new Rectangle(60, 60);
             box.setFill(Color.TRANSPARENT);
             box.setStroke(Color.LIGHTGRAY);
             cell.getChildren().add(box);
