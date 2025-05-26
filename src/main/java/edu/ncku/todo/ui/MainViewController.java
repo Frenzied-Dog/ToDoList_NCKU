@@ -23,6 +23,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import javafx.geometry.Side;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+
 
 public class MainViewController implements Initializable {
 
@@ -33,12 +37,15 @@ public class MainViewController implements Initializable {
     @FXML private Text yearText;
     @FXML private Text monthText;
     @FXML private TabPane categoryPane;
+    @FXML private Button mainViewSettingButton;
 
     private ZonedDateTime today;
     private ZonedDateTime focusDate;
+    private ContextMenu langMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initLanguageMenu();
         today     = ZonedDateTime.now();
         focusDate = today.withDayOfMonth(1);
         drawCalendar();
@@ -54,6 +61,35 @@ public class MainViewController implements Initializable {
         }
     }
 
+    private void initLanguageMenu() {
+        //更換語言, 需再更改確認
+        MenuItem ch = new MenuItem("中文");
+        MenuItem en = new MenuItem("English");
+        ch.setOnAction(e -> {
+            //Lang.setLocale(Locale.chinese);
+            reloadUI();
+        });
+        en.setOnAction(e -> {
+            //Lang.setLocale(Locale.english);
+            reloadUI();
+        });
+        
+        langMenu = new ContextMenu(ch, en);
+        
+        mainViewSettingButton.setOnMouseClicked(e ->
+            langMenu.show(mainViewSettingButton, Side.BOTTOM, 0, 0)
+        );
+    }
+    
+    private void reloadUI() {
+        //更換語言後reload視窗
+        try {
+            GraphicUI.setRoot("mainView");  // 改成你自己的 FXML 名稱
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     // —— 上一月按鈕的處理
     @FXML
     private void onPrevMonth(ActionEvent e) {
@@ -135,15 +171,25 @@ public class MainViewController implements Initializable {
     private void handlePress(MouseEvent e) {
         Button btn = (Button)e.getSource();   
         btn.setStyle("-fx-background-color: #3d4f7a;");
-    }
+    }    
     
     @FXML
-    private void switchToModify() throws IOException {
-        GraphicUI.setRoot("modify");
+    private void switchToAddCategory(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("addCategory", "新增類別");
     }
 
     @FXML
-    private void switchToAdd() throws IOException {
-        GraphicUI.setRoot("add");
+    private void switchToAddTask(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("addTask", "新增任務");
+    }
+
+    @FXML
+    private void switchToModifyCategory(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("ModifyCategory", "修改類別");
+    }
+
+    @FXML
+    private void switchToModifyTask(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("ModifyTask", "修改任務");
     }
 }
