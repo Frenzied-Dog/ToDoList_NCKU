@@ -4,6 +4,7 @@ import java.net.URL;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
+import edu.ncku.todo.model.Config;
 import edu.ncku.todo.util.Lang;
 
 import javafx.event.ActionEvent;
@@ -62,21 +63,30 @@ public class MainViewController implements Initializable {
     }
 
     private void initLanguageMenu() {
-        //更換語言, 需再更改確認
-        MenuItem ch = new MenuItem("中文");
         MenuItem en = new MenuItem("English");
-        ch.setOnAction(e -> {
-            //Lang.setLocale(Locale.chinese);
+        MenuItem zh_TW = new MenuItem("繁體中文");
+        MenuItem zh_CN = new MenuItem("简体中文");
+        en.setOnAction(_ -> {
+            Config.set("lang", "en");
+            Lang.setLocale(Config.getLocale());
             reloadUI();
         });
-        en.setOnAction(e -> {
-            //Lang.setLocale(Locale.english);
+
+        zh_TW.setOnAction(_ -> {
+            Config.set("lang", "zh-TW");
+            Lang.setLocale(Config.getLocale());
             reloadUI();
         });
+
+        zh_CN.setOnAction(_ -> {
+            Config.set("lang", "zh-CN");
+            Lang.setLocale(Config.getLocale());
+            reloadUI();
+        });
+
+        langMenu = new ContextMenu(en, zh_TW, zh_CN);
         
-        langMenu = new ContextMenu(ch, en);
-        
-        mainViewSettingButton.setOnMouseClicked(e ->
+        mainViewSettingButton.setOnMouseClicked(_ ->
             langMenu.show(mainViewSettingButton, Side.BOTTOM, 0, 0)
         );
     }

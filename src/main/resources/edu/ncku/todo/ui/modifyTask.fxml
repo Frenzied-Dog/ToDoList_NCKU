@@ -17,9 +17,9 @@
 
 <AnchorPane id="AnchorPane" minHeight="350.0" opacity="0.85" prefHeight="350.0" prefWidth="400.0" style="-fx-background-color: #a2b9de;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ncku.todo.ui.ModifyTaskController">
    <children>
-      <BorderPane layoutY="-1.0" prefWidth="400.0">
+      <BorderPane layoutY="-1.0" prefHeight="350.0" prefWidth="401.0">
          <top>
-            <ToolBar prefWidth="400.0" style="-fx-background-color: #b8c5db;" BorderPane.alignment="CENTER">
+            <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefWidth="400.0" style="-fx-background-color: #b8c5db;" BorderPane.alignment="CENTER">
                <items>
                   <Button fx:id="ModTaskConfirmButton" mnemonicParsing="false" onAction="#onConfirm" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.confirm">
                      <cursor>
@@ -29,7 +29,7 @@
             </ToolBar>
          </top>
          <center>
-            <VBox prefHeight="400.0" prefWidth="313.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="400.0" prefWidth="389.0" BorderPane.alignment="CENTER">
                <children>
                   <Region prefHeight="15.0" prefWidth="200.0" />
                   <HBox alignment="TOP_CENTER" prefHeight="45.0" prefWidth="200.0">
