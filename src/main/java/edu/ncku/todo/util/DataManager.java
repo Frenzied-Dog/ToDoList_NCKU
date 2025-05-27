@@ -1,15 +1,19 @@
 package edu.ncku.todo.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.TaskStatus;
 
-public class DataManager {
+public abstract class DataManager {
     private static List<Category> data = new ArrayList<>();
+    private static HashMap<LocalDate, List<Task>> taskMap = new HashMap<>();
 
     public static int getUnfinishedTaskCount() {
         int count = 0;
@@ -23,8 +27,31 @@ public class DataManager {
         return count;
     }
     
-    public static void initialize(List<Category> categories) { if (categories != null) data = categories; }
+    public static void initialize(List<Category> categories) {
+        if (categories == null) return;
+        data = categories;
+        for (Category category : data) {
+            for (Task task : category.getTasks()) {
+                LocalDate dueDate = task.getDueDate();
+                if (dueDate == null) {
+                    continue; // Skip tasks without due date
+                }
+
+                if (!taskMap.containsKey(dueDate)) {
+                    taskMap.put(dueDate, new ArrayList<>(Collections.nCopies(1,task)));
+                } else if (taskMap.get(dueDate) == null) {
+                    taskMap.put(dueDate, new ArrayList<>(Collections.nCopies(1,task)));
+                } else {
+                    taskMap.get(dueDate).add(task);
+                }
+            }
+        }
+    }
     
+    public static HashMap<LocalDate, List<Task>> getTaskMap() { return taskMap; }
+
+    public static List<Task> getTasksByDate(LocalDate date) { return taskMap.get(date); }
+
     public static List<Category> getCategoryData() { return data; }
 
     public static List<String> getCategoryStrList() { 
@@ -92,7 +119,18 @@ public class DataManager {
         if (category.getTasks().contains(task)) {
             return false; // Task already exists in the category, do nothing
         }
+
         category.addTask(task);
+        LocalDate dueDate = task.getDueDate();
+        if (dueDate != null) {
+            if (!taskMap.containsKey(dueDate)) {
+                taskMap.put(dueDate, new ArrayList<>());
+            } else if (taskMap.get(dueDate) == null) {
+                taskMap.put(dueDate, new ArrayList<>());
+            } else {
+                taskMap.get(dueDate).add(task);
+            }
+        }
         return true;
     }
 
@@ -101,10 +139,17 @@ public class DataManager {
     }
 
     public static void removeTask(Category category, Task task) {
+        LocalDate dueDate = task.getDueDate();
+        if (dueDate != null && taskMap.containsKey(dueDate)) {
+            taskMap.get(dueDate).remove(task);
+            if (taskMap.get(dueDate).isEmpty()) {
+                taskMap.remove(dueDate); // Remove the entry if no tasks left for that date
+            }
+        }
         category.removeTask(task);
     }
 
-    public static boolean updateTask(Task task, Category newCategory, String newTaskName, Date newDueDate, TaskStatus newStatus) {
+    public static boolean updateTask(Task task, Category newCategory, String newTaskName, LocalDate newDueDate, TaskStatus newStatus) {
         Task tmp = new Task(newTaskName, newCategory.getName(), newDueDate);
 
         if (!task.equals(tmp) && newCategory.getTasks().contains(tmp)) {
@@ -121,7 +166,7 @@ public class DataManager {
         task.setName(newTaskName);
         task.setDueDate(newDueDate);
         task.setStatus(newStatus);
-        task.setUpdatedAt(new Date());
+        task.setUpdatedAt(LocalDateTime.now());
         return true; // Task updated successfully
     }
 

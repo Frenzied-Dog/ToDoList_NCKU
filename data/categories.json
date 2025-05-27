@@ -14,7 +14,7 @@
       {
         "name": "clean",
         "category": "personal",
-        "dueDate": "2025-06-09 00:00:00",
+        "dueDate": "2025-06-09",
         "status": "TODO",
         "createdAt": "2025-05-10 23:29:25",
         "updatedAt": "2025-05-10 23:29:25"
@@ -22,7 +22,7 @@
       {
         "name": "exercise",
         "category": "personal",
-        "dueDate": "2025-07-08 00:00:00",
+        "dueDate": "2025-07-08",
         "status": "DONE",
         "createdAt": "2025-05-10 22:27:12",
         "updatedAt": "2025-05-11 01:14:46"
@@ -36,7 +36,7 @@
       {
         "name": "report",
         "category": "work",
-        "dueDate": "2025-06-04 00:00:00",
+        "dueDate": "2025-06-04",
         "status": "TODO",
         "createdAt": "2025-05-08 18:10:27",
         "updatedAt": "2025-05-10 22:29:25"

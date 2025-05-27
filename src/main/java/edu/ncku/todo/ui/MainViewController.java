@@ -1,8 +1,12 @@
 package edu.ncku.todo.ui;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.net.URL;
-import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.Locale;
 
 import edu.ncku.todo.util.DataManager;
 import edu.ncku.todo.util.Lang;
@@ -18,11 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
-import java.io.IOException;
 import javafx.scene.text.Text;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainViewController implements Initializable {
 
@@ -38,13 +38,13 @@ public class MainViewController implements Initializable {
     @FXML
     private TabPane categoryPane;
 
-    private ZonedDateTime today;
-    private ZonedDateTime focusMonth;
+    private LocalDate today;
+    private LocalDate focusMonth;
     private ArrayList<CellController> cellControllers = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        today = ZonedDateTime.now();
+        today = LocalDate.now();
         focusMonth = today.withDayOfMonth(1);
         drawCalendar();
 
@@ -96,7 +96,7 @@ public class MainViewController implements Initializable {
         // 算偏移：Java 的 DayOfWeek.getValue() 回傳 1(Monday)~7(Sunday)
         // 我們要讓它變成 0=Sunday,1=Monday,...6=Saturday
         int offset = focusMonth.getDayOfWeek().getValue() % 7;
-        int daysInMonth = focusMonth.getMonth().length(focusMonth.toLocalDate().isLeapYear());
+        int daysInMonth = focusMonth.getMonth().length(focusMonth.isLeapYear());
 
         // 動態產生 6×7 共 42 格
         for (int i = 0; i < 42; i++) {
@@ -118,7 +118,7 @@ public class MainViewController implements Initializable {
         // 算偏移：Java 的 DayOfWeek.getValue() 回傳 1(Monday) ~ 7(Sunday)
         // 我們要讓它變成 0=Sunday, 1=Monday, ...6=Saturday
         int offset = focusMonth.getDayOfWeek().getValue() % 7;
-        int daysInMonth = focusMonth.getMonth().length(focusMonth.toLocalDate().isLeapYear());
+        int daysInMonth = focusMonth.getMonth().length(focusMonth.isLeapYear());
 
         int i = 0;
         for (CellController controller : cellControllers) {
@@ -131,7 +131,7 @@ public class MainViewController implements Initializable {
         // 計算這一格應該顯示的日子
         int day = i - offset + 1;
         if (day >= 1 && day <= daysInMonth) {
-            ZonedDateTime date = focusMonth.plusDays(day - 1);
+            LocalDate date = focusMonth.plusDays(day - 1);
             controller.set(date);
 
             // 今天有藍框
@@ -143,7 +143,6 @@ public class MainViewController implements Initializable {
             }
         } else {
             controller.set(); // 清空格子
-            controller.setTodayIndicator(false);
         }
     }
 
