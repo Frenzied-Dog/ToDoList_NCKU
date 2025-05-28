@@ -58,7 +58,7 @@
       {
         "name": "t_test",
         "category": "test",
-        "dueDate": null,
+        "dueDate": "2025-06-04",
         "status": "TODO",
         "createdAt": "2025-05-09 07:44:52",
         "updatedAt": "2025-05-10 21:34:12"

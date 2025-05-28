@@ -22,7 +22,10 @@
             <Insets right="6.0" top="5.0" />
          </StackPane.margin>
          <tooltip>
-            <Tooltip fx:id="notificationTips" autoHide="true" text="Empty" />
+            <Tooltip fx:id="notificationTips" anchorLocation="WINDOW_TOP_RIGHT" autoHide="true" textOverrun="CLIP">
+               <font>
+                  <Font size="12.5" />
+               </font></Tooltip>
          </tooltip>
       </Label>
       <Text fx:id="dayText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" StackPane.alignment="CENTER">

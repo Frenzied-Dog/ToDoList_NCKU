@@ -25,7 +25,7 @@ public class CellController {
     @FXML
     private Text dayText;
 
-    public void set() { 
+    public void set() {
         setTodayIndicator(false);
         dayText.setText("");
         notificationSpot.setVisible(false);
@@ -34,13 +34,17 @@ public class CellController {
     }
 
     public void set(LocalDate date) {
-        dayText.setText(String.valueOf(date.getDayOfMonth())); 
+        dayText.setText(String.valueOf(date.getDayOfMonth()));
         List<Task> tasks = DataManager.getTasksByDate(date);
         if (tasks != null && !tasks.isEmpty()) {
             notificationSpot.setVisible(true);
             notificationLabel.setVisible(true);
             notificationLabel.setText(String.valueOf(tasks.size()));
-            notificationTips.setText("Tasks: " + tasks.size());
+            String tips = tasks.stream()
+                    .map(task -> task.getName() + " (" + task.getCategoryName() + ")")
+                    .reduce((a, b) -> a + "\n" + b)
+                    .orElse("");
+            notificationTips.setText(tips);
         } else {
             notificationSpot.setVisible(false);
             notificationLabel.setVisible(false);

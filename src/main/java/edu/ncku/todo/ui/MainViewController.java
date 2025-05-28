@@ -61,6 +61,8 @@ public class MainViewController implements Initializable {
 
                 controller.setTable(c);
                 Tab tab = new Tab(c.getName(), root);
+                tab.setStyle("-fx-background-color:rgba(208, 222, 255, 0.8);");
+
                 categoryPane.getTabs().add(tab);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -136,7 +138,7 @@ public class MainViewController implements Initializable {
         monthText.setText(focusMonth.getMonth().getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
 
         // 算偏移：Java 的 DayOfWeek.getValue() 回傳 1(Monday)~7(Sunday)
-        // 我們要讓它變成 0=Sunday,1=Monday,...6=Saturday
+        // 我們要讓它變成 0=Sunday, 1=Monday, ...6=Saturday
         int offset = focusMonth.getDayOfWeek().getValue() % 7;
         int daysInMonth = focusMonth.getMonth().length(focusMonth.isLeapYear());
 

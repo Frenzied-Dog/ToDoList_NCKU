@@ -173,7 +173,7 @@
             </AnchorPane>
          </right>
          <left>
-            <TabPane fx:id="categoryPane" prefHeight="59.0" prefWidth="337.0" style="-fx-background-color: #b4caed;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" />
+            <TabPane fx:id="categoryPane" prefHeight="59.0" prefWidth="337.0" style="-fx-background-color: #b4caed;" stylesheets="@tabPane.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" />
          </left>
       </BorderPane>
    </children>
