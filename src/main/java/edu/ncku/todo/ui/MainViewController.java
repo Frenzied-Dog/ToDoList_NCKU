@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 import edu.ncku.todo.util.DataManager;
+import edu.ncku.todo.model.Config;
 import edu.ncku.todo.util.Lang;
 
 import javafx.event.ActionEvent;
@@ -24,27 +25,30 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import java.time.format.TextStyle;
 import java.util.Locale;
+import javafx.geometry.Side;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+
 
 public class MainViewController implements Initializable {
 
     // —— FXML 欄位
     // 以下參考自https://gist.github.com/Da9el00/f4340927b8ba6941eb7562a3306e93b6
-
-    @FXML
-    private FlowPane calendarPane;
-    @FXML
-    private Text yearText;
-    @FXML
-    private Text monthText;
-    @FXML
-    private TabPane categoryPane;
+    
+    @FXML private FlowPane calendarPane;
+    @FXML private Text yearText;
+    @FXML private Text monthText;
+    @FXML private TabPane categoryPane;
+    @FXML private Button mainViewSettingButton;
 
     private ZonedDateTime today;
     private ZonedDateTime focusDate;
+    private ContextMenu langMenu;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        today = ZonedDateTime.now();
+        initLanguageMenu();
+        today     = ZonedDateTime.now();
         focusDate = today.withDayOfMonth(1);
         drawCalendar();
 
@@ -66,6 +70,44 @@ public class MainViewController implements Initializable {
 
     }
 
+    private void initLanguageMenu() {
+        MenuItem en = new MenuItem("English");
+        MenuItem zh_TW = new MenuItem("繁體中文");
+        MenuItem zh_CN = new MenuItem("简体中文");
+        en.setOnAction(_ -> {
+            Config.set("lang", "en");
+            Lang.setLocale(Config.getLocale());
+            reloadUI();
+        });
+
+        zh_TW.setOnAction(_ -> {
+            Config.set("lang", "zh-TW");
+            Lang.setLocale(Config.getLocale());
+            reloadUI();
+        });
+
+        zh_CN.setOnAction(_ -> {
+            Config.set("lang", "zh-CN");
+            Lang.setLocale(Config.getLocale());
+            reloadUI();
+        });
+
+        langMenu = new ContextMenu(en, zh_TW, zh_CN);
+        
+        mainViewSettingButton.setOnMouseClicked(_ ->
+            langMenu.show(mainViewSettingButton, Side.BOTTOM, 0, 0)
+        );
+    }
+    
+    private void reloadUI() {
+        //更換語言後reload視窗
+        try {
+            GraphicUI.setRoot("mainView");  // 改成你自己的 FXML 名稱
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     // —— 上一月按鈕的處理
     @FXML
     private void onPrevMonth(ActionEvent e) {
@@ -140,11 +182,31 @@ public class MainViewController implements Initializable {
         Button btn = (Button) e.getSource();
         btn.setStyle("-fx-background-color: #7190de;");
     }
-
+    
     @FXML
     private void handlePress(MouseEvent e) {
-        Button btn = (Button) e.getSource();
+        Button btn = (Button)e.getSource();   
         btn.setStyle("-fx-background-color: #3d4f7a;");
+    }    
+    
+    @FXML
+    private void switchToAddCategory(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("addCategory", "新增類別");
+    }
+
+    @FXML
+    private void switchToAddTask(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("addTask", "新增任務");
+    }
+
+    @FXML
+    private void switchToModifyCategory(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("ModifyCategory", "修改類別");
+    }
+
+    @FXML
+    private void switchToModifyTask(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("ModifyTask", "修改任務");
     }
 
     @FXML

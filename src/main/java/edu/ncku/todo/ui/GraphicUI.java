@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 
 import java.io.IOException;
 
@@ -33,6 +34,23 @@ public class GraphicUI extends Application {
         stage.setScene(newScene);
         stage.sizeToScene(); 
         scene = newScene; 
+    }
+    
+    //彈出視窗邏輯
+    public static void showDialog(String fxml, String title) throws IOException {
+        Parent root = loadFXML(fxml);
+
+        Stage owner = (Stage) scene.getWindow();
+
+        Stage dialog = new Stage();
+        dialog.setTitle(title);
+        dialog.initOwner(owner);
+        dialog.initModality(Modality.WINDOW_MODAL); 
+        dialog.setResizable(false);
+        dialog.setScene(new Scene(root));
+        dialog.sizeToScene();
+
+        dialog.showAndWait();
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
