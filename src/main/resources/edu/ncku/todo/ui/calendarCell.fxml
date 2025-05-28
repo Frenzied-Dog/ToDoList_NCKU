@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane prefHeight="60.0" prefWidth="60.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ncku.todo.ui.CellController">
+   <children>
+      <Rectangle fx:id="calendarBox" arcHeight="5.0" arcWidth="5.0" fill="TRANSPARENT" height="60.0" stroke="LIGHTGRAY" strokeType="INSIDE" width="60.0" />
+      <Ellipse fx:id="notificationSpot" fill="RED" radiusX="10.0" radiusY="10.0" stroke="RED" strokeType="INSIDE" visible="false" StackPane.alignment="TOP_RIGHT">
+         <StackPane.margin>
+            <Insets right="3.0" top="3.0" />
+         </StackPane.margin>
+      </Ellipse>
+      <Label fx:id="notificationLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="14.0" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="TOP_RIGHT">
+         <StackPane.margin>
+            <Insets right="6.0" top="5.0" />
+         </StackPane.margin>
+         <tooltip>
+            <Tooltip fx:id="notificationTips" autoHide="true" text="Empty" />
+         </tooltip>
+      </Label>
+      <Text fx:id="dayText" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" StackPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+      </Text>
+   </children>
+</StackPane>

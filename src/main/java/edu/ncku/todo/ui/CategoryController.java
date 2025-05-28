@@ -8,8 +8,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableCell;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CategoryController {
 
@@ -18,7 +18,7 @@ public class CategoryController {
     @FXML
     TableColumn<Task, String> taskNameColumn;
     @FXML
-    TableColumn<Task, Date> taskDueDateColumn;
+    TableColumn<Task, LocalDate> taskDueDateColumn;
     @FXML
     TableColumn<Task, TaskStatus> taskStatusColumn;
 
@@ -30,13 +30,11 @@ public class CategoryController {
         taskDueDateColumn.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
         taskStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
 
-        taskDueDateColumn.setCellFactory( _ -> new TableCell<Task, Date>() {
-            private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+        taskDueDateColumn.setCellFactory( _ -> new TableCell<Task, LocalDate>() {
             @Override
-            protected void updateItem(Date item, boolean empty) {
+            protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
-                setText((empty || item == null) ? null : dateFormat.format(item));
+                setText((empty || item == null) ? null : item.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             }
         });
     }

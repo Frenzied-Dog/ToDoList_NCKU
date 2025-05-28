@@ -1,7 +1,7 @@
 package edu.ncku.todo.ui;
 
+import java.time.LocalDate;
 import java.util.Scanner;
-import java.util.Date;
 import java.util.List;
 
 import edu.ncku.todo.model.Config;
@@ -23,27 +23,29 @@ public class ConsoleUI {
             printTitle("ui.welcome");
             System.out.printf(Lang.get("ui.hintTaskCount"), DataManager.getUnfinishedTaskCount());
             System.out.println("=========================================");
-            System.out.println("1." + Lang.get("ui.add"));
-            System.out.println("2." + Lang.get("ui.list"));
-            System.out.println("3." + Lang.get("ui.modify"));
-            System.out.println("4." + Lang.get("ui.help"));
-            System.out.println("5." + Lang.get("ui.setting"));
-            System.out.println("6." + Lang.get("ui.exit"));
+            System.out.println("1. " + Lang.get("ui.add"));
+            System.out.println("2. " + Lang.get("ui.list"));
+            System.out.println("3. " + Lang.get("ui.modify"));
+            System.out.println("4. " + Lang.get("ui.help"));
+            System.out.println("5. " + Lang.get("ui.setting"));
+            System.out.println("6. " + Lang.get("ui.exit"));
 
             int choice = getChoice(6, "ui.choice", false);
 
             switch (choice) {
-            case 0: break;
+            case 0:
+                break;
             case 1:
                 // Add task / category
                 printTitle("ui.add");
-                System.out.println("0." + Lang.get("ui.back"));
-                System.out.println("1." + Lang.get("ui.addCategory"));
-                System.out.println("2." + Lang.get("ui.addTask"));
+                System.out.println("0. " + Lang.get("ui.back"));
+                System.out.println("1. " + Lang.get("ui.addCategory"));
+                System.out.println("2. " + Lang.get("ui.addTask"));
                 choice = getChoice(2, "ui.choice", false);
 
                 switch (choice) {
-                case 0: break;
+                case 0:
+                    break;
                 case 1: // Add category
                     addCategory();
                     break;
@@ -65,14 +67,15 @@ public class ConsoleUI {
             case 3:
                 // Modify tasks / category
                 printTitle("ui.modify");
-                System.out.println("0." + Lang.get("ui.back"));
-                System.out.println("1." + Lang.get("ui.modifyCategory"));
-                System.out.println("2." + Lang.get("ui.modifyTask"));
+                System.out.println("0. " + Lang.get("ui.back"));
+                System.out.println("1. " + Lang.get("ui.modifyCategory"));
+                System.out.println("2. " + Lang.get("ui.modifyTask"));
 
                 choice = getChoice(2, "ui.choice", false);
 
                 switch (choice) {
-                case 0: break;
+                case 0:
+                    break;
                 case 1: // Modify category
                     modifyCategory();
                     break;
@@ -98,12 +101,13 @@ public class ConsoleUI {
             case 5:
                 // Settings
                 printTitle("ui.setting");
-                System.out.println("0." + Lang.get("ui.back"));
-                System.out.println("1." + Lang.get("ui.changeLanguage"));
+                System.out.println("0. " + Lang.get("ui.back"));
+                System.out.println("1. " + Lang.get("ui.changeLanguage"));
                 choice = getChoice(1, "ui.choice", false);
 
                 switch (choice) {
-                case 0: break;
+                case 0:
+                    break;
                 case 1: // Change language
                     changeLanguage();
                     break;
@@ -128,7 +132,7 @@ public class ConsoleUI {
         System.out.println(Lang.get(title));
         System.out.println("=========================================");
     }
-    
+
     // foolproof
     private static int getChoice(int max, String hint, boolean allowNull) {
         while (true) {
@@ -142,7 +146,7 @@ public class ConsoleUI {
                     return -1; // allow null input
                 }
                 int choice = Integer.parseInt(input);
-                
+
                 // check if the choice is in the range
                 if (choice < 0 || choice > max) {
                     System.out.println(Lang.get("ui.invalidChoice"));
@@ -234,7 +238,7 @@ public class ConsoleUI {
         System.out.print(Lang.get("ui.inputDueDate"));
         String dueDateStr = scanner.nextLine();
         // Check if the due date is valid
-        Date dueDate = Task.parseDate(dueDateStr);
+        LocalDate dueDate = Task.parseDate(dueDateStr);
         // -1 / empty means no due date
         if (dueDateStr != "" && dueDateStr != "-1" && dueDate == null) {
             System.out.println(Lang.get("ui.invalidDateFormat"));
@@ -261,7 +265,7 @@ public class ConsoleUI {
         // choose a category
         System.out.println("0." + Lang.get("ui.back"));
         for (int i = 0; i < categories.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+            System.out.printf("%d. %s\n", i + 1, categories.get(i));
         }
         int choice = getChoice(categories.size(), "ui.pickCategoryToModify", false) - 1; // -1 to convert to index
         if (choice == -1) {
@@ -303,14 +307,13 @@ public class ConsoleUI {
         // choose a category
         System.out.println("0." + Lang.get("ui.back"));
         for (int i = 0; i < categories.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+            System.out.printf("%d. %s\n", i + 1, categories.get(i));
         }
         int choice = getChoice(categories.size(), "ui.pickCategoryOfTask", false) - 1; // -1 to convert to index
         if (choice == -1) {
             return; // back to main menu
         }
         Category category = DataManager.getCategory(choice);
-        
 
         // check if there are any tasks in the category
         List<Task> tasks = category.getTasks();
@@ -323,7 +326,7 @@ public class ConsoleUI {
         printTitle("ui.modifyTask");
         System.out.println("0." + Lang.get("ui.back"));
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, tasks.get(i).getName());
+            System.out.printf("%d. %s\n", i + 1, tasks.get(i).getName());
         }
         choice = getChoice(tasks.size(), "ui.pickTaskToModify", false) - 1; // -1 to convert to index
         if (choice == -1) {
@@ -331,14 +334,13 @@ public class ConsoleUI {
         }
         Task task = tasks.get(choice);
 
-
         // pick a new category
         printTitle("ui.modifyTask");
         System.out.printf(Lang.get("ui.modifyingTask"), task.getCategoryName(), task.getName());
         System.out.println("=========================================");
-        System.out.println("0." + Lang.get("ui.back"));
+        System.out.println("0. " + Lang.get("ui.back"));
         for (int i = 0; i < categories.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+            System.out.printf("%d. %s\n", i + 1, categories.get(i));
         }
         choice = getChoice(categories.size(), "ui.pickNewCategory", true) - 1; // -1 to convert to index
         if (choice == -1) {
@@ -357,7 +359,7 @@ public class ConsoleUI {
         // input new due date
         System.out.print(Lang.get("ui.inputNewDueDate"));
         String dueDateStr = scanner.nextLine();
-        Date newDueDate = Task.parseDate(dueDateStr);
+        LocalDate newDueDate = Task.parseDate(dueDateStr);
         if (dueDateStr == "") { // empty means no change, -1 means no due date
             newDueDate = task.getDueDate();
         } else if (dueDateStr != "-1" && newDueDate == null) { // invalid date format
@@ -369,7 +371,7 @@ public class ConsoleUI {
         // pick a TaskStatus
         System.out.println("0." + Lang.get("ui.back"));
         for (TaskStatus status : TaskStatus.values()) {
-            System.out.printf("%d.%s\n", status.ordinal()+1, status);
+            System.out.printf("%d.%s\n", status.ordinal() + 1, status);
         }
         choice = getChoice(categories.size(), "ui.pickNewStatus", true) - 1; // -1 to convert to index
         if (choice == -1) {
@@ -385,7 +387,7 @@ public class ConsoleUI {
 
     private static void changeLanguage() {
         printTitle("ui.setting");
-        System.out.println("0." + Lang.get("ui.back"));
+        System.out.println("0. " + Lang.get("ui.back"));
         System.out.println("1. English");
         System.out.println("2. 繁體中文");
         System.out.println("3. 簡體中文");
@@ -395,6 +397,8 @@ public class ConsoleUI {
         }
 
         switch (choice) {
+        case 0:
+            return; // back to main menu
         case 1:
             Config.set("lang", "en");
             break;

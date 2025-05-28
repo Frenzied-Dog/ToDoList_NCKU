@@ -1,5 +1,8 @@
 package edu.ncku.todo.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.lang.reflect.Type;
 import java.lang.IllegalStateException;
 import java.util.Hashtable;
@@ -13,6 +16,12 @@ import java.io.Writer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 
 import org.hildan.fxgson.FxGsonBuilder;
@@ -31,11 +40,41 @@ public abstract class FileManager {
 
     // json data parser
     private static Gson buildGson() {
+
         GsonBuilder builder = new FxGsonBuilder().acceptNullPrimitives().builder().serializeNulls();
         builder.registerTypeAdapter(Color.class, new ColorTypeAdapter());
+
+        builder.registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
+            public LocalDate deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
+                    JsonDeserializationContext context) {
+                return LocalDate.parse(json.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            }
+        });
+
+        builder.registerTypeAdapter(LocalDate.class, new JsonSerializer<LocalDate>() {
+            public JsonElement serialize(LocalDate src, java.lang.reflect.Type typeOfSrc,
+                    JsonSerializationContext context) {
+                return new JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            }
+        });
+
+        builder.registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+            public LocalDateTime deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
+                    JsonDeserializationContext context) {
+                return LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            }
+        });
+
+        builder.registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
+            public JsonElement serialize(LocalDateTime src, java.lang.reflect.Type typeOfSrc,
+                    JsonSerializationContext context) {
+                return new JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            }
+        });
         return builder.setDateFormat("yyyy-MM-dd HH:mm:ss").setPrettyPrinting().create();
+
     }
-    
+
     public static boolean loadConfig() {
         File file = new File(CFG_PATH);
 
@@ -49,8 +88,8 @@ public abstract class FileManager {
             // check if the config file exists
             if (file.createNewFile()) {
                 System.err.println("Config file not found, creating a new one.");
-                Config.set("lang","en");
-                
+                Config.set("lang", "en");
+
                 Writer writer = new FileWriter(file);
                 gson.toJson(Config.getCFG(), writer);
                 writer.close();
@@ -63,8 +102,8 @@ public abstract class FileManager {
                 Type listType = new TypeToken<Hashtable<String, String>>() {}.getType();
                 Hashtable<String, String> config = gson.fromJson(reader, listType);
                 reader.close();
-                
-                // check validation of the config file 
+
+                // check validation of the config file
                 // TODO: optimize this part (future work)
                 if (config == null || !AllowedValues.SUPPORTED_LANGUAGES.contains(config.get("lang"))) {
                     System.err.println("Config file is corrupted, set to default value.");
@@ -123,7 +162,7 @@ public abstract class FileManager {
             Type listType = new TypeToken<List<Category>>() {}.getType();
             gson.toJson(categories, listType, writer);
             writer.close();
-            
+
             // write the config to the file
             writer = new FileWriter(CFG_PATH);
             gson.toJson(Config.getCFG(), writer);
