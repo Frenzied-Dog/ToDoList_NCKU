@@ -44,7 +44,6 @@ public class AddTaskController implements Initializable {
 
             pickCategoryList.getItems().add(c.getName());
         });
-        pickCategoryList.getItems().add(0, " ");
     }    
     
     @FXML
@@ -72,7 +71,7 @@ public class AddTaskController implements Initializable {
     
     @FXML
     private void onConfirm(ActionEvent e) {
-        addTask();
+        if(!addTask())return;
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         stage.close();
         try {
@@ -94,26 +93,28 @@ public class AddTaskController implements Initializable {
         pickCategoryList.setValue(selected); 
     }
     @FXML
-    private void addTask(){
+    private boolean addTask(){
         String newTask = newTaskName.getText();
         LocalDate dueDate = dueDatePicker.getValue();
+        String mainCategory = (pickCategoryList.getValue());
         
-        Category category = DataManager.getCategory(pickCategoryList.getValue());
-        //debug
-        System.out.println("===== Tasks in Category: " + category.getName() + " =====");
-        int index = 1;
-        for (Task t : category.getTasks()) {
-            System.out.printf("[%d] %s\n", index++, t.toString());
-        }
+        //1.檢查tas有沒有填
+        if(newTask.isBlank())return true; //可能沒看到打叉的使用者可以用
 
-        System.out.println("==========================================");
-        
-        Task task = new Task(newTask, category.getName(), dueDate);
-        if (category.getTasks().contains(task)) {
+        //2.檢查cate有沒有選
+        if(mainCategory ==null){
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("請選擇類別");
             alert.showAndWait();
-            return; 
+            
+            return false;
         }
+        Category category = DataManager.getCategory(mainCategory);
+
+        //3.檢查有沒有重複
+        Task task = new Task(newTask, category.getName(), dueDate);
         boolean result = DataManager.addTask(category, task);
         if(!result){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -121,8 +122,11 @@ public class AddTaskController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("任務"+ newTask + " 已經存在");
             alert.showAndWait();
+            return false;
         }
+        return true;
     }
-
+    //Todo: 更新的時候月曆沒有同步更新，會慢一格
+    // 沒有"完成任務"選項
 
 }
