@@ -7,9 +7,13 @@ package edu.ncku.todo.ui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import edu.ncku.todo.util.DataManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -55,8 +59,39 @@ public class AddCategoryController implements Initializable {
     }
     
     @FXML
+    private TextField categoryInputField;
+
+    @FXML
     private void onConfirm(ActionEvent e) {
+        
+        //新增
+        String newCategory=categoryInputField.getText() ;
+        //檢查有沒有東西
+        if (!(newCategory == null || newCategory.isEmpty())) {
+            boolean result = DataManager.addCategory(newCategory);
+            if(!result){
+            System.out.println(newCategory);
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("警告");
+                alert.setHeaderText(null);
+                alert.setContentText("類別"+ newCategory+ " 已經存在");
+                alert.showAndWait();
+            }
+        }
+        
+        //關視窗
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         stage.close();
+        
+        //刷螢幕
+        try {
+           switchToMainView();  
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
+
+    
+
+
 }

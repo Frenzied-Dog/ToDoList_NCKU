@@ -47,7 +47,7 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.inputCategoryName" wrappingWidth="200.0" />
                               <Region prefHeight="70.0" prefWidth="32.0" HBox.hgrow="ALWAYS" />
-                              <TextField maxWidth="155.0" promptText="%ui.CategoryName" style="-fx-background-color: #7190de;" />
+                              <TextField fx:id="categoryInputField" maxWidth="155.0" promptText="%ui.CategoryName" style="-fx-background-color: #7190de;" />
                            </children>
                         </HBox>
                      </children>

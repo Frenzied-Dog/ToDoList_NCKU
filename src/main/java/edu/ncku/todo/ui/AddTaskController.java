@@ -6,12 +6,22 @@ package edu.ncku.todo.ui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import edu.ncku.todo.model.Category;
+import edu.ncku.todo.model.Task;
+import edu.ncku.todo.util.DataManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -28,9 +38,16 @@ public class AddTaskController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        // 將category名字載進來
+        pickCategoryList.getItems().clear();
+        DataManager.getCategoryData().forEach(c -> {
+
+            pickCategoryList.getItems().add(c.getName());
+        });
+        pickCategoryList.getItems().add(0, " ");
     }    
     
-        @FXML
+    @FXML
     private void handleHover(MouseEvent e) {
         Button btn = (Button)e.getSource();   
         btn.setStyle("-fx-background-color: #8495c4;");
@@ -55,7 +72,57 @@ public class AddTaskController implements Initializable {
     
     @FXML
     private void onConfirm(ActionEvent e) {
+        addTask();
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         stage.close();
+        try {
+           switchToMainView();  
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
+
+    //處理介面
+    @FXML   private ChoiceBox<String> pickCategoryList;
+    @FXML   private TextField categoryInputField;
+    @FXML   private TextField newTaskName;
+    @FXML   private DatePicker dueDatePicker;
+
+    @FXML
+    private void chooseCategory(ActionEvent e){
+        String selected = pickCategoryList.getValue();
+        pickCategoryList.setValue(selected); 
+    }
+    @FXML
+    private void addTask(){
+        String newTask = newTaskName.getText();
+        LocalDate dueDate = dueDatePicker.getValue();
+        
+        Category category = DataManager.getCategory(pickCategoryList.getValue());
+        //debug
+        System.out.println("===== Tasks in Category: " + category.getName() + " =====");
+        int index = 1;
+        for (Task t : category.getTasks()) {
+            System.out.printf("[%d] %s\n", index++, t.toString());
+        }
+
+        System.out.println("==========================================");
+        
+        Task task = new Task(newTask, category.getName(), dueDate);
+        if (category.getTasks().contains(task)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.showAndWait();
+            return; 
+        }
+        boolean result = DataManager.addTask(category, task);
+        if(!result){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("任務"+ newTask + " 已經存在");
+            alert.showAndWait();
+        }
+    }
+
+
 }
