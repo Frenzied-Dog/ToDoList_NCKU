@@ -46,7 +46,7 @@
                   <VBox />
                   <HBox prefHeight="60.0" prefWidth="401.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickCategoryToAdd" wrappingWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%gui.pickCategoryToAdd" wrappingWidth="200.0" />
                         <Region prefHeight="60.0" prefWidth="23.0" HBox.hgrow="ALWAYS" />
                         <ChoiceBox prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                      </children>

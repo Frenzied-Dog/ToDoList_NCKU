@@ -104,7 +104,7 @@ public class MainViewController implements Initializable {
     private void reloadUI() {
         //更換語言後reload視窗
         try {
-            GraphicUI.setRoot("mainView");  // 改成你自己的 FXML 名稱
+            GraphicUI.setRoot("mainView");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -211,6 +211,7 @@ public class MainViewController implements Initializable {
     @FXML
     private void switchToAddCategory(ActionEvent event) throws IOException {
         GraphicUI.showDialog("addCategory", "新增類別");
+
     }
 
     @FXML
@@ -228,9 +229,9 @@ public class MainViewController implements Initializable {
         GraphicUI.showDialog("ModifyTask", "修改任務");
     }
 
-    @FXML
-    private void switchToModify() throws IOException { GraphicUI.setRoot("modify"); }
+    // @FXML
+    // private void switchToModify() throws IOException { GraphicUI.setRoot("modify"); }
 
-    @FXML
-    private void switchToAdd() throws IOException { GraphicUI.setRoot("add"); }
+    // @FXML
+    // private void switchToAdd() throws IOException { GraphicUI.setRoot("add"); }
 }

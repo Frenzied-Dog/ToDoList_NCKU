@@ -90,6 +90,10 @@ public abstract class DataManager {
         data.removeIf(category -> category.getName().equals(name));
     }
 
+    public static void removeCategory(Category category) {
+        data.remove(category);
+    }
+
     public static boolean updateCategory(Category category, String newName) {
         if (data.contains(new Category(newName, null))) {
             return false; // Category already exists, do nothing

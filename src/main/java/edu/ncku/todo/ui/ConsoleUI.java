@@ -26,11 +26,12 @@ public class ConsoleUI {
             System.out.println("1. " + Lang.get("ui.add"));
             System.out.println("2. " + Lang.get("ui.list"));
             System.out.println("3. " + Lang.get("ui.modify"));
-            System.out.println("4. " + Lang.get("ui.help"));
-            System.out.println("5. " + Lang.get("ui.setting"));
-            System.out.println("6. " + Lang.get("ui.exit"));
+            System.out.println("4. " + Lang.get("ui.delete"));
+            System.out.println("5. " + Lang.get("ui.help"));
+            System.out.println("6. " + Lang.get("ui.setting"));
+            System.out.println("7. " + Lang.get("ui.exit"));
 
-            int choice = getChoice(6, "ui.choice", false);
+            int choice = getChoice(7, "ui.choice", false);
 
             switch (choice) {
             case 0:
@@ -89,6 +90,30 @@ public class ConsoleUI {
 
                 break;
             case 4:
+                // Delete tasks / category
+                printTitle("ui.delete");
+                System.out.println("0. " + Lang.get("ui.back"));
+                System.out.println("1. " + Lang.get("ui.deleteCategory"));
+                System.out.println("2. " + Lang.get("ui.deleteTask"));
+
+                choice = getChoice(2, "ui.choice", false);
+
+                switch (choice) {
+                case 0:
+                    break;
+                case 1: // Delete category
+                    deleteCategory();
+                    break;
+                case 2: // Delete task
+                    deleteTask();
+                    break;
+                default: // should not happen
+                    System.out.println(Lang.get("ui.invalidChoice"));
+                    break;
+                }
+
+                break;
+            case 5:
                 // Help text
                 printTitle("ui.help");
                 System.out.println(Lang.get("ui.helpContent"));
@@ -98,7 +123,7 @@ public class ConsoleUI {
                 System.out.println(Lang.get("ui.pressEnter"));
                 scanner.nextLine(); // wait for user input
                 break;
-            case 5:
+            case 6:
                 // Settings
                 printTitle("ui.setting");
                 System.out.println("0. " + Lang.get("ui.back"));
@@ -116,7 +141,7 @@ public class ConsoleUI {
                     break;
                 }
                 break;
-            case 6:
+            case 7:
                 // Exit
                 return;
             default:
@@ -214,9 +239,9 @@ public class ConsoleUI {
         }
 
         // choose a category
-        System.out.println("0." + Lang.get("ui.back"));
+        System.out.println("0. " + Lang.get("ui.back"));
         for (int i = 0; i < categories.size(); i++) {
-            System.out.printf("%d.%s\n", i + 1, categories.get(i));
+            System.out.printf("%d. %s\n", i + 1, categories.get(i));
         }
         int choice = getChoice(categories.size(), "ui.pickCategoryToAdd", false) - 1; // -1 to convert to index
         if (choice == -1) {
@@ -263,7 +288,7 @@ public class ConsoleUI {
         }
 
         // choose a category
-        System.out.println("0." + Lang.get("ui.back"));
+        System.out.println("0. " + Lang.get("ui.back"));
         for (int i = 0; i < categories.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, categories.get(i));
         }
@@ -305,11 +330,11 @@ public class ConsoleUI {
             return;
         }
         // choose a category
-        System.out.println("0." + Lang.get("ui.back"));
+        System.out.println("0. " + Lang.get("ui.back"));
         for (int i = 0; i < categories.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, categories.get(i));
         }
-        int choice = getChoice(categories.size(), "ui.pickCategoryOfTask", false) - 1; // -1 to convert to index
+        int choice = getChoice(categories.size(), "ui.pickCategoryOfTaskToModify", false) - 1; // -1 to convert to index
         if (choice == -1) {
             return; // back to main menu
         }
@@ -324,7 +349,7 @@ public class ConsoleUI {
         }
         // choose a task
         printTitle("ui.modifyTask");
-        System.out.println("0." + Lang.get("ui.back"));
+        System.out.println("0. " + Lang.get("ui.back"));
         for (int i = 0; i < tasks.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, tasks.get(i).getName());
         }
@@ -369,9 +394,9 @@ public class ConsoleUI {
         }
 
         // pick a TaskStatus
-        System.out.println("0." + Lang.get("ui.back"));
+        System.out.println("0. " + Lang.get("ui.back"));
         for (TaskStatus status : TaskStatus.values()) {
-            System.out.printf("%d.%s\n", status.ordinal() + 1, status);
+            System.out.printf("%d. %s\n", status.ordinal() + 1, status);
         }
         choice = getChoice(categories.size(), "ui.pickNewStatus", true) - 1; // -1 to convert to index
         if (choice == -1) {
@@ -382,6 +407,96 @@ public class ConsoleUI {
 
         boolean result = DataManager.updateTask(task, newCategory, newName, newDueDate, newStatus);
         System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.duplicateModifyTask"), task.getName());
+        sleep(1200);
+    }
+
+    private static void deleteCategory() {
+        printTitle("ui.deleteCategory");
+        List<String> categories = DataManager.getCategoryStrList();
+
+        // Check if there are any categories
+        if (categories.isEmpty()) {
+            System.out.println(Lang.get("ui.noCategory"));
+            sleep(1500);
+            return;
+        }
+
+        // choose a category
+        System.out.println("0. " + Lang.get("ui.back"));
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, categories.get(i));
+        }
+        int choice = getChoice(categories.size(), "ui.pickCategoryToDelete", false) - 1; // -1 to convert to index
+        if (choice == -1) {
+            return; // back to main menu
+        }
+        Category category = DataManager.getCategory(choice);
+
+        if (category.getTasks().size() > 0) {
+            System.out.printf(Lang.get("ui.categoryNotEmpty"), category.getName());
+            while (true) {
+                String input = scanner.nextLine().trim().toLowerCase();
+                if (input.equals("y") || input.equals("yes")) {
+                    break; // proceed to delete
+                } else if (input.equals("n") || input.equals("no")) {
+                    System.out.println(Lang.get("ui.cancelOperation"));
+                    sleep(1500);
+                    return; // cancel deletion
+                } else {
+                    System.out.println(Lang.get("ui.invalidChoice"));
+                }
+                System.out.print(Lang.get("ui.confirmDeleteCategory"));
+            }
+        }
+
+        DataManager.removeCategory(category);
+        System.out.printf(Lang.get("ui.categoryDeleted"), category.getName());
+        sleep(1200);
+    }
+
+    private static void deleteTask() {
+        printTitle("ui.deleteTask");
+
+        // check if there are any categories
+        List<String> categories = DataManager.getCategoryStrList();
+        if (categories.isEmpty()) {
+            System.out.println(Lang.get("ui.noCategory"));
+            sleep(1500);
+            return;
+        }
+        // choose a category
+        System.out.println("0. " + Lang.get("ui.back"));
+        for (int i = 0; i < categories.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, categories.get(i));
+        }
+        int choice = getChoice(categories.size(), "ui.pickCategoryOfTaskToDelete", false) - 1; // -1 to convert to index
+        if (choice == -1) {
+            return; // back to main menu
+        }
+        Category category = DataManager.getCategory(choice);
+
+        // check if there are any tasks in the category
+        List<Task> tasks = category.getTasks();
+        if (tasks.isEmpty()) {
+            System.out.println(Lang.get("ui.noTaskInCategory"));
+            sleep(1500);
+            return;
+        }
+        
+        // choose a task
+        printTitle("ui.deleteTask");
+        System.out.println("0. " + Lang.get("ui.back"));
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.printf("%d. %s\n", i + 1, tasks.get(i).getName());
+        }
+        choice = getChoice(tasks.size(), "ui.pickTaskToDelete", false) - 1; // -1 to convert to index
+        if (choice == -1) {
+            return; // back to main menu
+        }
+        Task task = tasks.get(choice);
+
+        DataManager.removeTask(category, task);
+        System.out.printf(Lang.get("ui.taskDeleted"), task.getName());
         sleep(1200);
     }
 
