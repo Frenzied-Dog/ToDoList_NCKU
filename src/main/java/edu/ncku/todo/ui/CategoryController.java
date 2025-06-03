@@ -37,14 +37,14 @@ public class CategoryController {
 
         categoryTable.getSelectionModel().setCellSelectionEnabled(false);
 
-        taskNameColumn.setCellFactory(col -> {
+        taskNameColumn.setCellFactory(_ -> {
             TableCell<Task, String> cell = new TableCell<>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
 
                     setStyle("-fx-background-color: transparent;  " +
-                            "-fx-border-color: transparent lightgray transparent transparent;  " +
+                            "-fx-border-color: gray;  " +
                             "-fx-border-width: 0 1 0 0;");
 
                     if (empty || item == null) {
@@ -56,20 +56,10 @@ public class CategoryController {
                 }
             };
 
-            cell.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
-                if (cell.getItem() != null) {
-                    if (isSelected) {
-                        cell.setTextFill(Color.WHITE);
-                    } else {
-                        cell.setTextFill(Color.BLACK);
-                    }
-                }
-            });
-
             return cell;
         });
 
-        taskDueDateColumn.setCellFactory(col -> {
+        taskDueDateColumn.setCellFactory(_ -> {
             TableCell<Task, LocalDate> cell = new TableCell<>() {
                 private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -78,7 +68,7 @@ public class CategoryController {
                     super.updateItem(item, empty);
 
                     setStyle("-fx-background-color: transparent;  " +
-                            "-fx-border-color: transparent lightgray transparent transparent;  " +
+                            "-fx-border-color: gray;  " +
                             "-fx-border-width: 0 1 0 0;");
 
                     if (empty || item == null) {
@@ -90,27 +80,17 @@ public class CategoryController {
                 }
             };
 
-            cell.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
-                if (cell.getItem() != null) {
-                    if (isSelected) {
-                        cell.setTextFill(Color.WHITE);
-                    } else {
-                        cell.setTextFill(Color.BLACK);
-                    }
-                }
-            });
-
             return cell;
         });
 
-        taskStatusColumn.setCellFactory(col -> {
+        taskStatusColumn.setCellFactory(_ -> {
             TableCell<Task, TaskStatus> cell = new TableCell<>() {
                 @Override
                 protected void updateItem(TaskStatus item, boolean empty) {
                     super.updateItem(item, empty);
 
                     setStyle("-fx-background-color: transparent;  " +
-                            "-fx-border-color: transparent lightgray transparent transparent;  " +
+                            "-fx-border-color: gray;  " +
                             "-fx-border-width: 0 1 0 0;");
 
                     if (empty || item == null) {
@@ -122,20 +102,10 @@ public class CategoryController {
                 }
             };
 
-            cell.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
-                if (cell.getItem() != null) {
-                    if (isSelected) {
-                        cell.setTextFill(Color.WHITE);
-                    } else {
-                        cell.setTextFill(Color.BLACK);
-                    }
-                }
-            });
-
             return cell;
         });
 
-        categoryTable.setRowFactory(tv -> new TableRow<>() {
+        categoryTable.setRowFactory(_ -> new TableRow<>() {
             @Override
             protected void updateItem(Task item, boolean empty) {
                 super.updateItem(item, empty);
