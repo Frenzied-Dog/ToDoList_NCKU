@@ -49,14 +49,14 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickCategoryOfTask" wrappingWidth="155.0" />
                               <Region prefHeight="37.0" prefWidth="61.0" HBox.hgrow="ALWAYS" />
-                              <ChoiceBox prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
+                              <ChoiceBox fx:id = "pickCategoryList" prefHeight="23.0" prefWidth="155.0" onAction = "#chooseCategory" style="-fx-background-color: #7190de;" />
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="200.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickTaskToModify" wrappingWidth="155.0" />
                               <Region prefHeight="36.0" prefWidth="78.0" HBox.hgrow="ALWAYS" />
-                              <ChoiceBox prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
+                              <ChoiceBox fx:id = "pickTaskList" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                            </children>
                         </HBox>
                      </children>
@@ -67,21 +67,21 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickNewCategory-GUI" wrappingWidth="155.0" />
                         <Region prefHeight="40.0" prefWidth="81.0" HBox.hgrow="ALWAYS" />
-                        <ChoiceBox prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
+                        <ChoiceBox fx:id = "newCategoryList" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="228.0" prefHeight="40.0" prefWidth="401.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.inputNewTaskName-GUI" wrappingWidth="155.0" />
                         <Region prefHeight="93.0" prefWidth="65.0" HBox.hgrow="ALWAYS" />
-                        <TextField prefHeight="23.0" prefWidth="155.0" promptText="%ui.TaskName" style="-fx-background-color: #7190de;" />
+                        <TextField fx:id = "newTaskName" prefHeight="23.0" prefWidth="155.0" promptText="%ui.TaskName" style="-fx-background-color: #7190de;" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="317.0" prefHeight="40.0" prefWidth="401.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.inputNewDueDate-GUI" wrappingWidth="155.0" />
                         <Region prefHeight="40.0" prefWidth="75.0" HBox.hgrow="ALWAYS" />
-                        <DatePicker prefHeight="23.0" prefWidth="155.0" />
+                        <DatePicker fx:id = "dueDatePicker" prefHeight="23.0" prefWidth="155.0" />
                      </children>
                   </HBox>
                </children>

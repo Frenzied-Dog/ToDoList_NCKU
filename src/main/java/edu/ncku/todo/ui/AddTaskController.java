@@ -37,7 +37,7 @@ public class AddTaskController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    
         // 將category名字載進來
         pickCategoryList.getItems().clear();
         DataManager.getCategoryData().forEach(c -> {

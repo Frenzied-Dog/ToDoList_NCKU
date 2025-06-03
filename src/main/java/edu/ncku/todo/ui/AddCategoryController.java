@@ -58,8 +58,7 @@ public class AddCategoryController implements Initializable {
         GraphicUI.setRoot("mainView");
     }
     
-    @FXML
-    private TextField categoryInputField;
+    @FXML private TextField categoryInputField;
 
     @FXML
     private void onConfirm(ActionEvent e) {

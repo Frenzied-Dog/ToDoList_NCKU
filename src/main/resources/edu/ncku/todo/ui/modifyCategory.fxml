@@ -45,7 +45,7 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickCategoryToModify" wrappingWidth="200.0" />
                               <Region prefHeight="70.0" prefWidth="81.0" HBox.hgrow="ALWAYS" />
-                              <ChoiceBox prefWidth="155.0" style="-fx-background-color: #7190de;" />
+                              <ChoiceBox fx:id="pickCategoryList" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                            </children>
                         </HBox>
                      </children>
@@ -56,7 +56,7 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.inputNewCategoryName" wrappingWidth="200.0" />
                         <Region prefHeight="93.0" prefWidth="68.0" HBox.hgrow="ALWAYS" />
-                        <TextField prefHeight="23.0" prefWidth="155.0" promptText="%ui.CategoryName" style="-fx-background-color: #7190de;" />
+                        <TextField fx:id= "newCategoryName" prefHeight="23.0" prefWidth="155.0" promptText="%ui.CategoryName" style="-fx-background-color: #7190de;" />
                      </children>
                   </HBox>
                </children>
