@@ -4,9 +4,11 @@ import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.TaskStatus;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.paint.Color;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,13 +16,16 @@ import java.time.format.DateTimeFormatter;
 public class CategoryController {
 
     @FXML
-    TableView<Task> categoryTable;
+    private TableView<Task> categoryTable;
+
     @FXML
-    TableColumn<Task, String> taskNameColumn;
+    private TableColumn<Task, String> taskNameColumn;
+
     @FXML
-    TableColumn<Task, LocalDate> taskDueDateColumn;
+    private TableColumn<Task, LocalDate> taskDueDateColumn;
+
     @FXML
-    TableColumn<Task, TaskStatus> taskStatusColumn;
+    private TableColumn<Task, TaskStatus> taskStatusColumn;
 
     public void setTable(Category category) {
         categoryTable.getItems().clear();
@@ -30,11 +35,118 @@ public class CategoryController {
         taskDueDateColumn.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
         taskStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
 
-        taskDueDateColumn.setCellFactory( _ -> new TableCell<Task, LocalDate>() {
+        categoryTable.getSelectionModel().setCellSelectionEnabled(false);
+
+        taskNameColumn.setCellFactory(col -> {
+            TableCell<Task, String> cell = new TableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    setStyle("-fx-background-color: transparent;  " +
+                            "-fx-border-color: transparent lightgray transparent transparent;  " +
+                            "-fx-border-width: 0 1 0 0;");
+
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item);
+                    }
+                    setTextFill(Color.BLACK);
+                }
+            };
+
+            cell.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (cell.getItem() != null) {
+                    if (isSelected) {
+                        cell.setTextFill(Color.WHITE);
+                    } else {
+                        cell.setTextFill(Color.BLACK);
+                    }
+                }
+            });
+
+            return cell;
+        });
+
+        taskDueDateColumn.setCellFactory(col -> {
+            TableCell<Task, LocalDate> cell = new TableCell<>() {
+                private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                @Override
+                protected void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    setStyle("-fx-background-color: transparent;  " +
+                            "-fx-border-color: transparent lightgray transparent transparent;  " +
+                            "-fx-border-width: 0 1 0 0;");
+
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item.format(formatter));
+                    }
+                    setTextFill(Color.BLACK);
+                }
+            };
+
+            cell.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (cell.getItem() != null) {
+                    if (isSelected) {
+                        cell.setTextFill(Color.WHITE);
+                    } else {
+                        cell.setTextFill(Color.BLACK);
+                    }
+                }
+            });
+
+            return cell;
+        });
+
+        taskStatusColumn.setCellFactory(col -> {
+            TableCell<Task, TaskStatus> cell = new TableCell<>() {
+                @Override
+                protected void updateItem(TaskStatus item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    setStyle("-fx-background-color: transparent;  " +
+                            "-fx-border-color: transparent lightgray transparent transparent;  " +
+                            "-fx-border-width: 0 1 0 0;");
+
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(item.toString());
+                    }
+                    setTextFill(Color.BLACK);
+                }
+            };
+
+            cell.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (cell.getItem() != null) {
+                    if (isSelected) {
+                        cell.setTextFill(Color.WHITE);
+                    } else {
+                        cell.setTextFill(Color.BLACK);
+                    }
+                }
+            });
+
+            return cell;
+        });
+
+        categoryTable.setRowFactory(tv -> new TableRow<>() {
             @Override
-            protected void updateItem(LocalDate item, boolean empty) {
+            protected void updateItem(Task item, boolean empty) {
                 super.updateItem(item, empty);
-                setText((empty || item == null) ? null : item.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+                if (empty || item == null) {
+                    setStyle("-fx-background-color: #b9cceb;");
+                } else if (isSelected()) {
+                    setStyle("-fx-background-color:rgb(124, 165, 212);");
+                } else {
+                    setStyle("-fx-background-color: #b9cceb;");
+                }
             }
         });
     }
