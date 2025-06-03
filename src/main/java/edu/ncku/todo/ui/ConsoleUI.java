@@ -362,7 +362,7 @@ public class ConsoleUI {
         LocalDate newDueDate = Task.parseDate(dueDateStr);
         if (dueDateStr == "") { // empty means no change, -1 means no due date
             newDueDate = task.getDueDate();
-        } else if (dueDateStr != "-1" && newDueDate == null) { // invalid date format
+        } else if (!dueDateStr.equals("-1") && newDueDate == null) { // invalid date format
             System.out.println(Lang.get("ui.invalidDateFormat"));
             sleep(1500);
             return;
