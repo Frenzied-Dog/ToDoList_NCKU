@@ -15,12 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
-
-/**
- * FXML Controller class
- *
- * @author USER
- */
 public class AddCategoryController implements Initializable {
 
     /**

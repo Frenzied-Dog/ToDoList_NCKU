@@ -20,22 +20,22 @@
          <top>
             <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #b8c5db;" BorderPane.alignment="CENTER">
                <items>
-                  <Button fx:id="mainViewAddCategoryBotton" mnemonicParsing="false" onAction="#switchToAddCategory" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.addCategory">
+                  <Button fx:id="mainViewAddCategoryBotton" mnemonicParsing="false" onAction="#popupAddCategory" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.addCategory">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="mainViewAddTaskBotton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#switchToAddTask" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.addTask">
+                  <Button fx:id="mainViewAddTaskBotton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#popupAddTask" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.addTask">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="mainViewModCategoryButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#switchToModifyCategory" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.modifyCategory">
+                  <Button fx:id="mainViewModCategoryButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#popupModifyCategory" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.modifyCategory">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="mainViewModTaskButton" layoutX="142.0" layoutY="13.0" mnemonicParsing="false" onAction="#switchToModifyTask" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.modifyTask">
+                  <Button fx:id="mainViewModTaskButton" layoutX="142.0" layoutY="13.0" mnemonicParsing="false" onAction="#popupModifyTask" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.modifyTask">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

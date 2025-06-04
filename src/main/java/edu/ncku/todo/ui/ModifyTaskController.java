@@ -15,11 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author USER
- */
 public class ModifyTaskController implements Initializable {
 
     /**

@@ -55,9 +55,9 @@ public class MainViewController implements Initializable {
         DataManager.getCategoryData().forEach(c -> {
             try {
                 // add category tabs
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("category.fxml"), Lang.bundle);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("table.fxml"), Lang.bundle);
                 AnchorPane root = loader.load();
-                CategoryController controller = loader.getController();
+                TableController controller = loader.getController();
 
                 controller.setTable(c);
                 Tab tab = new Tab(c.getName(), root);
@@ -209,29 +209,22 @@ public class MainViewController implements Initializable {
     }    
     
     @FXML
-    private void switchToAddCategory(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("addCategory", "新增類別");
-
+    private void popupAddCategory(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("addCategory", "新增類別", null);
     }
 
     @FXML
-    private void switchToAddTask(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("addTask", "新增任務");
+    private void popupAddTask(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("addTask", "新增任務", null);
     }
 
     @FXML
-    private void switchToModifyCategory(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("ModifyCategory", "修改類別");
+    private void popupModifyCategory(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("ModifyCategory", "修改類別", null);
     }
 
     @FXML
-    private void switchToModifyTask(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("ModifyTask", "修改任務");
+    private void popupModifyTask(ActionEvent event) throws IOException {
+        GraphicUI.showDialog("ModifyTask", "修改任務", null);
     }
-
-    // @FXML
-    // private void switchToModify() throws IOException { GraphicUI.setRoot("modify"); }
-
-    // @FXML
-    // private void switchToAdd() throws IOException { GraphicUI.setRoot("add"); }
 }

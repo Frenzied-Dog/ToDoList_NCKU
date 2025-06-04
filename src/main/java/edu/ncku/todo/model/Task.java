@@ -12,6 +12,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Task {
+    public static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter dateParser = DateTimeFormatter.ofPattern("yyyy-M-d");
+
     private final StringProperty name = new SimpleStringProperty("");
     private final StringProperty category = new SimpleStringProperty("");
     private final ObjectProperty<LocalDate> dueDate = new SimpleObjectProperty<>(null);
@@ -46,7 +50,7 @@ public class Task {
 
     public static LocalDate parseDate(String dateString) {
         try {
-            return LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-M-d"));
+            return LocalDate.parse(dateString, dateParser);
         } catch (DateTimeParseException e) {
             return null;
         }
