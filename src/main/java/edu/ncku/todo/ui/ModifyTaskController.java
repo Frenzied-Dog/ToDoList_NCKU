@@ -96,11 +96,19 @@ public class ModifyTaskController implements Initializable {
     }
 
     // 修改task
-    // @FXML private ChoiceBox<String> pickTaskList;
+    
+    @FXML    private TextField newTaskName;
+    @FXML    private DatePicker dueDatePicker;
+    
     @FXML
-    private TextField newTaskName;
-    @FXML
-    private DatePicker dueDatePicker;
+    private void pickTaskListClicked() {
+        newCategoryList.setValue(pickCategoryList.getValue());
+        Task selectedTask = pickTaskList.getValue();  
+            if (selectedTask != null) {
+            newTaskName.setText(selectedTask.getName());  
+            dueDatePicker.setValue(selectedTask.getDueDate()); 
+        }
+    }
 
     @FXML
     private boolean modifyTask() {
@@ -111,7 +119,7 @@ public class ModifyTaskController implements Initializable {
 
         // 1.檢查task有沒有填
         if (newName.isBlank())
-            return true; // 可能沒看到打叉的使用者可以用
+            return true;
 
         // 2.檢查cate有沒有選
         if (newCategory == null) {
@@ -123,11 +131,13 @@ public class ModifyTaskController implements Initializable {
 
             return false;
         }
-
         Category category = DataManager.getCategory(newCategory);
 
-        // 3.檢查有沒有重複
+        //3.檢查有沒有改
         Task task = new Task(newName, category.getName(), newDueDate);
+        if(task.equals(pickTaskList.getValue())) return true;
+
+        // 4.檢查有沒有重複
         boolean result = DataManager.addTask(category, task);
         if (!result) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
