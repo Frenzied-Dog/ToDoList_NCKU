@@ -211,26 +211,30 @@ public class MainViewController implements Initializable {
     @FXML
     private void switchToAddCategory(ActionEvent event) throws IOException {
         GraphicUI.showDialog("addCategory", "新增類別");
+        reloadUI();
     }
 
     @FXML
     private void switchToAddTask(ActionEvent event) throws IOException {
         GraphicUI.showDialog("addTask", "新增任務");
+        reloadUI();
     }
 
     @FXML
     private void switchToModifyCategory(ActionEvent event) throws IOException {
         GraphicUI.showDialog("ModifyCategory", "修改類別");
+        reloadUI();
     }
 
     @FXML
     private void switchToModifyTask(ActionEvent event) throws IOException {
         GraphicUI.showDialog("ModifyTask", "修改任務");
+        reloadUI();
     }
 
-    @FXML
-    private void switchToModify() throws IOException { GraphicUI.setRoot("modify"); }
+    // @FXML
+    // private void switchToModify() throws IOException { GraphicUI.setRoot("modify"); }
 
-    @FXML
-    private void switchToAdd() throws IOException { GraphicUI.setRoot("add"); }
+    // @FXML
+    // private void switchToAdd() throws IOException { GraphicUI.setRoot("add"); }
 }

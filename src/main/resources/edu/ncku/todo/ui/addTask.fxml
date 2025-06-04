@@ -48,7 +48,7 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickCategoryToAdd" wrappingWidth="200.0" />
                         <Region prefHeight="60.0" prefWidth="23.0" HBox.hgrow="ALWAYS" />
-                        <ChoiceBox fx:id="pickCategoryList"  onAction= "#chooseCategory" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
+                        <ChoiceBox fx:id="pickCategoryList" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="228.0" prefHeight="60.0" prefWidth="401.0">

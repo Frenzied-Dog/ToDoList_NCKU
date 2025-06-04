@@ -26,7 +26,7 @@ public class GraphicUI extends Application {
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         Parent root = loadFXML(fxml);
         Stage stage = (Stage) scene.getWindow();
         

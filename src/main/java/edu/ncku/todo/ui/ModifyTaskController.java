@@ -24,122 +24,122 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author USER
- */
 public class ModifyTaskController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
-    @FXML   private ChoiceBox<String> pickCategoryList;
-    @FXML   private ChoiceBox<String> newCategoryList;
+    @FXML private ChoiceBox<String> pickCategoryList;
+    @FXML private ChoiceBox<String> newCategoryList;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         // 將category名字載進來
         pickCategoryList.getItems().clear();
         newCategoryList.getItems().clear();
         DataManager.getCategoryData().forEach(c -> {
-
             pickCategoryList.getItems().add(c.getName());
             newCategoryList.getItems().add(c.getName());
         });
 
-        
-    }    
-    
+    }
+
     @FXML
     private void handleHover(MouseEvent e) {
-        Button btn = (Button)e.getSource();    
+        Button btn = (Button) e.getSource();
         btn.setStyle("-fx-background-color: #8495c4;");
     }
-    
+
     @FXML
     private void handlePress(MouseEvent e) {
-        Button btn = (Button)e.getSource();    
+        Button btn = (Button) e.getSource();
         btn.setStyle("-fx-background-color: #3d4f7a;");
     }
 
     @FXML
     private void handleExit(MouseEvent e) {
-        Button btn = (Button)e.getSource();
+        Button btn = (Button) e.getSource();
         btn.setStyle("-fx-background-color: #7190de;");
     }
-    
-    @FXML
-    private void switchToMainView() throws IOException {
-        GraphicUI.setRoot("mainView");
-    }
-    
+
+    // @FXML
+    // private void switchToMainView() throws IOException {
+    //     GraphicUI.setRoot("mainView");
+    // }
+
     @FXML
     private void onConfirm(ActionEvent e) {
-        if(!modifyTask())return;
+        if (!modifyTask()) return;
         
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
-        try {
-           switchToMainView();  
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
-    @FXML private ChoiceBox<Task> pickTaskList;
+
+    @FXML
+    private ChoiceBox<Task> pickTaskList;
+
     @FXML
     private void chooseCategory() {
         pickTaskList.getItems().clear(); // 清空任務列表
 
         String selectedCategoryName = pickCategoryList.getValue();
-        if (selectedCategoryName == null || selectedCategoryName.isEmpty()) return;
+        if (selectedCategoryName == null || selectedCategoryName.isEmpty())
+            return;
 
         Category category = DataManager.getCategory(selectedCategoryName);
-        if (category == null) return;
+        if (category == null)
+            return;
 
         // 加入 Task 物件本身
         pickTaskList.getItems().addAll(category.getTasks());
     }
 
-    //修改task
-    //@FXML   private ChoiceBox<String> pickTaskList;
-    @FXML   private TextField newTaskName;
-    @FXML   private DatePicker dueDatePicker;
+    // 修改task
+    // @FXML private ChoiceBox<String> pickTaskList;
     @FXML
-    private boolean modifyTask(){
+    private TextField newTaskName;
+    @FXML
+    private DatePicker dueDatePicker;
+
+    @FXML
+    private boolean modifyTask() {
         String newName = newTaskName.getText();
-        LocalDate dueDate = dueDatePicker.getValue();
+        LocalDate newDueDate = dueDatePicker.getValue();
         String newCategory = (newCategoryList.getValue());
         Task oldTask = pickTaskList.getValue();
 
-        
-        //1.檢查task有沒有填
-        if(newName.isBlank())return true; //可能沒看到打叉的使用者可以用
+        // 1.檢查task有沒有填
+        if (newName.isBlank())
+            return true; // 可能沒看到打叉的使用者可以用
 
-        //2.檢查cate有沒有選
-        if(newCategory ==null){
+        // 2.檢查cate有沒有選
+        if (newCategory == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("警告");
             alert.setHeaderText(null);
             alert.setContentText("請選擇類別");
             alert.showAndWait();
-            
+
             return false;
         }
+
         Category category = DataManager.getCategory(newCategory);
 
-        //3.檢查有沒有重複
-        Task task = new Task(newName, category.getName(), dueDate);
+        // 3.檢查有沒有重複
+        Task task = new Task(newName, category.getName(), newDueDate);
         boolean result = DataManager.addTask(category, task);
-        if(!result){
+        if (!result) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("警告");
             alert.setHeaderText(null);
-            alert.setContentText("任務"+ newName + " 已經存在於類別" + category.getName());
+            alert.setContentText("任務" + newName + " 已經存在於類別" + category.getName());
             alert.showAndWait();
             return false;
         }
-        DataManager.removeTask(DataManager.getCategory(pickCategoryList.getValue()), oldTask); //移除原本的task
+        DataManager.removeTask(DataManager.getCategory(pickCategoryList.getValue()), oldTask); // 移除原本的task
         return true;
     }
 }
+
+// TODO: 沒有"完成任務"選項
