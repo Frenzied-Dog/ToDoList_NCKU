@@ -2,7 +2,6 @@ package edu.ncku.todo.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.lang.reflect.Type;
 import java.lang.IllegalStateException;
 import java.util.Hashtable;
@@ -29,6 +28,7 @@ import org.hildan.fxgson.adapters.extras.ColorTypeAdapter;
 import javafx.scene.paint.Color;
 
 import edu.ncku.todo.model.Config;
+import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.AllowedValues;
 
@@ -47,28 +47,28 @@ public abstract class FileManager {
         builder.registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
             public LocalDate deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
                     JsonDeserializationContext context) {
-                return LocalDate.parse(json.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                return LocalDate.parse(json.getAsString(), Task.dateFormat);
             }
         });
 
         builder.registerTypeAdapter(LocalDate.class, new JsonSerializer<LocalDate>() {
             public JsonElement serialize(LocalDate src, java.lang.reflect.Type typeOfSrc,
                     JsonSerializationContext context) {
-                return new JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                return new JsonPrimitive(src.format(Task.dateFormat));
             }
         });
 
         builder.registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
             public LocalDateTime deserialize(JsonElement json, java.lang.reflect.Type typeOfT,
                     JsonDeserializationContext context) {
-                return LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                return LocalDateTime.parse(json.getAsString(), Task.dateTimeFormat);
             }
         });
 
         builder.registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
             public JsonElement serialize(LocalDateTime src, java.lang.reflect.Type typeOfSrc,
                     JsonSerializationContext context) {
-                return new JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                return new JsonPrimitive(src.format(Task.dateTimeFormat));
             }
         });
         return builder.setDateFormat("yyyy-MM-dd HH:mm:ss").setPrettyPrinting().create();

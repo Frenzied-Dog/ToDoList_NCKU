@@ -8,18 +8,19 @@ import javafx.stage.Stage;
 import javafx.stage.Modality;
 
 import java.io.IOException;
+import java.util.List;
 
+import edu.ncku.todo.model.Task;
 import edu.ncku.todo.util.Lang;
 
 
 public class GraphicUI extends Application {
-    private static Scene scene;
+    private static Stage mainStage;
 
     @Override
     public void start(Stage stage) throws IOException {
-        //scene = new Scene(loadFXML("primary"), 640, 480);
-        //scene = new Scene(loadFXML("MainView"), 819, 548);
-        scene = new Scene(loadFXML("MainView"));
+        mainStage = stage; // 儲存主舞台的參考
+        Scene scene = new Scene(getFXML("mainView").load());
         stage.setScene(scene);
         stage.setTitle(Lang.get("app.title"));
         stage.setResizable(false);
@@ -27,24 +28,25 @@ public class GraphicUI extends Application {
     }
 
     static void setRoot(String fxml) throws IOException {
-        Parent root = loadFXML(fxml);
-        Stage stage = (Stage) scene.getWindow();
-        
+        Parent root = getFXML(fxml).load();
         Scene newScene = new Scene(root);
-        stage.setScene(newScene);
-        stage.sizeToScene(); 
-        scene = newScene; 
+        mainStage.setScene(newScene);
+        mainStage.sizeToScene();
     }
     
     //彈出視窗邏輯
-    public static void showDialog(String fxml, String title) throws IOException {
-        Parent root = loadFXML(fxml);
+    public static void showDialog(String fxml, String title, List<Task> tasks) throws IOException {
+        FXMLLoader loader = getFXML(fxml);
+        Parent root = loader.load();
 
-        Stage owner = (Stage) scene.getWindow();
+        if (tasks != null && !tasks.isEmpty()) {
+            TableController controller = loader.getController();
+            controller.setTable(tasks);
+        }
 
         Stage dialog = new Stage();
         dialog.setTitle(title);
-        dialog.initOwner(owner);
+        dialog.initOwner(mainStage);
         dialog.initModality(Modality.WINDOW_MODAL); 
         dialog.setResizable(false);
         dialog.setScene(new Scene(root));
@@ -53,9 +55,8 @@ public class GraphicUI extends Application {
         dialog.showAndWait();
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GraphicUI.class.getResource(fxml + ".fxml"), Lang.bundle);
-        return fxmlLoader.load();
+    public static FXMLLoader getFXML(String fxml) throws IOException {
+        return new FXMLLoader(GraphicUI.class.getResource(fxml + ".fxml"), Lang.bundle);
     }
 
     public static void main(String[] args) {

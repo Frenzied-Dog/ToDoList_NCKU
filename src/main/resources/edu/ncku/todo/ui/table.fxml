@@ -7,10 +7,10 @@
 
 <AnchorPane fx:id="root" prefHeight="480.0" prefWidth="340.0"
    xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="edu.ncku.todo.ui.CategoryController">
+   fx:controller="edu.ncku.todo.ui.TableController">
 
    <children>
-      <TableView fx:id="categoryTable" prefHeight="180.0" prefWidth="325.0"
+      <TableView fx:id="table" prefHeight="180.0" prefWidth="325.0"
          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
          AnchorPane.topAnchor="0.0">
          <columns>
