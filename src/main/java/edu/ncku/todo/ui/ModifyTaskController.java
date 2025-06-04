@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.Task;
+import edu.ncku.todo.model.TaskStatus;
 import edu.ncku.todo.util.DataManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -131,14 +132,12 @@ public class ModifyTaskController implements Initializable {
 
             return false;
         }
+
+
+        // 3.檢查有沒有重複
+        TaskStatus newStatus= TaskStatus.TODO; // 如果我們有dueDate的選擇扭
         Category category = DataManager.getCategory(newCategory);
-
-        //3.檢查有沒有改
-        Task task = new Task(newName, category.getName(), newDueDate);
-        if(task.equals(pickTaskList.getValue())) return true;
-
-        // 4.檢查有沒有重複
-        boolean result = DataManager.addTask(category, task);
+        boolean result = DataManager.updateTask(oldTask, category, newName, newDueDate,  newStatus);
         if (!result) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("警告");
@@ -147,7 +146,6 @@ public class ModifyTaskController implements Initializable {
             alert.showAndWait();
             return false;
         }
-        DataManager.removeTask(DataManager.getCategory(pickCategoryList.getValue()), oldTask); // 移除原本的task
         return true;
     }
 }
