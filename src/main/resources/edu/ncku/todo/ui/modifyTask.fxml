@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -15,9 +16,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" minHeight="350.0" opacity="0.85" prefHeight="350.0" prefWidth="400.0" style="-fx-background-color: #a2b9de;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ncku.todo.ui.ModifyTaskController">
+<AnchorPane id="AnchorPane" minHeight="350.0" opacity="0.85" prefHeight="385.0" prefWidth="401.0" style="-fx-background-color: #a2b9de;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ncku.todo.ui.ModifyTaskController">
    <children>
-      <BorderPane layoutY="-1.0" prefHeight="350.0" prefWidth="401.0">
+      <BorderPane layoutY="-1.0" prefHeight="385.0" prefWidth="401.0">
          <top>
             <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefWidth="400.0" style="-fx-background-color: #b8c5db;" BorderPane.alignment="CENTER">
                <items>
@@ -29,18 +30,16 @@
             </ToolBar>
          </top>
          <center>
-            <VBox prefHeight="400.0" prefWidth="389.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="389.0" BorderPane.alignment="CENTER">
                <children>
-                  <Region prefHeight="15.0" prefWidth="200.0" />
-                  <HBox alignment="TOP_CENTER" prefHeight="45.0" prefWidth="200.0">
-                     <children>
-                        <Text fill="#1b488b" strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.modifyTask">
-                           <font>
-                              <Font name="System Bold" size="25.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
+                  <Text fill="#1b488b" strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.modifyTask">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Text>
                   <Line endX="381.0" stroke="#b8c5db" strokeWidth="8.0" />
                   <Region prefHeight="15.0" prefWidth="394.0" />
                   <VBox>
@@ -48,15 +47,18 @@
                         <HBox prefHeight="40.0" prefWidth="200.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickCategoryOfTask" wrappingWidth="155.0" />
-                              <Region prefHeight="37.0" prefWidth="61.0" HBox.hgrow="ALWAYS" />
-                              <ChoiceBox fx:id = "pickCategoryList" prefHeight="23.0" prefWidth="155.0" onAction = "#chooseCategory" style="-fx-background-color: #7190de;" />
+                              <Region prefHeight="36.0" prefWidth="78.0" />
+                              <ChoiceBox fx:id="pickCategoryList" onAction="#fillTaskList" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></ChoiceBox>
                            </children>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="200.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickTaskToModify" wrappingWidth="155.0" />
                               <Region prefHeight="36.0" prefWidth="78.0" HBox.hgrow="ALWAYS" />
-                              <ChoiceBox fx:id = "pickTaskList" onAction="#pickTaskListClicked" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
+                              <ChoiceBox fx:id="pickTaskList" onAction="#fillOldTaskProperty" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                            </children>
                         </HBox>
                      </children>
@@ -67,21 +69,28 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.pickNewCategory-GUI" wrappingWidth="155.0" />
                         <Region prefHeight="40.0" prefWidth="81.0" HBox.hgrow="ALWAYS" />
-                        <ChoiceBox fx:id = "newCategoryList" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
+                        <ChoiceBox fx:id="newCategoryList" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="228.0" prefHeight="40.0" prefWidth="401.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.inputNewTaskName-GUI" wrappingWidth="155.0" />
                         <Region prefHeight="93.0" prefWidth="65.0" HBox.hgrow="ALWAYS" />
-                        <TextField fx:id = "newTaskName" prefHeight="23.0" prefWidth="155.0" promptText="%ui.TaskName" style="-fx-background-color: #7190de;" />
+                        <TextField fx:id="newTaskName" prefHeight="23.0" prefWidth="155.0" promptText="%ui.TaskName" style="-fx-background-color: #7190de;" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="317.0" prefHeight="40.0" prefWidth="401.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.inputNewDueDate-GUI" wrappingWidth="155.0" />
                         <Region prefHeight="40.0" prefWidth="75.0" HBox.hgrow="ALWAYS" />
-                        <DatePicker fx:id = "dueDatePicker" prefHeight="23.0" prefWidth="155.0" />
+                        <DatePicker fx:id="dueDatePicker" prefHeight="23.0" prefWidth="155.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="40.0" prefWidth="401.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%gui.inputNewStatus" wrappingWidth="155.0" />
+                        <Region prefHeight="40.0" prefWidth="75.0" HBox.hgrow="ALWAYS" />
+                        <ChoiceBox fx:id="newStatusList" prefHeight="23.0" prefWidth="155.0" style="-fx-background-color: #7190de;" />
                      </children>
                   </HBox>
                </children>

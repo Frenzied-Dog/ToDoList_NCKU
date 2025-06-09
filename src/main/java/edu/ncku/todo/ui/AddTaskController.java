@@ -16,23 +16,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author USER
- */
-public class AddTaskController implements Initializable {
+public class AddTaskController extends ButtonBehavior implements Initializable {
+    @FXML private ChoiceBox<String> pickCategoryList;
+    @FXML private TextField categoryInputField;
+    @FXML private TextField newTaskName;
+    @FXML private DatePicker dueDatePicker;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     
@@ -41,67 +35,37 @@ public class AddTaskController implements Initializable {
         DataManager.getCategoryData().forEach(c -> {
             pickCategoryList.getItems().add(c.getName());
         });
-    }    
-    
-    @FXML
-    private void handleHover(MouseEvent e) {
-        Button btn = (Button)e.getSource();   
-        btn.setStyle("-fx-background-color: #8495c4;");
     }
-
-    @FXML
-    private void handlePress(MouseEvent e) {
-        Button btn = (Button)e.getSource();   
-        btn.setStyle("-fx-background-color: #3d4f7a;");
-    }
-    
-    @FXML
-    private void handleExit(MouseEvent e) {
-        Button btn = (Button)e.getSource();
-        btn.setStyle("-fx-background-color: #7190de;");
-    }
-    
-    // @FXML
-    // private void switchToMainView() throws IOException {
-    //     GraphicUI.setRoot("mainView");
-    // }
     
     @FXML
     private void onConfirm(ActionEvent e) {
-        if (!addTask()) return;
-
-        Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
-        stage.close();
-    }
-
-    //處理介面
-    @FXML  private ChoiceBox<String> pickCategoryList;
-    @FXML  private TextField categoryInputField;
-    @FXML  private TextField newTaskName;
-    @FXML  private DatePicker dueDatePicker;
-
-    @FXML
-    private boolean addTask() {
         String mainCategory = pickCategoryList.getValue();
         String newTask = newTaskName.getText();
         LocalDate dueDate = dueDatePicker.getValue();
-        
-        //1.檢查task有沒有填
-        if (newTask.isBlank()) return true; //可能沒看到打叉的使用者可以用
 
-        //2.檢查cate有沒有選
-        if (mainCategory == null) {
+        // 1.檢查cate有沒有選
+        if (mainCategory == null || mainCategory.isBlank()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("警告");
             alert.setHeaderText(null);
             alert.setContentText("請選擇類別");
             alert.showAndWait();
-            
-            return false;
+            return;
         }
+
+        // 2.檢查task有沒有填
+        if (newTask == null || newTask.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("任務名不得為空");
+            alert.showAndWait();
+            return;
+        }
+
         Category category = DataManager.getCategory(mainCategory);
 
-        //3.檢查有沒有重複
+        // 3.檢查有沒有重複
         Task task = new Task(newTask, category.getName(), dueDate);
         boolean result = DataManager.addTask(category, task);
 
@@ -111,9 +75,11 @@ public class AddTaskController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("任務" + newTask + " 已經存在");
             alert.showAndWait();
-            return false;
-        } else {
-            return true;
+            return;
         }
+
+        // 關視窗
+        Stage stage = (Stage)((Node) e.getSource()).getScene().getWindow();
+        stage.close();
     }
 }
