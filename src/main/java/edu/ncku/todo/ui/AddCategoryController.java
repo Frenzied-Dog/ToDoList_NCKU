@@ -4,53 +4,46 @@
  */
 package edu.ncku.todo.ui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import edu.ncku.todo.util.DataManager;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
-public class AddCategoryController implements Initializable {
+public class AddCategoryController extends ButtonBehavior {
+    @FXML private TextField categoryInputField;  
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
-        @FXML
-    private void handleHover(MouseEvent e) {
-        Button btn = (Button)e.getSource();   
-        btn.setStyle("-fx-background-color: #8495c4;");
-    }
-
-    @FXML
-    private void handlePress(MouseEvent e) {
-        Button btn = (Button)e.getSource();   
-        btn.setStyle("-fx-background-color: #3d4f7a;");
-    }
-    
-    @FXML
-    private void handleExit(MouseEvent e) {
-        Button btn = (Button)e.getSource();
-        btn.setStyle("-fx-background-color: #7190de;");
-    }
-    
-    @FXML
-    private void switchToMainView() throws IOException {
-        GraphicUI.setRoot("mainView");
-    }
-    
     @FXML
     private void onConfirm(ActionEvent e) {
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        String newCategory = categoryInputField.getText();
+
+        // 檢查是否為空
+        if (newCategory == null || newCategory.isBlank()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("類別名稱不得為空");
+            alert.showAndWait();
+            return;
+        } else {
+            boolean result = DataManager.addCategory(newCategory);
+
+            if (!result) {
+                System.err.println(newCategory);
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("警告");
+                alert.setHeaderText(null);
+                alert.setContentText("類別" + newCategory + " 已經存在");
+                alert.showAndWait();
+                return;
+            }    
+        }
+
+        // 關視窗
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }
+
 }

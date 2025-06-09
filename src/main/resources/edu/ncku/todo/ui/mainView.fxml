@@ -40,7 +40,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button fx:id="mainViewSettingButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="%ui.setting">
+                  <Button fx:id="mainViewSettingButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onDragEntered="#handleHover" onDragExited="#handleExit" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" onMouseReleased="#handleRelease" style="-fx-background-color: #7190de;" text="%ui.setting">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -57,7 +57,7 @@
                            <left>
                               <HBox alignment="CENTER_RIGHT" prefWidth="80.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#onPrevMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&lt;" textAlignment="CENTER">
+                                    <Button fx:id="prevBtn" mnemonicParsing="false" onAction="#onPrevMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" onMouseReleased="#handleRelease" style="-fx-background-color: #7190de;" text="&lt;" textAlignment="CENTER">
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
                                        </cursor>
@@ -71,7 +71,7 @@
                            <right>
                               <HBox alignment="CENTER_LEFT" prefWidth="80.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#onNextMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" style="-fx-background-color: #7190de;" text="&gt;">
+                                    <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#onNextMonth" onMouseEntered="#handleHover" onMouseExited="#handleExit" onMousePressed="#handlePress" onMouseReleased="#handleRelease" style="-fx-background-color: #7190de;" text="&gt;">
                                        <cursor>
                                           <Cursor fx:constant="DEFAULT" />
                                        </cursor>

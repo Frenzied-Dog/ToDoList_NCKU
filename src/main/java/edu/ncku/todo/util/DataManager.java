@@ -88,6 +88,11 @@ public abstract class DataManager {
 
     public static void removeCategory(String name) {
         data.removeIf(category -> category.getName().equals(name));
+        taskMap.entrySet().removeIf(entry -> {
+            List<Task> tasks = entry.getValue();
+            tasks.removeIf(task -> task.getCategoryName().equals(name));
+            return tasks.isEmpty();
+        });
     }
 
     public static void removeCategory(Category category) {

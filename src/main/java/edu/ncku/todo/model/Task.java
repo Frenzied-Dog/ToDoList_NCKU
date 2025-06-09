@@ -32,7 +32,7 @@ public class Task {
         this.updatedAt.set(LocalDateTime.now());
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object obj) {
         if (obj instanceof Task) {
             Task other = (Task) obj;
@@ -46,7 +46,26 @@ public class Task {
         }
 
         return super.equals(obj);
+    }*/
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Task other = (Task) obj;
+
+        // 比較 name 和 category（取值）
+        boolean nameEqual = this.getName().equals(other.getName());
+        boolean categoryEqual = this.getCategoryName().equals(other.getCategoryName());
+
+        // 比較 dueDate（允許為 null）
+        boolean dueDateEqual = 
+            (this.getDueDate() == null && other.getDueDate() == null) ||
+            (this.getDueDate() != null && this.getDueDate().equals(other.getDueDate()));
+
+        return nameEqual && categoryEqual && dueDateEqual;
     }
+
 
     public static LocalDate parseDate(String dateString) {
         try {

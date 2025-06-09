@@ -22,14 +22,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 
 
-public class MainViewController implements Initializable {
+public class MainViewController extends ButtonBehavior implements Initializable {
 
     // —— FXML 欄位
     // 以下參考自https://gist.github.com/Da9el00/f4340927b8ba6941eb7562a3306e93b6
@@ -190,24 +189,6 @@ public class MainViewController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleHover(MouseEvent e) {
-        Button btn = (Button) e.getSource();
-        btn.setStyle("-fx-background-color: #8495c4;");
-    }
-
-    @FXML
-    private void handleExit(MouseEvent e) {
-        Button btn = (Button) e.getSource();
-        btn.setStyle("-fx-background-color: #7190de;");
-    }
-    
-    @FXML
-    private void handlePress(MouseEvent e) {
-        Button btn = (Button)e.getSource();   
-        btn.setStyle("-fx-background-color: #3d4f7a;");
-    }    
-    
     @FXML
     private void popupAddCategory(ActionEvent event) throws IOException {
         GraphicUI.showDialog("addCategory", "新增類別", null);
