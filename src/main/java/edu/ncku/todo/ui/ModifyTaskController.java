@@ -146,5 +146,3 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
         }
     }
 }
-
-// TODO: 沒有"完成任務"選項`
