@@ -192,20 +192,24 @@ public class MainViewController extends ButtonBehavior implements Initializable 
     @FXML
     private void popupAddCategory(ActionEvent event) throws IOException {
         GraphicUI.showDialog("addCategory", "新增類別", null);
+        reloadUI();
     }
 
     @FXML
     private void popupAddTask(ActionEvent event) throws IOException {
         GraphicUI.showDialog("addTask", "新增任務", null);
+        reloadUI();
     }
 
     @FXML
     private void popupModifyCategory(ActionEvent event) throws IOException {
         GraphicUI.showDialog("ModifyCategory", "修改類別", null);
+        reloadUI();
     }
 
     @FXML
     private void popupModifyTask(ActionEvent event) throws IOException {
         GraphicUI.showDialog("ModifyTask", "修改任務", null);
+        reloadUI();
     }
 }

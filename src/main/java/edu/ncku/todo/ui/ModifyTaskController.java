@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -41,6 +42,40 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
         });
 
         newStatusList.getItems().addAll(TaskStatus.values());
+    }
+
+    @FXML
+    private void fillTaskList() {
+        pickTaskList.setValue(null);
+        pickTaskList.getItems().clear(); // 清空任務列表
+
+        String selectedCategoryName = pickCategoryList.getValue();
+        if (selectedCategoryName == null || selectedCategoryName.isBlank())
+            return;
+
+        Category category = DataManager.getCategory(selectedCategoryName);
+        if (category == null)
+            return;
+
+        // 加入 Task 物件本身
+        pickTaskList.getItems().addAll(category.getTasks());
+    }
+
+    @FXML
+    private void fillOldTaskProperty() {
+        Task selectedTask = pickTaskList.getValue();  
+        
+        if (selectedTask != null) {
+            newCategoryList.setValue(pickCategoryList.getValue());
+            newTaskName.setText(selectedTask.getName());  
+            dueDatePicker.setValue(selectedTask.getDueDate()); 
+            newStatusList.setValue(selectedTask.getStatus());
+        } else {
+            newCategoryList.setValue(null);
+            newTaskName.clear();
+            dueDatePicker.setValue(null);
+            newStatusList.setValue(null);
+        }
     }
 
     @FXML
@@ -104,45 +139,37 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
             alert.setHeaderText(null);
             alert.setContentText("任務" + newName + " 已經存在於類別" + category.getName());
             alert.showAndWait();
+        } else {
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    @FXML
+    private void onClickDelete(ActionEvent e) {
+        String categoryName = pickCategoryList.getValue();
+        Task taskName = pickTaskList.getValue();
+
+        if (taskName == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("請選擇要刪除的任務");
+            alert.showAndWait();
             return;
         }
 
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.close();
-    }
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("警告");
+        alert.setHeaderText(null);
+        alert.setContentText("這將刪除任務" + taskName.getName() + "，確認是否刪除？");
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+        alert.showAndWait();
 
-
-    @FXML
-    private void fillTaskList() {
-        pickTaskList.setValue(null);
-        pickTaskList.getItems().clear(); // 清空任務列表
-
-        String selectedCategoryName = pickCategoryList.getValue();
-        if (selectedCategoryName == null || selectedCategoryName.isBlank())
-            return;
-
-        Category category = DataManager.getCategory(selectedCategoryName);
-        if (category == null)
-            return;
-
-        // 加入 Task 物件本身
-        pickTaskList.getItems().addAll(category.getTasks());
-    }
-
-    @FXML
-    private void fillOldTaskProperty() {
-        Task selectedTask = pickTaskList.getValue();  
-        
-        if (selectedTask != null) {
-            newCategoryList.setValue(pickCategoryList.getValue());
-            newTaskName.setText(selectedTask.getName());  
-            dueDatePicker.setValue(selectedTask.getDueDate()); 
-            newStatusList.setValue(selectedTask.getStatus());
-        } else {
-            newCategoryList.setValue(null);
-            newTaskName.clear();
-            dueDatePicker.setValue(null);
-            newStatusList.setValue(null);
+        if (alert.getResult() == ButtonType.YES) {
+            DataManager.removeTask(categoryName, taskName);
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.close();
         }
     }
 }

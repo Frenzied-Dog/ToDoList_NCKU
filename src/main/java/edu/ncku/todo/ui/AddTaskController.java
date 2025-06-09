@@ -8,7 +8,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.util.DataManager;
 import javafx.event.ActionEvent;
@@ -39,12 +38,12 @@ public class AddTaskController extends ButtonBehavior implements Initializable {
 
     @FXML
     private void onConfirm(ActionEvent e) {
-        String mainCategory = pickCategoryList.getValue();
+        String categoryName = pickCategoryList.getValue();
         String newTask = newTaskName.getText();
         LocalDate dueDate = dueDatePicker.getValue();
 
         // 1.檢查cate有沒有選
-        if (mainCategory == null || mainCategory.isBlank()) {
+        if (categoryName == null || categoryName.isBlank()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("警告");
             alert.setHeaderText(null);
@@ -63,11 +62,9 @@ public class AddTaskController extends ButtonBehavior implements Initializable {
             return;
         }
 
-        Category category = DataManager.getCategory(mainCategory);
-
         // 3.檢查有沒有重複
-        Task task = new Task(newTask, category.getName(), dueDate);
-        boolean result = DataManager.addTask(category, task);
+        Task task = new Task(newTask, categoryName, dueDate);
+        boolean result = DataManager.addTask(categoryName, task);
 
         if (!result) {
             Alert alert = new Alert(Alert.AlertType.WARNING);

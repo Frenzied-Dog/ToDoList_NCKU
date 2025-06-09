@@ -18,13 +18,13 @@ public class Main {
         // Load the configuration file and set the locale
         if (FileManager.loadConfig()) {
             Lang.setLocale(Config.getLocale());
-            System.out.println(Lang.get("notify.langLoaded"));
+            System.out.println(Lang.get("log.langLoaded"));
         } else {
             System.out.println("Default language is set to English.");
         }
 
         // Load tasks & categories files
-        System.out.println(Lang.get("notify.loadingData"));
+        System.out.println(Lang.get("log.loadingData"));
         FileManager.loadData();
 
         // Check if the first argument is "--cli"

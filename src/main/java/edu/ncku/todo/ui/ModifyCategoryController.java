@@ -14,13 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ModifyCategoryController extends ButtonBehavior implements Initializable {
-    @FXML private TextField newCategoryName;
     @FXML private ChoiceBox<String> pickCategoryList;
+    @FXML private TextField newCategoryName;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -83,11 +84,36 @@ public class ModifyCategoryController extends ButtonBehavior implements Initiali
             alert.setHeaderText(null);
             alert.setContentText("類別" + newName + "已經存在");
             alert.showAndWait();
-            return;
         } else {
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.close();
         }
     }
 
+    @FXML
+    private void onClickDelete(ActionEvent e) {
+        String categoryName = pickCategoryList.getValue();
+
+        if (categoryName == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("警告");
+            alert.setHeaderText(null);
+            alert.setContentText("請選擇類別");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("警告");
+        alert.setHeaderText(null);
+        alert.setContentText("這將刪除類別" + categoryName + "及其所有任務，確認是否刪除？");
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            DataManager.removeCategory(categoryName);
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.close();
+        }
+    }
 }

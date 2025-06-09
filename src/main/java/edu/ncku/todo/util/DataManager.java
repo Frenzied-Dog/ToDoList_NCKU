@@ -97,6 +97,11 @@ public abstract class DataManager {
 
     public static void removeCategory(Category category) {
         data.remove(category);
+        taskMap.entrySet().removeIf(entry -> {
+            List<Task> tasks = entry.getValue();
+            tasks.removeIf(task -> task.getCategoryName().equals(category.getName()));
+            return tasks.isEmpty();
+        });
     }
 
     public static boolean updateCategory(Category category, String newName) {
@@ -149,13 +154,18 @@ public abstract class DataManager {
 
     public static void removeTask(Category category, Task task) {
         LocalDate dueDate = task.getDueDate();
+        category.removeTask(task);
+        
         if (dueDate != null && taskMap.containsKey(dueDate)) {
             taskMap.get(dueDate).remove(task);
             if (taskMap.get(dueDate).isEmpty()) {
                 taskMap.remove(dueDate); // Remove the entry if no tasks left for that date
             }
         }
-        category.removeTask(task);
+    }
+
+    public static void removeTask(String categoryName, Task task) {
+        removeTask(getCategory(categoryName), task);
     }
 
     public static boolean updateTask(Task task, Category newCategory, String newTaskName, LocalDate newDueDate, TaskStatus newStatus) {
