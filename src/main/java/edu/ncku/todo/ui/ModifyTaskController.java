@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package edu.ncku.todo.ui;
 
 import java.net.URL;
@@ -12,11 +8,13 @@ import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.TaskStatus;
 import edu.ncku.todo.util.DataManager;
+import edu.ncku.todo.util.Lang;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -89,30 +87,18 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
 
         // 1.檢查task有沒有填
         if (oldTask == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("請選擇要修改的任務");
-            alert.showAndWait();
+            GraphicUI.showAlert(AlertType.WARNING, Lang.get("notify.gui.noChooseTask"));
             return;
         }
 
         if (newName.isBlank()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("任務名不得為空");
-            alert.showAndWait();
+            GraphicUI.showAlert(AlertType.WARNING, Lang.get("notify.invalidTaskName"));
             return;
         }
 
         // 2.檢查cate有沒有選
         if (newCategory == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("請選擇類別");
-            alert.showAndWait();
+            GraphicUI.showAlert(AlertType.WARNING, Lang.get("notify.gui.noChooseNewCategory"));
             return;
         }
 
@@ -120,11 +106,8 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
                 && newName.equals(oldTask.getName()) 
                 && newDueDate.equals(oldTask.getDueDate()) 
                 && newStatus.equals(oldTask.getStatus())) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("提示");
-            alert.setHeaderText(null);
-            alert.setContentText("未修改");
-            alert.showAndWait();
+
+            GraphicUI.showAlert(AlertType.INFORMATION, Lang.get("notify.unchanged"));
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.close();
             return;
@@ -134,11 +117,7 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
         Category category = DataManager.getCategory(newCategory);
         boolean result = DataManager.updateTask(oldTask, category, newName, newDueDate, newStatus);
         if (!result) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("任務" + newName + " 已經存在於類別" + category.getName());
-            alert.showAndWait();
+            GraphicUI.showAlert(AlertType.WARNING, String.format(Lang.get("notify.gui.existedTask"), newName, category.getName()));
         } else {
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.close();
@@ -148,26 +127,17 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
     @FXML
     private void onClickDelete(ActionEvent e) {
         String categoryName = pickCategoryList.getValue();
-        Task taskName = pickTaskList.getValue();
+        Task toDelete = pickTaskList.getValue();
 
-        if (taskName == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("請選擇要刪除的任務");
-            alert.showAndWait();
+        if (toDelete == null) {
+            GraphicUI.showAlert(AlertType.WARNING, Lang.get("notify.gui.noChooseTask"));
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("警告");
-        alert.setHeaderText(null);
-        alert.setContentText("這將刪除任務" + taskName.getName() + "，確認是否刪除？");
-        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.CANCEL);
-        alert.showAndWait();
+        ButtonType ret = GraphicUI.showAlert(AlertType.CONFIRMATION, String.format(Lang.get("notify.gui.confirmDeleteTask"), toDelete.getName()));
 
-        if (alert.getResult() == ButtonType.YES) {
-            DataManager.removeTask(categoryName, taskName);
+        if (ret == ButtonType.YES) {
+            DataManager.removeTask(categoryName, toDelete);
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             stage.close();
         }

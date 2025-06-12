@@ -3,12 +3,14 @@ package edu.ncku.todo.ui;
 import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.TaskStatus;
+import edu.ncku.todo.util.Lang;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
@@ -24,11 +26,18 @@ public class TableController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        taskNameColumn.setReorderable(false);
+        taskDueDateColumn.setReorderable(false);
+        taskStatusColumn.setReorderable(false);
         taskNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         taskDueDateColumn.setCellValueFactory(cellData -> cellData.getValue().dueDateProperty());
         taskStatusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty());
 
         table.getSelectionModel().setCellSelectionEnabled(false);
+        table.setStyle("-fx-background-color: #b9cceb;");
+        table.setPlaceholder(new Label(Lang.get("gui.emptyCategory")));
+
 
         taskNameColumn.setCellFactory(_ -> new TableCell<>() {
                 @Override
@@ -95,7 +104,7 @@ public class TableController implements Initializable {
                 if (empty || item == null) {
                     setStyle("-fx-background-color: #b9cceb;");
                 } else if (isSelected()) {
-                    setStyle("-fx-background-color:rgb(124, 165, 212);");
+                    setStyle("-fx-background-color: #7ca5d4;");
                 } else {
                     setStyle("-fx-background-color: #b9cceb;");
                 }

@@ -5,27 +5,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="root" prefHeight="480.0" prefWidth="340.0"
-   xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-   fx:controller="edu.ncku.todo.ui.TableController">
+<AnchorPane fx:id="root" prefHeight="480.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ncku.todo.ui.TableController">
 
    <children>
-      <TableView fx:id="table" prefHeight="180.0" prefWidth="325.0"
-         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-         AnchorPane.topAnchor="0.0">
+      <TableView fx:id="table" prefHeight="180.0" prefWidth="325.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columns>
-            <TableColumn fx:id="taskNameColumn" maxWidth="137.0" minWidth="137.0" prefWidth="137.0"
-               resizable="false" sortable="false"
-               style="-fx-background-color: #a4bfeb; -fx-border-color: gray; -fx-border-width: 0 1 0 0;"
-               text="任務名稱" />
-            <TableColumn fx:id="taskDueDateColumn" maxWidth="100.0" minWidth="100.0"
-               prefWidth="100.0" resizable="false" sortable="false"
-               style="-fx-background-color: #a4bfeb; -fx-border-color: gray; -fx-border-width: 0 1 0 0;"
-               text="任務期限" />
-            <TableColumn fx:id="taskStatusColumn" maxWidth="100.0" minWidth="100.0"
-               prefWidth="100.0" resizable="false" sortable="false"
-               style="-fx-background-color: #a4bfeb; -fx-border-color: gray; -fx-border-width: 0 1 0 0;"
-               text="任務狀態" />
+            <TableColumn fx:id="taskNameColumn" editable="false" maxWidth="137.0" minWidth="137.0" prefWidth="137.0" resizable="false" sortable="false" style="-fx-background-color: #a4bfeb; -fx-border-color: gray; -fx-border-width: 0 1 0 0;" text="%gui.taskName" />
+            <TableColumn fx:id="taskDueDateColumn" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" sortable="false" style="-fx-background-color: #a4bfeb; -fx-border-color: gray; -fx-border-width: 0 1 0 0;" text="%gui.taskDueDate" />
+            <TableColumn fx:id="taskStatusColumn" editable="false" maxWidth="102.0" minWidth="0.0" prefWidth="102.0" resizable="false" sortable="false" style="-fx-background-color: #a4bfeb; -fx-border-color: gray; -fx-border-width: 0 1 0 0;" text="%gui.taskStatus" />
          </columns>
          <opaqueInsets>
             <Insets />
