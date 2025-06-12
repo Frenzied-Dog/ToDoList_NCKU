@@ -21,10 +21,10 @@ public class ConsoleUI {
         while (true) {
             // clear the console and print the menu
             printTitle("ui.welcome");
-            System.out.printf(Lang.get("ui.hintTaskCount"), DataManager.getUnfinishedTaskCount());
+            System.out.printf(Lang.get("ui.hintTaskCount") + "\n", DataManager.getUnfinishedTaskCount());
             System.out.println("=========================================");
             System.out.println("1. " + Lang.get("ui.add"));
-            System.out.println("2. " + Lang.get("ui.list"));
+            System.out.println("2. " + Lang.get("ui.listTasks"));
             System.out.println("3. " + Lang.get("ui.modify"));
             System.out.println("4. " + Lang.get("ui.delete"));
             System.out.println("5. " + Lang.get("ui.help"));
@@ -54,13 +54,13 @@ public class ConsoleUI {
                     addTask();
                     break;
                 default: // should not happen
-                    System.out.println(Lang.get("ui.invalidChoice"));
+                    System.out.println(Lang.get("notify.invalidChoice"));
                     break;
                 }
                 break;
             case 2:
                 // List tasks
-                printTitle("ui.list");
+                printTitle("ui.listTasks");
                 listTasks();
                 System.out.println(Lang.get("ui.pressEnter"));
                 scanner.nextLine(); // wait for user input
@@ -84,7 +84,7 @@ public class ConsoleUI {
                     modifyTask();
                     break;
                 default: // should not happen
-                    System.out.println(Lang.get("ui.invalidChoice"));
+                    System.out.println(Lang.get("notify.invalidChoice"));
                     break;
                 }
 
@@ -108,7 +108,7 @@ public class ConsoleUI {
                     deleteTask();
                     break;
                 default: // should not happen
-                    System.out.println(Lang.get("ui.invalidChoice"));
+                    System.out.println(Lang.get("notify.invalidChoice"));
                     break;
                 }
 
@@ -137,7 +137,7 @@ public class ConsoleUI {
                     changeLanguage();
                     break;
                 default: // should not happen
-                    System.out.println(Lang.get("ui.invalidChoice"));
+                    System.out.println(Lang.get("notify.invalidChoice"));
                     break;
                 }
                 break;
@@ -145,7 +145,7 @@ public class ConsoleUI {
                 // Exit
                 return;
             default:
-                System.out.println(Lang.get("ui.invalidChoice"));
+                System.out.println(Lang.get("notify.invalidChoice"));
                 break;
             }
         }
@@ -174,13 +174,13 @@ public class ConsoleUI {
 
                 // check if the choice is in the range
                 if (choice < 0 || choice > max) {
-                    System.out.println(Lang.get("ui.invalidChoice"));
+                    System.out.println(Lang.get("notify.invalidChoice"));
                     continue;
                 } else {
                     return choice;
                 }
             } catch (Exception e) {
-                System.out.println(Lang.get("ui.invalidChoice"));
+                System.out.println(Lang.get("notify.invalidChoice"));
                 continue;
             }
         }
@@ -190,7 +190,7 @@ public class ConsoleUI {
         // check if there are any categories
         List<Category> categories = DataManager.getCategoryData();
         if (categories.isEmpty()) {
-            System.out.println(Lang.get("ui.noCategory"));
+            System.out.println(Lang.get("notify.noCategory"));
             return;
         }
 
@@ -217,14 +217,14 @@ public class ConsoleUI {
 
         // Check if the name is empty
         if (name == null || name.isEmpty()) {
-            System.out.println(Lang.get("ui.invalidCategoryName"));
+            System.out.println(Lang.get("notify.invalidCategoryName"));
             sleep(1500);
             return;
         }
 
         // Check if the name is already in use
-        boolean result = DataManager.addCategory(name);
-        System.out.printf(Lang.get(result ? "ui.categoryAdded" : "ui.categoryExists"), name);
+        boolean result = DataManager.addCategory(name, null);
+        System.out.printf(Lang.get(result ? "notify.categoryAdded" : "notify.existedCategory"), name);
         sleep(1500);
     }
 
@@ -233,7 +233,7 @@ public class ConsoleUI {
         // check if there are any categories
         List<String> categories = DataManager.getCategoryStrList();
         if (categories.isEmpty()) {
-            System.out.println(Lang.get("ui.noCategory"));
+            System.out.println(Lang.get("notify.noCategory"));
             sleep(1500);
             return;
         }
@@ -254,7 +254,7 @@ public class ConsoleUI {
         String name = scanner.nextLine();
         // Check if the name is empty
         if (name == null || name.isEmpty()) {
-            System.out.println(Lang.get("ui.invalidTaskName"));
+            System.out.println(Lang.get("notify.invalidTaskName"));
             sleep(1500);
             return;
         }
@@ -266,13 +266,13 @@ public class ConsoleUI {
         LocalDate dueDate = Task.parseDate(dueDateStr);
         // -1 / empty means no due date
         if (dueDateStr != "" && dueDateStr != "-1" && dueDate == null) {
-            System.out.println(Lang.get("ui.invalidDateFormat"));
+            System.out.println(Lang.get("notify.invalidDateFormat"));
             sleep(1500);
             return;
         }
 
         boolean result = DataManager.addTask(category, new Task(name, category.getName(), dueDate));
-        System.out.printf(Lang.get(result ? "ui.taskAdded" : "ui.duplicateNewTask"), name, category.getName());
+        System.out.printf(Lang.get(result ? "notify.taskAdded" : "notify.duplicateNewTask"), name, category.getName());
         sleep(1500);
     }
 
@@ -282,7 +282,7 @@ public class ConsoleUI {
 
         // Check if there are any categories
         if (categories.isEmpty()) {
-            System.out.println(Lang.get("ui.noCategory"));
+            System.out.println(Lang.get("notify.noCategory"));
             sleep(1500);
             return;
         }
@@ -305,16 +305,16 @@ public class ConsoleUI {
 
         // Check if the name is empty
         if (newName == null || newName.isEmpty()) {
-            System.out.println(Lang.get("ui.invalidCategoryName"));
+            System.out.println(Lang.get("notify.invalidCategoryName"));
             sleep(1500);
             return;
         }
 
-        boolean result = DataManager.updateCategory(category, newName);
+        boolean result = DataManager.updateCategory(category, newName, null);
         if (result) {
-            System.out.printf(Lang.get("ui.categoryModified"), oldName, newName);
+            System.out.printf(Lang.get("notify.categoryModified"), oldName, newName);
         } else {
-            System.out.printf(Lang.get("ui.categoryExists"), newName);
+            System.out.printf(Lang.get("notify.existedCategory"), newName);
         }
         sleep(1500);
     }
@@ -325,7 +325,7 @@ public class ConsoleUI {
         // check if there are any categories
         List<String> categories = DataManager.getCategoryStrList();
         if (categories.isEmpty()) {
-            System.out.println(Lang.get("ui.noCategory"));
+            System.out.println(Lang.get("notify.noCategory"));
             sleep(1500);
             return;
         }
@@ -343,7 +343,7 @@ public class ConsoleUI {
         // check if there are any tasks in the category
         List<Task> tasks = category.getTasks();
         if (tasks.isEmpty()) {
-            System.out.println(Lang.get("ui.noTaskInCategory"));
+            System.out.println(Lang.get("notify.noTaskInCategory"));
             sleep(1500);
             return;
         }
@@ -361,7 +361,7 @@ public class ConsoleUI {
 
         // pick a new category
         printTitle("ui.modifyTask");
-        System.out.printf(Lang.get("ui.modifyingTask"), task.getCategoryName(), task.getName());
+        System.out.printf(Lang.get("ui.modifyingTask") + "\n", task.getCategoryName(), task.getName());
         System.out.println("=========================================");
         System.out.println("0. " + Lang.get("ui.back"));
         for (int i = 0; i < categories.size(); i++) {
@@ -406,7 +406,7 @@ public class ConsoleUI {
         TaskStatus newStatus = (choice == -2 ? task.getStatus() : TaskStatus.values()[choice]);
 
         boolean result = DataManager.updateTask(task, newCategory, newName, newDueDate, newStatus);
-        System.out.printf(Lang.get(result ? "ui.taskModified" : "ui.duplicateModifyTask"), task.getName());
+        System.out.printf(Lang.get(result ? "notify.taskModified" : "notify.duplicateModifiedTask"), task.getName());
         sleep(1200);
     }
 
@@ -416,7 +416,7 @@ public class ConsoleUI {
 
         // Check if there are any categories
         if (categories.isEmpty()) {
-            System.out.println(Lang.get("ui.noCategory"));
+            System.out.println(Lang.get("notify.noCategory"));
             sleep(1500);
             return;
         }
@@ -432,25 +432,24 @@ public class ConsoleUI {
         }
         Category category = DataManager.getCategory(choice);
 
-        if (category.getTasks().size() > 0) {
-            System.out.printf(Lang.get("ui.categoryNotEmpty"), category.getName());
-            while (true) {
-                String input = scanner.nextLine().trim().toLowerCase();
-                if (input.equals("y") || input.equals("yes")) {
-                    break; // proceed to delete
-                } else if (input.equals("n") || input.equals("no")) {
-                    System.out.println(Lang.get("ui.cancelOperation"));
-                    sleep(1500);
-                    return; // cancel deletion
-                } else {
-                    System.out.println(Lang.get("ui.invalidChoice"));
-                }
-                System.out.print(Lang.get("ui.confirmDeleteCategory"));
+        
+        System.out.printf(Lang.get("ui.confirmDeleteCategory"), category.getName());
+        while (true) {
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("y") || input.equals("yes")) {
+                break; // proceed to delete
+            } else if (input.equals("n") || input.equals("no")) {
+                System.out.println(Lang.get("ui.cancelOperation"));
+                sleep(1500);
+                return; // cancel deletion
+            } else {
+                System.out.println(Lang.get("notify.invalidChoice"));
             }
+            System.out.printf(Lang.get("ui.confirmDeleteCategory2"), category.getName());
         }
 
         DataManager.removeCategory(category);
-        System.out.printf(Lang.get("ui.categoryDeleted"), category.getName());
+        System.out.printf(Lang.get("notify.categoryDeleted"), category.getName());
         sleep(1200);
     }
 
@@ -460,7 +459,7 @@ public class ConsoleUI {
         // check if there are any categories
         List<String> categories = DataManager.getCategoryStrList();
         if (categories.isEmpty()) {
-            System.out.println(Lang.get("ui.noCategory"));
+            System.out.println(Lang.get("notify.noCategory"));
             sleep(1500);
             return;
         }
@@ -478,7 +477,7 @@ public class ConsoleUI {
         // check if there are any tasks in the category
         List<Task> tasks = category.getTasks();
         if (tasks.isEmpty()) {
-            System.out.println(Lang.get("ui.noTaskInCategory"));
+            System.out.println(Lang.get("notify.noTaskInCategory"));
             sleep(1500);
             return;
         }
@@ -493,10 +492,26 @@ public class ConsoleUI {
         if (choice == -1) {
             return; // back to main menu
         }
+
         Task task = tasks.get(choice);
 
+        System.out.printf(Lang.get("ui.confirmDeleteTask"), task.getName());
+        while (true) {
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("y") || input.equals("yes")) {
+                break; // proceed to delete
+            } else if (input.equals("n") || input.equals("no")) {
+                System.out.println(Lang.get("ui.cancelOperation"));
+                sleep(1500);
+                return; // cancel deletion
+            } else {
+                System.out.println(Lang.get("notify.invalidChoice"));
+            }
+            System.out.printf(Lang.get("ui.confirmDeleteTask"), task.getName());
+        }
+
         DataManager.removeTask(category, task);
-        System.out.printf(Lang.get("ui.taskDeleted"), task.getName());
+        System.out.printf(Lang.get("notify.taskDeleted"), task.getName());
         sleep(1200);
     }
 
@@ -524,12 +539,12 @@ public class ConsoleUI {
             Config.set("lang", "zh-CN");
             break;
         default: // should not happen
-            System.out.println(Lang.get("ui.invalidChoice"));
+            System.out.println(Lang.get("notify.invalidChoice"));
             sleep(1000);
             return;
         }
         Lang.setLocale(Config.getLocale());
-        System.out.println(Lang.get("ui.languageChanged"));
+        System.out.println(Lang.get("notify.languageChanged"));
         sleep(1000);
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.model.Category;
 import edu.ncku.todo.model.TaskStatus;
+import javafx.scene.paint.Color;
 
 public abstract class DataManager {
     private static List<Category> data = new ArrayList<>();
@@ -77,8 +78,8 @@ public abstract class DataManager {
         return null;
     }
 
-    public static boolean addCategory(String name) {
-        Category category = new Category(name, null);
+    public static boolean addCategory(String name, Color color) {
+        Category category = new Category(name, color);
         if (data.contains(category)) {
             return false; // Category already exists, do nothing
         }
@@ -104,12 +105,13 @@ public abstract class DataManager {
         });
     }
 
-    public static boolean updateCategory(Category category, String newName) {
-        if (data.contains(new Category(newName, null))) {
+    public static boolean updateCategory(Category category, String newName, Color newColor) {
+        if (!category.getName().equals(newName) && data.contains(new Category(newName, newColor))) {
             return false; // Category already exists, do nothing
         }
 
         category.setName(newName);
+        category.setColor(newColor);
         // Update the category name for all tasks in the category
         for (Task task : category.getTasks()) {
             task.setCategory(newName);
@@ -137,10 +139,9 @@ public abstract class DataManager {
         category.addTask(task);
         LocalDate dueDate = task.getDueDate();
         if (dueDate != null) {
-            if (!taskMap.containsKey(dueDate)) {
+            if (!taskMap.containsKey(dueDate) || taskMap.get(dueDate) == null) {
                 taskMap.put(dueDate, new ArrayList<>());
-            } else if (taskMap.get(dueDate) == null) {
-                taskMap.put(dueDate, new ArrayList<>());
+                taskMap.get(dueDate).add(task);
             } else {
                 taskMap.get(dueDate).add(task);
             }

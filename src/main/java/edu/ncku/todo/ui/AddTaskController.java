@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package edu.ncku.todo.ui;
 
 import java.net.URL;
@@ -10,11 +6,13 @@ import java.util.ResourceBundle;
 
 import edu.ncku.todo.model.Task;
 import edu.ncku.todo.util.DataManager;
+import edu.ncku.todo.util.Lang;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -44,21 +42,13 @@ public class AddTaskController extends ButtonBehavior implements Initializable {
 
         // 1.檢查cate有沒有選
         if (categoryName == null || categoryName.isBlank()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("請選擇類別");
-            alert.showAndWait();
+            GraphicUI.showAlert(AlertType.WARNING, Lang.get("notify.gui.noChooseCategory"));
             return;
         }
 
         // 2.檢查task有沒有填
         if (newTask == null || newTask.isBlank()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("任務名不得為空");
-            alert.showAndWait();
+            GraphicUI.showAlert(AlertType.WARNING, Lang.get("notify.invalidTaskName"));
             return;
         }
 
@@ -67,11 +57,7 @@ public class AddTaskController extends ButtonBehavior implements Initializable {
         boolean result = DataManager.addTask(categoryName, task);
 
         if (!result) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("警告");
-            alert.setHeaderText(null);
-            alert.setContentText("任務" + newTask + " 已經存在");
-            alert.showAndWait();
+            GraphicUI.showAlert(AlertType.WARNING, String.format(Lang.get("notify.gui.existedTask"), newTask, categoryName));
             return;
         }
 

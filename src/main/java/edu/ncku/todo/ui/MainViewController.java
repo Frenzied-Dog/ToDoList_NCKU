@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import edu.ncku.todo.util.DataManager;
 import edu.ncku.todo.model.Config;
+import edu.ncku.todo.util.DataManager;
 import edu.ncku.todo.util.Lang;
 
 import javafx.event.ActionEvent;
@@ -29,15 +29,11 @@ import javafx.scene.control.MenuItem;
 
 
 public class MainViewController extends ButtonBehavior implements Initializable {
-
-    // —— FXML 欄位
-    // 以下參考自https://gist.github.com/Da9el00/f4340927b8ba6941eb7562a3306e93b6
-    
     @FXML private FlowPane calendarPane;
     @FXML private Text yearText;
     @FXML private Text monthText;
     @FXML private TabPane categoryPane;
-    @FXML private Button mainViewSettingButton;
+    @FXML private Button settingButton;
 
     private LocalDate today;
     private LocalDate focusMonth;
@@ -95,8 +91,8 @@ public class MainViewController extends ButtonBehavior implements Initializable 
 
         langMenu = new ContextMenu(en, zh_TW, zh_CN);
         
-        mainViewSettingButton.setOnMouseClicked(_ ->
-            langMenu.show(mainViewSettingButton, Side.BOTTOM, 0, 0)
+        settingButton.setOnMouseClicked(_ ->
+            langMenu.show(settingButton, Side.BOTTOM, 0, 0)
         );
     }
     
@@ -145,7 +141,7 @@ public class MainViewController extends ButtonBehavior implements Initializable 
         for (int i = 0; i < 42; i++) {
             try {
                 // add category tabs
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("calendarCell.fxml"), Lang.bundle);
+                FXMLLoader loader = GraphicUI.getFXML("calendarCell");
                 StackPane cell = loader.load();
                 CellController controller = loader.getController();
                 cellControllers.add(controller);
@@ -191,25 +187,25 @@ public class MainViewController extends ButtonBehavior implements Initializable 
 
     @FXML
     private void popupAddCategory(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("addCategory", "新增類別", null);
+        GraphicUI.showDialog("addCategory", Lang.get("ui.addCategory"), null);
         reloadUI();
     }
 
     @FXML
     private void popupAddTask(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("addTask", "新增任務", null);
+        GraphicUI.showDialog("addTask", Lang.get("ui.addTask"), null);
         reloadUI();
     }
 
     @FXML
     private void popupModifyCategory(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("ModifyCategory", "修改類別", null);
+        GraphicUI.showDialog("modifyCategory", Lang.get("ui.modifyCategory"), null);
         reloadUI();
     }
 
     @FXML
     private void popupModifyTask(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("ModifyTask", "修改任務", null);
+        GraphicUI.showDialog("modifyTask", Lang.get("ui.modifyTask"), null);
         reloadUI();
     }
 }
