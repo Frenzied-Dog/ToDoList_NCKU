@@ -104,7 +104,7 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
 
         if (newCategory.equals(oldCategory)
                 && newName.equals(oldTask.getName()) 
-                && newDueDate.equals(oldTask.getDueDate()) 
+                && ( (newDueDate == null && oldTask.getDueDate() == null) || (newDueDate != null && newDueDate.equals(oldTask.getDueDate())) )
                 && newStatus.equals(oldTask.getStatus())) {
 
             GraphicUI.showAlert(AlertType.INFORMATION, Lang.get("notify.unchanged"));

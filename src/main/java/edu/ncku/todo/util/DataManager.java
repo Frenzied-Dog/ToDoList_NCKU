@@ -170,6 +170,7 @@ public abstract class DataManager {
     }
 
     public static boolean updateTask(Task task, Category newCategory, String newTaskName, LocalDate newDueDate, TaskStatus newStatus) {
+        LocalDate oldDueDate = task.getDueDate();
         Task tmp = new Task(newTaskName, newCategory.getName(), newDueDate);
 
         if (!task.equals(tmp) && newCategory.getTasks().contains(tmp)) {
@@ -177,16 +178,38 @@ public abstract class DataManager {
         }
 
         // If the category is changed
-        if (newCategory.getName() != task.getCategoryName()) {
-            removeTask(getCategory(task.getCategoryName()), task);
+        if (!newCategory.getName().equals(task.getCategoryName())) {
+            getCategory(task.getCategoryName()).removeTask(task);
             task.setCategory(newCategory.getName());
-            addTask(newCategory, task);
+            newCategory.addTask(task);
         }
 
         task.setName(newTaskName);
         task.setDueDate(newDueDate);
         task.setStatus(newStatus);
         task.setUpdatedAt(LocalDateTime.now());
+
+        if (newDueDate != null) {
+            // Remove the task from the old due date list
+            if (oldDueDate != null && taskMap.containsKey(oldDueDate)) {
+                taskMap.get(oldDueDate).remove(task);
+                if (taskMap.get(oldDueDate).isEmpty()) {
+                    taskMap.remove(oldDueDate); // Remove the entry if no tasks left for that date
+                }
+            }
+            // Add the task to the new due date list
+            if (!taskMap.containsKey(newDueDate)) {
+                taskMap.put(newDueDate, new ArrayList<>());
+            }
+            taskMap.get(newDueDate).add(task);
+        } else if (oldDueDate != null && taskMap.containsKey(oldDueDate)) {
+            // If the new due date is null, remove the task from the old due date list
+            taskMap.get(oldDueDate).remove(task);
+            if (taskMap.get(oldDueDate).isEmpty()) {
+                taskMap.remove(oldDueDate); // Remove the entry if no tasks left for that date
+            }
+        }
+
         return true; // Task updated successfully
     }
 
