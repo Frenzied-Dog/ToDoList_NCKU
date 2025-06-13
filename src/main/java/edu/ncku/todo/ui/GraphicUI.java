@@ -45,7 +45,7 @@ public class GraphicUI extends Application {
         Parent root = loader.load();
 
         if (payload != null) {
-            if (payload instanceof List<?> && !((List<?>) payload).isEmpty()) {
+            if (payload instanceof List<?> list && !list.isEmpty()) {
                 List<?> tmp = (List<?>) payload;
                 List<Task> taskList = new ArrayList<>();
                 for (Object obj : tmp) {
@@ -62,8 +62,11 @@ public class GraphicUI extends Application {
                 controller.setTask(task);
             }
             else if (payload instanceof String) {
-                ModifyCategoryController controller = loader.getController();
-                controller.setCategory((String) payload);
+                if (loader.getController() instanceof AddTaskController controller) {
+                    controller.setCategory((String) payload);
+                } else if (loader.getController() instanceof ModifyCategoryController controller) {
+                    controller.setCategory((String) payload);
+                }
             }
 
         }

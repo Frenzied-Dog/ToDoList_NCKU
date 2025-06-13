@@ -26,12 +26,15 @@ public class AddTaskController extends ButtonBehavior implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    
         // 將category名字載進來
         pickCategoryList.getItems().clear();
         DataManager.getCategoryData().forEach(c -> {
             pickCategoryList.getItems().add(c.getName());
         });
+    }
+
+    void setCategory(String categoryName) {
+        pickCategoryList.setValue(categoryName);
     }
 
     @FXML

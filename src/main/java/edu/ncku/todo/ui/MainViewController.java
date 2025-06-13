@@ -195,7 +195,8 @@ public class MainViewController extends ButtonBehavior implements Initializable 
 
     @FXML
     private void popupAddTask(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("addTask", Lang.get("ui.addTask"), null);
+        int index = categoryPane.getSelectionModel().getSelectedIndex();
+        GraphicUI.showDialog("addTask", Lang.get("ui.addTask"), DataManager.getCategoryStrList().get(index));
         reloadUI();
     }
 
