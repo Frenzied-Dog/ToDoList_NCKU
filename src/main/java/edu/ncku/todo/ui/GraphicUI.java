@@ -1,6 +1,7 @@
 package edu.ncku.todo.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ncku.todo.model.Task;
@@ -39,13 +40,32 @@ public class GraphicUI extends Application {
     }
     
     //彈出視窗邏輯
-    static void showDialog(String fxml, String title, List<Task> tasks) throws IOException {
+    static void showDialog(String fxml, String title, Object payload) throws IOException {
         FXMLLoader loader = getFXML(fxml);
         Parent root = loader.load();
 
-        if (tasks != null && !tasks.isEmpty()) {
-            TableController controller = loader.getController();
-            controller.setTable(tasks);
+        if (payload != null) {
+            if (payload instanceof List<?> && !((List<?>) payload).isEmpty()) {
+                List<?> tmp = (List<?>) payload;
+                List<Task> taskList = new ArrayList<>();
+                for (Object obj : tmp) {
+                    taskList.add((Task) obj);
+                }
+
+                TableController controller = loader.getController();
+                controller.setTable(taskList);
+            }
+
+            else if (payload instanceof Task) {
+                Task task = (Task) payload;
+                ModifyTaskController controller = loader.getController();
+                controller.setTask(task);
+            }
+            else if (payload instanceof String) {
+                ModifyCategoryController controller = loader.getController();
+                controller.setCategory((String) payload);
+            }
+
         }
 
         Stage dialog = new Stage();

@@ -121,4 +121,9 @@ public class TableController implements Initializable {
         table.getItems().clear();
         table.getItems().addAll(tasks);
     }
+
+    public Task getNowSelectedTask() {
+        return table.getSelectionModel().getSelectedItem();
+    }
+
 }

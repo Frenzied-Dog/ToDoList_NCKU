@@ -33,6 +33,11 @@ public class ModifyCategoryController extends ButtonBehavior implements Initiali
         });
     }
 
+    void setCategory(String categoryName) {
+        pickCategoryList.setValue(categoryName); // 這行會觸發 pickCategoryList 的 onAction 事件，進而填充新類別名稱和顏色選擇器
+        // fillOldCategoryName();
+    }
+
     @FXML
     private void fillOldCategoryName() {
         newCategoryName.setText(pickCategoryList.getValue());

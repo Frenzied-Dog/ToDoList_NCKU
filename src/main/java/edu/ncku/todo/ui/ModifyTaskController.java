@@ -42,6 +42,13 @@ public class ModifyTaskController extends ButtonBehavior implements Initializabl
         newStatusList.getItems().addAll(TaskStatus.values());
     }
 
+    void setTask(Task task) {
+        pickCategoryList.setValue(task.getCategoryName()); // 這行會觸發 pickCategoryList 的 onAction 事件，進而填充 pickTaskList
+        // fillTaskList(); 
+        pickTaskList.setValue(task); // 這行會觸發 pickTaskList 的 onAction 事件，進而填充舊任務的屬性
+        // fillOldTaskProperty();
+    }
+
     @FXML
     private void fillTaskList() {
         pickTaskList.setValue(null);

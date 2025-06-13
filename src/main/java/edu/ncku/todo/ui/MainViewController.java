@@ -38,6 +38,7 @@ public class MainViewController extends ButtonBehavior implements Initializable 
     private LocalDate today;
     private LocalDate focusMonth;
     private ArrayList<CellController> cellControllers = new ArrayList<>();
+    private ArrayList<TableController> tableControllers = new ArrayList<>();
     private ContextMenu langMenu;
 
     @Override
@@ -59,6 +60,7 @@ public class MainViewController extends ButtonBehavior implements Initializable 
                 tab.setStyle("-fx-background-color:rgba(208, 222, 255, 0.8);");
 
                 categoryPane.getTabs().add(tab);
+                tableControllers.add(controller);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -199,13 +201,15 @@ public class MainViewController extends ButtonBehavior implements Initializable 
 
     @FXML
     private void popupModifyCategory(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("modifyCategory", Lang.get("ui.modifyCategory"), null);
+        int index = categoryPane.getSelectionModel().getSelectedIndex();
+        GraphicUI.showDialog("modifyCategory", Lang.get("ui.modifyCategory"), DataManager.getCategoryStrList().get(index));
         reloadUI();
     }
 
     @FXML
     private void popupModifyTask(ActionEvent event) throws IOException {
-        GraphicUI.showDialog("modifyTask", Lang.get("ui.modifyTask"), null);
+        int index = categoryPane.getSelectionModel().getSelectedIndex();
+        GraphicUI.showDialog("modifyTask", Lang.get("ui.modifyTask"), tableControllers.get(index).getNowSelectedTask());
         reloadUI();
     }
 }
