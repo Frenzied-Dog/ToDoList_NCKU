@@ -34,9 +34,11 @@ public class MainViewController extends ButtonBehavior implements Initializable 
     @FXML private Text monthText;
     @FXML private TabPane categoryPane;
     @FXML private Button settingButton;
+    
+    static private int nowSelectedTab = 0;
+    static private LocalDate focusMonth = LocalDate.now().withDayOfMonth(1);
 
-    private LocalDate today;
-    private LocalDate focusMonth;
+    private LocalDate today = LocalDate.now();
     private ArrayList<CellController> cellControllers = new ArrayList<>();
     private ArrayList<TableController> tableControllers = new ArrayList<>();
     private ContextMenu langMenu;
@@ -44,9 +46,8 @@ public class MainViewController extends ButtonBehavior implements Initializable 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initLanguageMenu();
-        today = LocalDate.now();
-        focusMonth = today.withDayOfMonth(1);
         drawCalendar();
+        categoryPane.getSelectionModel().select(nowSelectedTab);
 
         DataManager.getCategoryData().forEach(c -> {
             try {
@@ -99,7 +100,7 @@ public class MainViewController extends ButtonBehavior implements Initializable 
     }
     
     private void reloadUI() {
-        //更換語言後reload視窗
+        nowSelectedTab = categoryPane.getSelectionModel().getSelectedIndex();
         try {
             GraphicUI.setRoot("mainView");
         } catch (IOException ex) {
